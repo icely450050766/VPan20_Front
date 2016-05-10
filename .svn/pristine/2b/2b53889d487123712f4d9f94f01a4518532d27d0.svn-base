@@ -1,0 +1,72 @@
+<ion-view view-title="修改挂靠" class="light account-broker-changeLink-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <!--输入信息-->
+    <div class="list">
+
+      <a class="item">
+        <div class="row">
+          <div class="col col-10">
+            <i class="icon ion-ios-locked-outline"></i>
+          </div>
+          <div class="col col-25">
+            <span>姓名</span>
+          </div>
+          <div class="col col-66">
+            <span ng-bind="my.name"></span>
+          </div>
+        </div>
+      </a>
+
+      <a class="item">
+        <div class="row">
+          <div class="col col-10">
+            <i class="icon ion-ios-locked-outline"></i>
+          </div>
+          <div class="col col-25">
+            <span>手机号码</span>
+          </div>
+          <div class="col col-66">
+            <span ng-bind="my.phoneNum"></span>
+          </div>
+        </div>
+      </a>
+
+      <a class="item">
+        <div class="row">
+          <div class="col col-10">
+            <i class="icon ion-ios-locked-outline"></i>
+          </div>
+          <div class="col col-25">
+            <span>机构代码</span>
+          </div>
+          <div class="col col-50">
+            <input type="text" placeholder="" ng-model="my.code">
+          </div>
+          <div class="col col-10" style="text-align: right">
+            <i class="icon ion-edit" style="font-size: 1.8rem;"></i>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <div class="center" style="margin-top: 5%">
+      <button class="button changeLinkBtn" ng-click="">
+        提交修改申请</button>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

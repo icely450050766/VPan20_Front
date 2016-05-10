@@ -1,0 +1,87 @@
+<ion-view view-title="经纪人主页" class="light account-broker-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+    <ion-nav-buttons side="right">
+      <a class="button button-icon icon ion-clipboard light" ng-href="#/tab/account-broker-changeLink"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="account-broker-head">
+
+      <!--我的收入-->
+      <div style="margin-bottom: 15%">
+        <br/>
+        <p>我的收入</p>
+        <p style="font-size: 5rem; margin: 7% 0%;" ng-bind="list.income"></p>
+      </div>
+
+      <!--直属客户、直属平仓、直属持仓-->
+      <div class="row">
+
+        <div class="col"style="border-right: 1px solid rgba(255,255,255,0.5);">
+          <a ng-href="#/tab/account-broker-client" >
+            <div>直属客户</div>
+            <div>{{list.immediateCustomer}}人</div>
+          </a>
+        </div>
+
+        <div class="col">
+          <a ng-href="#/tab/account-broker-close" >
+            <div>直属平仓</div>
+            <div>{{list.immediateLiquidateCount}}笔</div>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!--我的名片、历史收入-->
+    <div class="list list-borderless">
+
+      <a class="item" ng-click="showCode()">
+        <i class="icon ion-clipboard"></i>
+        我的名片
+        <i class="icon ion-ios-arrow-right pull-right"></i>
+      </a>
+
+      <a class="item" ng-href="#/tab/account-broker-income">
+        <i class="icon ion-clock"></i>
+        历史收入
+        <i class="icon ion-ios-arrow-right pull-right"></i>
+      </a>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<pop-modal modal-id="broker-popup-code">
+
+  <div style="text-align: center; padding: 7% 13%; background-color: #1b204b; color: #ffffff">
+
+
+    <img ng-src="img/temp/adam.jpg" style="width: 4.5rem; height: 4.5rem; border-radius: 4.5rem">
+
+    <div style="font-size: 1.8rem; margin-top: 2%">那只鸟</div>
+    <div style="font-size: 1.7rem; margin-top: 2%">15625000000</div>
+
+    <div id="code" style="margin-top: 10%; margin-bottom: 15%;"></div>
+
+  </div>
+
+  <div ng-click="closeModal()" style="width: 100%; position: relative; margin-top: 3rem; text-align: center">
+    <i class="icon ion-ios-close-outline" style="font-size: 5rem; font-weight: bold; color:#ffffff"></i>
+  </div>
+
+</pop-modal>
+

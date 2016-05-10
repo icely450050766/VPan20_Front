@@ -1,0 +1,26 @@
+/**
+ * Created by icley on 2016/3/28.
+ */
+angular.module('VPan20_Front')
+  .controller('positionDetailsController', function($scope, $ionicHistory, $stateParams , $ionicPopup, testService){
+
+    $scope.list = [];
+    $scope.detailData = {};
+
+    //获取后台数据
+    function getMyNotLiquidataPositionList(){
+      var _q = testService.getMyPositionList();
+      _q.then(function(data){
+        $scope.list = data.list;
+        $scope.detailData = testService.getDataById( $scope.list, $stateParams.id );
+      },function(){});
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /***********初始化**********/
+    getMyNotLiquidataPositionList();
+
+  })

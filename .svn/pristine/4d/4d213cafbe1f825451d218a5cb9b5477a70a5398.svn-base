@@ -1,0 +1,92 @@
+angular.module('VPan20_Front.services', [])
+
+  .service('testService', function($http, $q){
+
+    this.getEChartsData = function( product, index ){ //ECharts Tabs
+      return jsonpRequest(batch_server+'price/kliner?type=' + index + '&product=' + product + '&callback=JSON_CALLBACK');
+    }
+
+    this.getCurrentPriceData = function(){
+      return jsonpRequest(batch_server+'price/quote?&callback=JSON_CALLBACK');
+
+      //var d = $q.defer();
+      //$http({
+      //  method: "GET",
+      //  url: 'http://58.63.244.200:18808/batch-server/price/quote?'
+      //}).then(function (data) {
+      //  d.resolve(data);
+      //});
+      //return d.promise;
+
+    }
+    this.getCurrentProfitOrLoss = function(type){
+      //return jsonpRequest(vpan_server+'order/create'+ '&callback=JSON_CALLBACK');
+      return jsonpRequest(vpan_server+'order/getNotLiquidateOrder/s?callback=JSON_CALLBACK');
+    }
+
+
+    //根据传入的id获取数据
+    this.getDataById = function( list, id ){
+      for( var i=0; i < list.length; i++ ){
+        if( list[i].id == id ){
+          return list[i];
+        }
+      }
+    }
+
+    this.getAccountHistoryList = function(){
+     // return jsonpRequest(batch_server+'price/historyOrder?&callback=JSON_CALLBACK');
+      return jsonpRequest(vpan_server+'trade/record/historyOrder?callback=JSON_CALLBACK');
+      //return request('GET','testData/account-history-list.json');
+    }
+
+    this.getTradeIndexNoticeList = function(){
+      return request('GET', 'testData/tradeIndex-notice-list.json');
+    }
+
+    this.getAccountIncomeAndExpensesList = function(){
+      return jsonpRequest(vpan_server+'trade/record/findAcctMoneyLog?callback=JSON_CALLBACK');
+    }
+
+    this.getAccountBrokerIncomeList = function(){
+      return request('GET', 'testData/account-broker-income-list.json');
+    }
+
+    this.getAccountBrokerClientList = function(){
+      return request('GET', 'testData/account-broker-client-list.json');
+    }
+
+    this.getAccountBrokerCloseList = function(){
+      return request('GET', 'testData/account-broker-income-list.json');
+    }
+
+    this.getTradeIndexMyPositionList = function(){
+      return request('GET', 'testData/tradeIndex-myPosition-list.json');
+    }
+
+//////////////////////////////////////////////////////////////////////
+    function request(method, url, params){
+      var deferred = $q.defer();
+      $http({method: method, url:url, params:params}).
+        success(function(data, status, headers, config) {
+          deferred.resolve(data);
+        }).
+        error(function(data, status, headers, config) {
+          deferred.reject(data);
+        });
+      return deferred.promise;
+    }
+
+    function jsonpRequest(url, params){
+      var deferred = $q.defer();
+      $http.jsonp(url, params).
+        success(function(data, status, headers, config) {
+          deferred.resolve(data);
+        }).
+        error(function(data, status, headers, config) {
+          deferred.reject(data);
+        });
+      return deferred.promise;
+    }
+
+  })

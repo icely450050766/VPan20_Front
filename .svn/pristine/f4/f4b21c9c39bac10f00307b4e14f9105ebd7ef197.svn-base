@@ -1,0 +1,117 @@
+<ion-view view-title="" class="accountIndex-view account-recharge-view">
+
+  <ion-nav-bar class="app-index-header accountIndex-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="padding: 8%">
+
+    <div style="font-size: 20px">账户余额：1333.1</div>
+
+    <!--常用金额 -->
+    <div style="margin-top: 10%">
+
+      <div>常用金额：</div>
+
+      <!--box-->
+      <div id="priceBox" class="priceBox">
+
+        <div class="col box" ng-click="selectBox(1)">
+          <div>300元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(2)">
+          <div>500元</div>
+          <div class="triangle">
+            <i class="icon"></i>  <!-- ion-checkmark -->
+          </div>
+        </div>
+
+        <!--占位-->
+        <div class="col box" style="opacity: 0">1</div>
+
+        <div class="col box" ng-click="selectBox(4)">
+          <div>1000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(5)">
+          <div>2000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(6)">
+          <div>5000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div style="clear: both"></div>
+
+      </div>
+
+    </div>
+
+    <!--小额充值-->
+    <div style="margin-top: 5%; position: relative">
+      <div>小额充值：</div>
+    </div>
+
+    <!--金额-->
+    <div class="card smallAmmount">
+      <div class="row" ng-click="toggle()">
+
+        <div class="col col-30"></div>
+
+        <div class="col col-30" ng-bind="my.SmallAmmountPrice"></div>
+
+        <div class="col col-30">
+          <a class="icon" ng-class="{'ion-arrow-down-b':my.toggle,'ion-arrow-up-b':!my.toggle}"></a>
+        </div>
+
+      </div>
+    </div>
+
+    <!--金额下拉-->
+    <div class="card smallAmmount-option">
+
+      <div class="list-con" id="list-con">
+        <div class="list">
+          <div class="item item-border-bottom" ng-click="selectSmallAmmount(50)">50</div>
+          <div class="item item-border-bottom" ng-click="selectSmallAmmount(30)">30</div>
+          <div class="item" ng-click="selectSmallAmmount(10)">10</div>
+        </div>
+      </div>
+    </div>
+    <button class="button rechargeBtn" ng-click="recharge()">立即充值</button>
+
+    <form id = "pay_form" action="https://101.231.204.80:5000/gateway/api/frontTransReq.do" method="post">
+
+      <input type="input" name="version" id="version" value="{{formdata.version}}"/>
+      <input type="input" name="encoding" id="encoding" value="{{formdata.encoding}}"/>
+      <input type="input" name="certId" id="certId" value="{{formdata.certId}}"/>
+      <input type="input" name="signMethod" id="signMethod" value="{{formdata.signMethod}}"/>
+      <input type="input" name="signature" id="signature" value="{{formdata.signature}}"/>
+      <input type="input" name="txnType" id="txnType" value="{{formdata.txnType}}"/>
+      <input type="input" name="txnSubType" id="txnSubType" value="{{formdata.txnSubType}}"/>
+      <input type="input" name="bizType" id="bizType" value="{{formdata.bizType}}"/>
+      <input type="input" name="channelType" id="channelType" value="{{formdata.channelType}}"/>
+      <input type="input" name="accessType" id="accessType" value="{{formdata.accessType}}"/>
+      <input type="input" name="merId" id="merId" value="{{formdata.merId}}"/>
+      <input type="input" name="backUrl" id="backUrl" value="{{formdata.backUrl}}"/>
+      <input type="input" name="frontUrl" id="frontUrl" value="{{formdata.frontUrl}}"/>
+      <input type="input" name="orderId" id="orderId" value="{{formdata.orderId}}"/>
+      <input type="input" name="currencyCode" id="currencyCode" value="{{formdata.currencyCode}}"/>
+      <input type="input" name="txnAmt" id="txnAmt" value="{{formdata.txnAmt}}"/>
+      <input type="input" name="txnTime" id="txnTime" value="{{formdata.txnTime}}"/>
+      <input type="input" name="accNo" id="accNo" value="{{formdata.accNo}}"/>
+
+      <input type="submit" id="submitformdata"/>
+    </form>
+  </ion-content>
+</ion-view>
+

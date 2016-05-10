@@ -1,0 +1,1212 @@
+angular.module('VPan20_Front.controllers', [])
+
+  .controller('tradeIndexController', function($scope, $interval, $location, $rootScope, $ionicPopup, $ionicScrollDelegate, testService){
+    //================js-sdk配置
+    //wx.config({
+    //  debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    //  appId: '', // 必填，公众号的唯一标识
+    //  timestamp:'', // 必填，生成签名的时间戳
+    //  nonceStr: '', // 必填，生成签名的随机串
+    //  signature: '',// 必填，签名，见附录1
+    //  jsApiList: [] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+    //});
+    //wx.ready(function(){
+    //
+    //  // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+    //});
+
+    $scope.my ={ product:'粤银',  // 产品 的Tabs
+      EChartsTab: 2,// ECharts 的Tabs；【 1:分时线，2:5分钟，3:15分钟，4:30分钟，5:1小时】
+      productid1:'',
+      productid2:'',
+      totalCurrentProfitOrLoss:0,//时时盈亏
+      currentPrice:{}, // 当前价格 后台数据
+      isRed: true, // 当前价格 是否是红色（当 pre.data < latest.data 时 为true）
+    };
+    //获取 当前价格 后台数据list，对应产品product 的下标
+    function findIndex( list, product ){
+      for( var i=0; i < list.length; i++ ){
+        if( list[i].productContract == product ){
+          return i;
+        }
+      }
+    }
+
+    //当前价格
+    function getCurrentPriceData(){
+
+      var _index;
+
+      //获取后台对应数据
+      var _q = testService.getCurrentPriceData();
+      _q.then(function(data){
+
+        //根据程序数据（用户选择的tabs），获取data对应元素下标
+        switch( $scope.my.product ){
+          case '粤银': _index = findIndex( data, 'XAG1' ); break;
+          case '粤油': _index = findIndex( data, 'OIL' );; break;
+          case '粤铜': _index = findIndex( data, 'CU' );; break;
+        }
+
+        $scope.my.currentPrice = data[_index];
+
+        //本轮获取数据时，检测到数据更新了
+        if( data[_index].latestPrice != latestData ){
+
+          //更新程序数据
+          preData = latestData;
+          latestData = data[_index].latestPrice;
+
+          //设置“当前价格”的颜色
+          if( preData < latestData ){
+            $scope.my.isRed = true;
+          }else{
+            $scope.my.isRed = false;
+          }
+        }
+      },function(){
+      });
+    }
+
+    //选择tabs
+    $scope.selectTab = function (index,productid1,productid2) {
+
+      //修改样式
+      $('#tabs-title').children().filter('.active').removeClass('active');
+      $('#tabs-title div:nth-child(' + index + ')').addClass('active');
+
+      $('#tabs-bottomBorder').children().filter('.active').removeClass('active');
+      $('#tabs-bottomBorder div:nth-child(' + index + ')').addClass('active');
+      //修改对应种类的商品的对应id
+      $scope.my.productid1=productid1;
+      $scope.my.productid2=productid2;
+      //修改程序数据
+      switch( index ){
+        case 1: $scope.my.product = '粤银'; break;
+        case 2: $scope.my.product = '粤油'; break;
+        case 3: $scope.my.product = '粤铜'; break;
+      }
+
+      //清空数据
+      preData = 0;
+      latestData = 0;
+
+      //获取 当前价格 的后台数据
+      getCurrentPriceData();
+
+      //获取 ECharts 的后台数据
+      getEChartsData();
+
+    }
+
+    function getCurrentProfitOrLoss(type){
+      var _q = testService.getCurrentProfitOrLoss(type);
+      _q.then(function(data){
+        $scope.my.totalCurrentProfitOrLoss= data.data.totalProfitLoss;
+      })
+    }
+    //获取 ECharts 的后台数据
+    function getEChartsData(){
+
+      var _index = $scope.my.EChartsTab;
+      var _product;
+      switch( $scope.my.product ){
+        case '粤银': _product = 'XAG1';break;
+        case '粤油': _product = 'OIL';break;
+        case '粤铜': _product = 'CU';break;
+      }
+
+      var _q = testService.getEChartsData( _product, _index );//产品、ECharts 的Tabs
+
+      _q.then(function(data){
+        _data = data.data;
+        _time = data.time;
+
+        //K线图
+        if( _index > 1 ) {
+
+          // 使用
+          require(
+            [
+              'echarts',
+              'echarts/chart/k' // 使用k线图就加载k模块，按需加载
+            ],
+            function (ec) {
+              // 基于准备好的dom，初始化echarts图表
+              myChart = ec.init(document.getElementById('main'));
+
+              var option = {
+                tooltip: {
+                  trigger: 'axis',
+                  formatter: function (params) {
+                    var res = params[0].seriesName + ' ' + params[0].name;
+                    res += '<br/>  开盘：' + params[0].value[0] + '&nbsp;&nbsp;最高：' + params[0].value[3];
+                    res += '<br/>  收盘：' + params[0].value[1] + '&nbsp;&nbsp;最低：' + params[0].value[2];
+                    return res;
+                    //return null;
+                  }
+                },
+                //设置ECharts位置
+                grid: {
+                  x: 50,
+                  y: 10,
+                  x2: 15,
+                  y2:30,
+                },
+                //x坐标轴
+                xAxis: [
+                  {
+                    type: 'category',
+                    boundaryGap: true,
+                    axisTick: {onGap: false},
+                    splitLine: {show: false},
+                    axisLabel: {
+                      /*x轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    },
+                    data: _time
+                  }
+                ],
+                //y坐标轴
+                yAxis: [
+                  {
+                    type: 'value',
+                    scale: true,
+                    boundaryGap: [0.01, 0.01],
+                    splitNumber:9,//分割段数
+                    axisLabel: {
+                      /*y轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    }
+                  }
+                ],
+                //样式、数据
+                series: [
+                  {
+                    name: '上证指数',
+                    type: 'k',
+                    barMaxWidth: 20,
+                    itemStyle: {
+                      normal: {
+                        color: 'red',           // 阳线填充颜色
+                        color0: 'green',   // 阴线填充颜色
+                        lineStyle: {
+                          width: 2,
+                          color: 'red',    // 阳线边框颜色
+                          color0: 'green'     // 阴线边框颜色
+                        }
+                      },
+                      emphasis: {
+                        color: 'black',         // 阳线填充颜色
+                        color0: 'white'         // 阴线填充颜色
+                      }
+                    },
+                    data: _data //开盘，收盘，最低，最高
+                  }
+                ]
+              };
+
+              // 为echarts对象加载数据
+              myChart.setOption(option);
+              //console.log(myChart.getOption())
+            }
+          );
+
+        }else if( _index == 1 ){//分时线
+
+          /*
+           实现折线图纵轴不从0开始：
+           echarts的纵轴显示的内容是真实的值格式化而来的，在配数据时把所有的数都减掉最小值,放入曲线显示，就可以凸显变化曲线了。
+           在纵轴显示的数据上通过函数格式化显示真实的数据，每个点上显示的值重新计算就可以显示真实的值了。
+           */
+
+          //找最小值
+          var _min = Math.min.apply(null, _data);
+
+          //把所有的数都减掉最小值放入曲线显示，凸显变化曲线
+          for( var i = 0; i < _data.length; i++ ){
+            _data[i] -= _min;
+          }
+
+          // 使用
+          require(
+            [
+              'echarts',
+              'echarts/chart/line' // 使用折线图就加载line模块，按需加载
+            ],
+            function (ec) {
+              // 基于准备好的dom，初始化echarts图表
+              myChart = ec.init(document.getElementById('main'));
+
+              var option = {
+                //设置 绘制的曲线的颜色
+                color:['orange'],
+                //定位显示详细信息
+                tooltip : {
+                  trigger: 'axis',
+                  //设置 定位显示详细内容 的内容部分
+                  formatter : function (value) {
+                    //console.log(value[0])；
+                    return( value[0][1] + '<br/>' + value[0][0] + '：' + (value[0][2] + _min) );
+                  }
+
+                },
+                //设置ECharts位置
+                grid: {
+                  x: 50,
+                  y: 10,
+                  x2: 15,
+                  y2:30,
+                },
+                xAxis : [
+                  {
+                    type : 'category',
+                    boundaryGap : false,
+                    axisLabel: {
+                      /*x轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    },
+                    data : _time
+                  }
+                ],
+                yAxis : [
+                  {
+                    type : 'value',
+                    splitNumber:9,//分割段数
+                    axisLabel : {
+                      /*y轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      },
+                      //纵轴重新计算就显示真实的值
+                      formatter: function(value){
+
+                        if(parseInt(value)==value){//整数
+                          return ( parseFloat(value) + _min );
+                        }else{
+                          return ( ( parseFloat(value) + _min ).toFixed(2) );//保留两位小数
+                        }
+                      }
+                    }
+                  }
+                ],
+                series : [
+                  {
+                    name:'最新价格',
+                    type:'line',
+                    data: _data
+                  }
+                ]
+              };
+
+              // 为echarts对象加载数据
+              myChart.setOption(option);
+            }
+          );
+
+        }
+
+      }, function(data){});
+
+    }
+
+    //选择 ECharts tabs
+    $scope.range = function( index ){
+
+      //修改样式
+      $('#ECharts-tabs').children().filter('.active').removeClass('active');
+      $('#ECharts-tabs div:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      $scope.my.EChartsTab = index;
+
+      //获取对应数据
+      getEChartsData();
+    }
+
+    //系统公告
+    $scope.list = [];
+
+    //获取 系统公告 后台数据
+    function getTradeIndexNoticeList(){
+      var _q = testService.getTradeIndexNoticeList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    //某条 系统公告上滚 过程 （传入承载所有系统公告的div的id）
+    function scrollUp( id ){ // 20ms 上滚一个 px
+
+      var _count = 0;//控制每轮上滚20px就停下
+
+      var _interval = $interval( function(){
+        var _top = document.getElementById( id ).offsetTop;
+        _count ++;
+        _top --;
+        $( '#' + id ).css( "top", _top+"px" );
+
+        if( _count == 20 ){//只上升20px
+          $interval.cancel(_interval); //停止
+
+          if( _top <= ( -$scope.list.length ) * 20 ){ //此时显示的公告已经是最后一条
+
+            _top += ( $scope.list.length + 1 ) * 20;//显示第0条公告（不存在，目的是 让第一条公告有上滚的动画）
+            $( '#' + id ).css( "top", _top + "px" );
+
+            scrollUp(id);//上滚 (递归调用)
+          }
+
+        }
+      }, 20);
+    }
+
+    //买涨、买跌
+    $scope.buy = function( direction,productid,type){ //方向、商品ID
+      var _product;
+      switch( $scope.my.product ){
+        case '粤银': _product = 'XAG1'; break;
+        case '粤油': _product = 'OIL'; break;
+        case '粤铜': _product = 'CU'; break;
+      }
+      $location.path('/tab/trade-build/' + _product +'/'+productid+'/'+ direction+'/'+type );
+    }
+
+
+    //监听来自点击“我的持仓”的事件
+    ionic.EventController.on('showMyPositionEvent', function(){
+      $scope.my.myPosition = true;//显示上滑窗口
+    })
+
+    ionic.EventController.on('hideMyPositionEvent', function(){
+      $scope.my.myPosition = false;//显示上滑窗口
+    })
+
+    /************初始化*************/
+
+    var preData, latestData; //当前价格数据：上一次数据、最新数据
+
+    var myChart;
+    var _data = []; //开盘，收盘，最低，最高
+    var _time = [];
+
+    var reFreshCurrentPriceData, reFreshEChartsData; //实时获取后台数据、更新数据 $interval
+    var showNotice; //定时上滚，显示系统公告 $interval
+
+    // ECharts 路径配置
+    require.config({
+      paths: {
+        echarts: 'lib/echarts-2.2.7/build/dist'
+      }
+    });
+
+    $scope.selectTab(1,1,2); //默认选择tabs：粤银
+    $scope.range(2);// K线图 默认显示5分钟
+    getTradeIndexNoticeList();//系统公告
+
+    //进入页面执行
+    $scope.$on('$ionicView.enter', function(e) {
+
+      //$("#myPositionDiv").css("display", "none");//隐藏
+
+      //每隔 1秒 执行一次。实时更新数据
+      reFreshCurrentPriceData = $interval( function(){
+        getCurrentPriceData();//当前价格
+        //console.log('reFresh');
+      }, 1000);
+
+      //每隔 1分钟 执行一次。实时更新数据
+      reFreshEChartsData = $interval( function(){
+        getEChartsData();//获取 ECharts 的后台数据
+      }, 60000);
+
+      //每隔2.5秒，系统公告上滚，显示下一条系统公告
+      showNotice = $interval( function(){
+        scrollUp('noticeDivId');//公告上滚
+      }, 2500);
+
+      //每隔 1秒 执行一次。实时更新盈亏
+      /*reFreshCurrentProfitOrLoss = $interval( function(){
+        getCurrentProfitOrLoss('ss');//当前盈亏价格
+      }, 1000);*/
+    });
+
+    //离开页面执行
+    $scope.$on('$ionicView.leave', function(e) {
+      $interval.cancel(reFreshCurrentPriceData);
+      $interval.cancel(reFreshEChartsData);
+      $interval.cancel(showNotice);
+      //console.log('leave');
+    });
+
+  })
+
+  .controller('tradeBuildController', function($scope, $ionicHistory, $stateParams, testService) {
+    $scope.my = { product: '',
+      type: '',
+      direction:'',
+      count:'',//手数
+      productid:'',
+      productName:'',
+      unitprice:10,//单手单价
+      unitfee:0.9,//手续费
+      currentbuyamount:1,//当前购买的数量
+      productNames:['150g(10)','3000g(200)'],
+      productIds:['1','2'],
+      canBuyAmount:0,
+      buyAmount:0,//已购买
+      currentProductPrice:'0',
+      typeData:[], //规格
+      tableData:[] //手数选择数组
+    }
+
+    //规格数组
+    var _typeData = [['0.15kg（10元/手）','3kg（200元/手)'],['10kg（10元/手）','200kg（200元/手）'],['1桶（10元/手）','20桶（200元/手）']];
+
+    //手数表格数据
+    var _arr1 = [1,2,3,4,5,6,7,8,9,10];
+    var _arr2 = [11,12,13,14,15,16,17,18,19,20];
+    var _arr3 = [21,22,23,24,25,26,27,28,29,30];
+
+    //选择tabs（粤银、粤油、粤铜）
+    $scope.selectTab = function (index,productid1,productid2) {
+
+      //修改样式
+      $('#tabsId').children().filter('.active').removeClass('active');
+      $('#tabsId div:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      switch( index ){
+        case 1: $scope.my.product = 'XAG1'; break;
+        case 2: $scope.my.product = 'OIL'; break;
+        case 3: $scope.my.product = 'CU'; break;
+      }
+
+      //设置规格选项
+      $scope.my.typeData = _typeData[index-1];
+
+    }
+
+    //选择规格
+    $scope.selectType = function( index,proid ){
+
+      //修改样式
+      $('#typeId').children('span').filter('.active').removeClass('active');
+      $('#typeId span:nth-child(' + index + ')').addClass('active');
+
+      //当从200元的规格换成10元的规格时，重新设置选择手数范围
+      if( index == 1 ){ //10元/手
+        $scope.selectTableTab(1);//选择手数范围：1-10
+      }
+
+      $scope.my.productid=proid;
+      $scope.getCanBuyAmount()
+      //修改程序数据
+      $scope.my.type = index == 1 ? '10' : '200';
+      //console.log($scope.my.type );
+    }
+
+    //选择方向（买涨、买跌）
+    $scope.selectDirection = function( index ){
+      //修改样式
+      $('#directionId').children('span').filter('.active').removeClass('active');
+      $('#directionId span:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      $scope.my.direction = index == 1 ? 'up' : 'down';
+      //console.log($scope.my.direction );
+    }
+
+    //选择手数范围
+    $scope.selectTableTab = function( index ){
+
+      //修改样式
+      $('#tableTabsId').children('span').filter('.active').removeClass('active');
+      $('#tableTabsId span:nth-child(' + index + ')').addClass('active');
+
+      //显示的数据
+      eval('$scope.my.tableData = _arr' + index);
+
+      //默认选择 手数表格第一个
+      $scope.selectCount(0);
+
+    }
+
+    //选择手数（表格）
+    $scope.selectCount = function( index ){
+
+      //修改样式
+      $('#tableId').find('.col').filter('.active').removeClass('active');
+      $('#tableCol' + index ).addClass('active');
+
+      $scope.my.count = $scope.my.tableData[index];
+      //console.log($scope.my.count);
+    }
+
+    //确认建仓
+    $scope.build = function(){
+      console.log($scope.my.product);//产品
+      console.log($scope.my.type);//规格
+      console.log($scope.my.direction);//方向
+      console.log($scope.my.count);//手数
+
+      $scope.openModal();
+
+      var d=1;
+      switch ($scope.my.direction) {
+	case "down":
+		d=2;
+		break;
+	default:
+		d=1;
+		break;
+	}
+      var _q = testService.buildPosition($scope.my.productid,d,$scope.my.count);
+      _q.then(function(data){
+    	  if(data.state=="200"){
+    		  alert("建仓成功");
+    	  }
+      })
+    }
+
+    $scope.initBaseData = function(){
+      var _q = testService.getProductsByNo($scope.my.product)
+      _q.then(function(data){
+        if(data.state=="200"){
+          $scope.my.currentProductPrice=data.data.currentPrice;
+          var list = data.data.list;
+          for(var i=0;i<list.length;i++){
+            $scope.my.productNames[i]=list[i].desc;
+            $scope.my.productIds[i]=list[i].id;
+          }
+        }
+      })
+    }
+    $scope.getCanBuyAmount = function(){
+      var _q = testService.getDetailBeforBuildPosition($scope.my.productid,$scope.my.product);
+      _q.then(function(data){
+        if(data.state=="200"){
+          $scope.my.buyAmount=data.data.buyAmount;
+          $scope.my.canBuyAmount=data.data.canBuyAmount;
+          $scope.my.unitfee=data.data.tradefee;
+          $scope.my.unitprice = data.data.unitprice;
+        }
+      });
+    }
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+
+    $scope.my.product = $stateParams.product;
+    $scope.my.type = $stateParams.type;
+    $scope.my.direction = $stateParams.direction;
+    $scope.my.productid=$stateParams.productid;
+
+    //同步修改tabs
+    switch( $scope.my.product ){
+      case 'XAG1': $scope.selectTab(1); break;
+      case 'OIL': $scope.selectTab(2); break;
+      case 'CU': $scope.selectTab(3); break;
+    }
+
+    //同步修改方向
+    switch( $scope.my.direction ){
+      case 'up': $scope.selectDirection(1); break;
+      case 'down': $scope.selectDirection(2); break;
+    }
+
+    //同步规格
+    switch( $scope.my.type ){
+      case '10': $scope.selectType(1); break;
+      case '200': $scope.selectType(2); break;
+    }
+
+    //选择手数范围
+    $scope.selectTableTab(1);
+    //初始化数据
+    $scope.initBaseData();
+    $scope.getCanBuyAmount();
+
+  })
+
+  .controller('tradeTicketController', function($scope, $ionicHistory) {
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+  })
+
+  .controller('accountIndexController', function($scope) {
+
+  })
+
+  .controller('accountHistoryController', function($scope, $ionicHistory, testService) {
+
+    $scope.my = { popModalData: {} }
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountHistoryList(){
+      var _q = testService.getAccountHistoryList();
+      _q.then(function(data){
+        $scope.vo = data.vo;
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.showDetail = function(order){
+      $scope.o=order;
+      $scope.openModal();//设置弹出窗口内容
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /**********初始化************/
+    getAccountHistoryList();
+
+  })
+
+  .controller('accountPersonalInfoController', function($scope, $ionicHistory) {
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+  })
+
+  .controller('accountIncomeAndExpensesController', function($scope, $ionicHistory, testService) {
+
+    $scope.my = { popModalData: {} }
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountIncomeAndExpensesList(){
+      var _q = testService.getAccountIncomeAndExpensesList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.showDetail = function(record){
+      $scope.my = record;
+      $scope.openModal();//设置弹出窗口内容
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /***********初始化**********/
+    getAccountIncomeAndExpensesList();
+
+  })
+
+  .controller('accountRechargeController', function($scope, $ionicHistory) {
+
+    $scope.my = { toggle: true, price: null, SmallAmmountPrice: '100元 以下', //小额充值
+    }
+
+    //小额充值 下拉列表
+    $scope.toggle = function(){
+      $('#list-con').toggle(100);// 显示/隐藏交互事件。参数是下拉速度
+      $scope.my.toggle = !$scope.my.toggle;
+    }
+
+    //选择“常用金额”
+    $scope.selectBox = function( index ){
+
+      //修改样式
+      $('#priceBox').find(".box").filter('.active').removeClass('active');
+      $('#priceBox').find('.icon').removeClass('ion-checkmark');
+
+      $('#priceBox .box:nth-child(' + index + ')').addClass('active');
+      $('#priceBox .box:nth-child(' + index + ') .icon').addClass('ion-checkmark');
+
+      //修改“小额充值”显示的数据
+      $scope.my.SmallAmmountPrice =  '100元 以下';
+
+      switch( index ){
+        case 1: $scope.my.price = 300; break;
+        case 2: $scope.my.price = 500; break;
+        case 4: $scope.my.price = 1000; break;
+        case 5: $scope.my.price = 2000; break;
+        case 6: $scope.my.price = 5000; break;
+      }
+    }
+
+    //选择“小额充值”
+    $scope.selectSmallAmmount = function( price ){
+
+      $scope.my.SmallAmmountPrice = price;
+      $scope.my.price = price;
+
+      //移除“常用金额”box 的样式
+      $('#priceBox').find(".box").filter('.active').removeClass('active');
+      $('#priceBox').find('.icon').removeClass('ion-checkmark');
+
+      $scope.toggle();// 关闭 下拉列表
+    }
+
+    //充值
+    $scope.recharge = function(){
+      if( $scope.my.price == null ) return;
+      console.log($scope.my.price);
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化************/
+    $scope.selectBox(1);
+
+  })
+
+  .controller('accountWithdrawController', function($scope, $ionicHistory, $ionicPopup,$ionicModal, $ionicScrollDelegate) {
+
+    $scope.my = { tradePwd: null, selectModalTitle: '', //关闭Modal的时候读取该数据，获取用户的选择
+      bank: '请选择银行', province:'请选择省份', city:'请选择城市',
+    }
+    $scope.list = [];
+
+    //输入交易密码弹出框
+    $scope.inputTradePwd = function() {
+
+      // An elaborate, custom popup
+      var myPopup = $ionicPopup.show({
+        template: '<input type="password" ng-model="my.tradePwd" style="padding: 0% 3%;">' +
+        '<p style="text-align: center; font-size: 12px; margin-top: -3%">' +
+        '<a ng-href="#" style="text-decoration: none; color: rgba(255,255,255,0.3);">忘记交易密码</a></p>' +
+        '<div style="height: 25px"></div>',
+
+        title: '输入交易密码',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+            onTap: function (e) {
+              if (!$scope.my.tradePwd) {
+                e.preventDefault();//没有输入密码不允许关闭
+              } else {
+                if( $scope.my.tradePwd == _tradePwd ){
+                  $scope.reminder();
+                }else{
+                  $scope.my.tradePwd = null;
+                }
+                //return $scope.my.tradePwd;
+              }
+            }
+          }
+        ]
+      });
+    }
+
+    //温馨提示
+    $scope.reminder = function(){
+      var alertPopup = $ionicPopup.alert({
+        title: '温馨提示',
+        template: '<div style="padding: 3% 10%; margin-bottom: 15%; color: #ffffff; line-height: 25px;">亲，提现少于100元将扣除2元手续费哦！</div>',
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+          }
+        ]
+      });
+      alertPopup.then(function(res) {
+        console.log('温馨提示 - 确认');
+      });
+    }
+
+    //选择银行、城市、省份：
+
+    // 打开 弹出窗口
+    $scope.open = function( index ){
+      switch(index){
+        case 0: $scope.list = _bank; $scope.my.selectModalTitle = '选择银行'; break;
+        case 1: $scope.list = _province; $scope.my.selectModalTitle = '选择省份'; break;
+        case 2: $scope.list = _city; $scope.my.selectModalTitle = '选择城市'; break;
+      }
+      $scope.openModal();//设置弹出窗口内容
+    }
+
+    // 关闭 弹出窗口
+    $scope.close = function( value){
+      switch( $scope.my.selectModalTitle ){
+        case '选择银行': $scope.my.bank = value; break;
+        case '选择省份': $scope.my.province = value; break;
+        case '选择城市': $scope.my.city = value; break;
+      }
+      $scope.closeModal();
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化************/
+
+    //后台获取交易密码
+    var _tradePwd = '123456';
+
+    //后台获取
+    var _bank = ['中国银行', '中国工商银行', '中国农业银行', '中国建设银行'];
+    var _province = ['北京','上海','广东','深圳','天津','浙江','云南','湖南','河南', 'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn'];
+    var _city = ['广州','佛山','深圳','珠海','江门','茂名','云浮','东莞','肇庆','惠州',  'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn' ];
+
+  })
+
+  .controller('accountPersonalInfoChangePwdController', function($scope, $ionicHistory) {
+
+    $scope.my = { oldPwd: null, newPwd: null, reNewPwd: null };
+
+    var _oldPwd = '123456';
+
+    $scope.changePwd = function(){
+
+      if( $scope.my.oldPwd != _oldPwd ) return;
+
+      if( $scope.my.newPwd == $scope.my.reNewPwd ){
+        console.log($scope.my.newPwd);
+      }
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+  })
+
+  .controller('accountWinTicketController', function($scope, $ionicHistory, $ionicSlideBoxDelegate, $ionicScrollDelegate) {
+
+    $scope.my = { unUsed10:[], unUsed200:[], used10:[], used200:[], overdue10:[], overdue200:[],
+      showUnUsedBox: true, showUsedBox: false, showOverdueBox: false,
+    }
+
+    //选择tabs : 未使用、已使用、已过期
+    $scope.select = function( index , isTrue){
+
+      //修改样式
+      $('#winTicketTabs').children().filter('.active').removeClass('active');
+      $('#winTicketTabs div:nth-child(' + index + ')').addClass('active');
+
+      if( isTrue ){
+        $ionicSlideBoxDelegate.$getByHandle('accountWinTicketTab').slide(index-1);
+      }
+
+      //防止下滑大片空白
+      $scope.my.showUnUsedBox = false;
+      $scope.my.showUsedBox = false;
+      $scope.my.showOverdueBox = false;
+
+      switch( index ){
+        case 1: $scope.my.showUnUsedBox = true; break;
+        case 2: $scope.my.showUsedBox = true; break;
+        case 3: $scope.my.showOverdueBox = true; break;
+      }
+
+    }
+
+    //切换slideBox
+    $scope.slideHasChanged = function( index ){
+      $scope.select( index+1, false );
+      $ionicScrollDelegate.scrollTo(0, 0, true);//上滚
+    }
+
+    //根据数字num设置数组array的长度
+    function initArrayLengthByNum( array, num ){
+      for( var i=0; i < num; i++ ){
+        array.push({});//压入空对象
+      }
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化*************/
+
+    //获取后台数据
+    var _unUsed10 = 3;
+    var _unUsed200 = 1;
+    var _used10 = 3;
+    var _used200 = 4;
+    var _overdue10 = 1;
+    var _overdue200 = 0;
+
+    initArrayLengthByNum( $scope.my.unUsed10, _unUsed10 );
+    initArrayLengthByNum( $scope.my.unUsed200, _unUsed200 );
+    initArrayLengthByNum( $scope.my.used10, _used10 );
+    initArrayLengthByNum( $scope.my.used200, _used200 );
+    initArrayLengthByNum( $scope.my.overdue10, _overdue10 );
+    initArrayLengthByNum( $scope.my.overdue200, _overdue200 );
+
+  })
+
+  .controller('accountWinTicketDetailController', function($scope, $ionicHistory, $stateParams) {
+
+    $scope.my = { imgSrc: '' };
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化***********/
+    $scope.my.imgSrc = 'img/' + $stateParams.type + '.png';
+
+  })
+
+  .controller('accountBrokerController', function($scope, $ionicHistory) {
+
+    $scope.my = { isFirstShowCode: true }//是否第一次弹窗显示二维码
+
+    //显示二维码
+    $scope.showCode = function(){
+
+      $scope.openModal();//设置弹出窗口内容
+
+      if( $scope.my.isFirstShowCode ){ //只有是第一次弹窗 才执行
+        $("#code").qrcode({
+          render: "canvas", //方式
+          width: 170, //宽度
+          height:170, //高度
+          text: "http://www.baidu.com" //跳转内容
+        });
+        $scope.my.isFirstShowCode = false; //不再是第一次弹窗
+      }
+
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+  })
+
+  .controller('accountBrokerIncomeController', function($scope, $ionicHistory, testService) {
+
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountBrokerIncomeList(){
+      var _q = testService.getAccountBrokerIncomeList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+    getAccountBrokerIncomeList();
+
+  })
+
+  .controller('accountBrokerClientController', function($scope, $ionicHistory, testService) {
+
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountBrokerClientList(){
+      var _q = testService.getAccountBrokerClientList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+    getAccountBrokerClientList();
+
+  })
+
+  .controller('accountBrokerCloseController', function($scope, $ionicHistory, testService) {
+
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountBrokerCloseList(){
+      var _q = testService.getAccountBrokerCloseList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+    getAccountBrokerCloseList();
+
+  })
+
+
+  .controller('positionIndexController', function($scope, $rootScope, $ionicPopup, testService){
+
+    $scope.my = { hadCloseAll: false, isClose : [],totalProfitOrLoss:0 };
+    $scope.list = [];
+
+    //获取 我的持仓 后台数据
+    function getMyNotLiquidataPositionList(){
+      var _q = testService.getMyNotLiquidataPositionList();
+      _q.then(function(data){
+        if(data.state!=200){
+          alert(data.desc);
+          return ;
+        }
+        $scope.my.totalProfitOrLoss = data.data.totalProfitLoss;
+        $scope.list = data.data.list;
+
+        //初始化数组
+        for( var i=0; i < $scope.list.length; i++ ){
+          var temp = {};
+          temp.id = $scope.list[i].id;
+          temp.flag = true;//未平仓
+          $scope.my.isClose.push(temp);//末尾添加
+        }
+      },function(){
+      });
+    }
+    $scope.tradeType=function (type){
+      switch(type){
+        case 1 : return "多";
+        case 2 : return "空";
+      }
+    }
+    //一键平仓
+    $scope.closeAll = function() {
+
+      var _sum = $scope.list.length;
+
+      $ionicPopup.show({
+        template: '<div style="text-align: center; color: #ffffff; margin: 6% auto">' +
+        '<p>目前共有订单数：' + _sum + '笔</p>' +
+        '<p>是否确认对所有订单同时平仓？</p>' +
+        '<br/></div>',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>取消</b>',
+            type: 'button-energized',
+          },
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+            onTap: function(e) {
+              var _q=testService.liquidateAllPosition();
+              _q.then(function(data){
+                if(data.state==200){
+                  //修改样式
+                  for( var i=0; i < $scope.my.isClose.length; i++ ){
+                    $scope.my.isClose[i].flag = false;
+                  }
+                  $scope.my.hadCloseAll = true;
+                }else{
+                  alert(data.desc);
+                }
+              })
+
+            }
+          }
+        ]
+      });
+    };
+
+    //平仓
+    $scope.closeOne = function(d) {
+
+      $ionicPopup.show({
+        template: '<div style="text-align: center; color: #ffffff; margin: 6% auto">' +
+        '<p>' +
+        '<span style="margin-right: 10px">'+ d.productName +'</span> ' +
+        '<span>'+d.punitprice+'元/手</span> ' +
+        '</p>' +
+        '<p>' +
+        '<span style="margin-right: 10px">3912.23</span>' +
+        '<span style="margin-right: 10px">'+d.amount+'手</span>' +
+        '<span>'+ $scope.tradeType(d.tradeType)+'</span>' +
+        '</p>' +
+        '<br/></div>',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>取消</b>',
+            type: 'button-energized',
+          },
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+            onTap: function(e) {
+              var _q=testService.liquidatePosition(d.id);
+              _q.then(function(data){
+                if(data.state==200){
+                  var _index = getItemById( d.id );
+                  $scope.my.isClose[_index].flag = false;
+                }else{
+                  alert(data.desc);
+                }
+              })
+            }
+          }
+        ]
+      });
+    };
+
+    //通过id获取 数组$scope.my.isClose 对应下标
+    function getItemById( id ){
+      for( var i=0; i < $scope.my.isClose.length; i++ ){
+        if( $scope.my.isClose[i].id == id ){
+          return i;
+        }
+      }
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /***********初始化**********/
+    getMyNotLiquidataPositionList();
+
+  })
+
+  .directive('myAttr', function ($timeout) {
+    return {
+      restrict: 'E',
+      link: function(scope, element, attr) {
+
+        $timeout(function(){
+          introJs().start();
+        },0);
+
+      }
+    };
+  })

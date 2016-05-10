@@ -1,0 +1,45 @@
+<ion-view view-title="修改交易密码" class="light account-personalInfo-changePwd-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="position: relative">
+
+    <div class="list">
+
+      <a class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="password" placeholder="原密码" ng-model="my.oldPwd">
+      </a>
+
+      <a class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="password" placeholder="新密码" ng-model="my.newPwd">
+      </a>
+
+      <a class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="password" placeholder="确认新密码" ng-model="my.reNewPwd">
+      </a>
+
+    </div>
+
+    <!--错误信息-->
+    <div class="tip" style="top: 20rem;">
+      <div id="errorTipId" style="color: #d94d4e; display: none" ng-bind="my.errorTip"></div>
+    </div>
+
+    <div class="center" style="margin-top: 25%">
+      <button class="button changePwdBtn" ng-click="changePwd()">确认</button>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

@@ -1,0 +1,48 @@
+<ion-view view-title="直属客户" class="light account-broker-client-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <!--搜索手机号-->
+    <div style="margin: 7% auto; width: 70%; position: relative">
+      <input type="text" placeholder="手机号">
+      <i class="icon ion-ios-search input-search-icon"></i>
+    </div>
+
+    <!--总人数-->
+    <div style="margin: 6%; margin-bottom: 4%">
+      <div style="font-size: 20px; line-height: 35px">总人数：12</div>
+    </div>
+
+    <!--数据-->
+    <div>
+      <div class="row data-title">
+        <div class="col col-20" style="border-right: 1px solid rgba(255,255,255,0.3);">客户昵称</div>
+        <div class="col col-30" style="border-right: 1px solid rgba(255,255,255,0.3);">手机号</div>
+        <div class="col col-25" ng-click="remainSort()" style="border-right: 1px solid rgba(255,255,255,0.3);">
+          余额
+          <i class="icon ion-arrow-up-c" ng-show="my.remainUp"></i>
+          <i class="icon ion-arrow-down-c" ng-show="!my.remainUp"></i>
+        </div>
+        <div class="col col-25">注册时间</div>
+      </div>
+
+      <div style="max-height: 390px; overflow-y: scroll">
+        <div class="row" ng-repeat="d in list">
+          <div class="col col-20" ng-bind="d.name"></div>
+          <div class="col col-30" ng-bind="d.phoneNum"></div>
+          <div class="col col-25" ng-bind="d.remain"></div>
+          <div class="col col-25" ng-bind="d.time"></div>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,112 @@
+<ion-view view-title="我的赢家券" class="light account-winTicket-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="row winTicketTabs" id="winTicketTabs">
+      <div class="col active" ng-click="select(1, true)">未使用</div>
+      <div class="col" ng-click="select(2, true)">已使用</div>
+      <div class="col" ng-click="select(3, true)">已过期</div>
+    </div>
+
+    <ion-slide-box class="ion-slide-box" on-slide-changed="slideHasChanged($index)" show-pager="false" delegate-handle="accountWinTicketTab">
+
+      <ion-slide>
+        <div style="height: 1px"></div>
+
+        <div ng-show="my.showUnUsedBox">
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.unUsed10" ng-href="#/tab/account-winTicket-detail/unUsedWinTicket10/{{d.id}}">
+              <img ng-src="img/unUsedWinTicket10.png">
+              <div class="dateDiv">
+                <p style="color: #ffffff">2015-3-15</p>
+                <p style="color: #ffffff">2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.unUsed200" ng-href="#/tab/account-winTicket-detail/unUsedWinTicket200/{{d.id}}">
+              <img ng-src="img/unUsedWinTicket200.png">
+              <div class="dateDiv">
+                <p style="color: #ffffff">2015-3-15</p>
+                <p style="color: #ffffff">2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="height: 1px"></div>
+
+        <div ng-show="my.showUsedBox">
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.used10" ng-href="#/tab/account-winTicket-detail/usedWinTicket10/{{d.id}}">
+              <img ng-src="img/usedWinTicket10.png">
+              <div class="dateDiv">
+                <p>2015-3-15</p>
+                <p>2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.used200" ng-href="#/tab/account-winTicket-detail/usedWinTicket200/{{d.id}}">
+              <img ng-src="img/usedWinTicket200.png">
+              <div class="dateDiv">
+                <p>2015-3-15</p>
+                <p>2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div style="height: 1px"></div>
+
+        <div ng-show="my.showOverdueBox">
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.overdue10" ng-href="#/tab/account-winTicket-detail/overdueWinTicket10/{{d.id}}">
+              <img ng-src="img/overdueWinTicket10.png">
+              <div class="dateDiv">
+                <p>2015-3-15</p>
+                <p>2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+          <div style="position: relative">
+            <a ng-repeat="d in my.overdue200" ng-href="#/tab/account-winTicket-detail/overdueWinTicket200/{{d.id}}">
+              <!--<img ng-src="img/overdueWinTicket200.png">-->
+              <img ng-src="img/overdueWinTicket10.png">
+              <div class="dateDiv">
+                <p>2015-3-15</p>
+                <p>2015-4-15</p>
+              </div>
+            </a>
+          </div>
+
+        </div>
+      </ion-slide>
+
+    </ion-slide-box>
+
+  </ion-content>
+</ion-view>
+
+
+

@@ -1,0 +1,24 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountPersonalInfoChangePwdController', ['$scope', '$ionicHistory',function($scope, $ionicHistory) {
+
+    $scope.my = { oldPwd: null, newPwd: null, reNewPwd: null };
+
+    var _oldPwd = '123456';
+
+    $scope.changePwd = function(){
+
+      if( $scope.my.oldPwd != _oldPwd ) return;
+
+      if( $scope.my.newPwd == $scope.my.reNewPwd ){
+        console.log($scope.my.newPwd);
+      }
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+  }])

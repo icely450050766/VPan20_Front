@@ -1,0 +1,82 @@
+<ion-view view-title="交易历史" class="light account-history-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="row" style="margin-top: 5%; font-size: 17px">
+
+      <div class="col">
+        <p>总盈亏</p>
+        <p>{{vo.totalProfitLoss}}元</p>
+      </div>
+
+      <div class="col">
+        <p>总单数</p>
+        <p>{{vo.totalOrderAmount}}</p>
+      </div>
+
+      <div class="col">
+        <p>总手数</p>
+        <p>{{vo.totalPositionAmount}}</p>
+      </div>
+
+    </div>
+
+    <div class="dataList" >
+      <li class="row" ng-repeat="d in list" ng-click="showDetail(d)">
+        <div class="col" ng-bind="d.liquidateTime"></div>
+        <div class="col" ng-bind="d.productName"></div>
+        <div class="col" >{{d.buildPositionPrice+"元"}}</div>
+        <div class="col" >{{d.liquidatePositionPrice+"元"}}</div>
+        <div class="col" >{{d.amount+"手"}}</div>
+        <div class="col" ng-bind="d.tradeTypeStr"></div>
+        <div class="col" ng-bind="d.profitOrLoss"></div>
+      </li>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<pop-modal modal-id="app-popup-code">
+
+  <div style=" padding: 7% 8%; background-color: #1b204b; color: #ffffff">
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding-bottom: 3%">
+      <p>订单号：{{o.orderNo}}</p>
+      <p>建仓时间：{{o.buildPositionTimeStr}}</p>
+    </div>
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding-top: 5%">
+      <p>产品：{{o.productName}}</p>
+      <p>方向：{{o.tradeTypeStr}}</p>
+      <p>入仓价：{{o.buildPositionPrice}}</p>
+      <p>平仓价：{{o.liquidatePositionPrice}}</p>
+    </div>
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding-top: 5%">
+      <p>入仓支付金额：{{o.tradeDeposit}}</p>
+      <p>入仓手续费：{{o.tradeFee}}</p>
+      <p>盈亏金额：{{o.profitOrLoss}}</p>
+    </div>
+
+    <div style="padding-top: 5%">
+      <p>平仓收入金额：{{o.liquidateIncome}}</p>
+      <p>本单实际盈亏：{{o.actualProfitLoss}}</p>
+    </div>
+
+
+  </div>
+
+  <div ng-click="closeModal()" style="width: 100%; position: relative; margin-top: 30px; text-align: center">
+    <i class="icon ion-ios-close-outline" style="font-size: 50px; font-weight: bold; color:#ffffff"></i>
+  </div>
+
+</pop-modal>

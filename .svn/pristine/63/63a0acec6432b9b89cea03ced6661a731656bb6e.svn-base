@@ -1,0 +1,73 @@
+<ion-view view-title="经纪人收入" class="light account-broker-income-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <!--选择月份，本周、上周-->
+    <div style="margin: 7% 5%;">
+
+      <!--选择月份-->
+      <div class="pull-left" style="width: 65%;">
+        <div class="pull-left">月份：</div>
+        <div id="select" class="pull-left" ng-click="toggle()" style="border: 1px solid rgba(255,255,255,0.3); width: 70%">
+          <div style="margin: 2% 8%">
+            <span ng-bind="my.month"></span>
+            <i class="icon ion-arrow-down-b pull-right"></i>
+          </div>
+        </div>
+
+        <!--选择月份下拉-->
+        <div id="selectOption" class="selectMonthOption">
+          <div class="item item-borderless" ng-repeat="t in timeList" ng-click="selectMonth( t, true )">
+            {{t.value}}
+          </div>
+        </div>
+
+      </div>
+
+      <div id="timeTabs" class="pull-left rangeDiv">
+        <a ng-click="selectTimeTab(1)">本周</a>
+        <a ng-click="selectTimeTab(2)">上周</a>
+      </div>
+
+      <div style="clear: both"></div>
+    </div>
+
+    <!--总收入-->
+    <div style="margin: 6% 5%; margin-bottom: 4%">
+      <div style="font-size: 1.7rem;">
+        <p>本年度总收入：2375</p>
+        <p>总收入：2375元</p>
+      </div>
+    </div>
+
+    <!--数据-->
+    <div>
+      <div class="row data-title">
+        <div class="col" style="border-right: 1px solid rgba(255,255,255,0.3);">日期</div>
+        <div class="col" style="border-right: 1px solid rgba(255,255,255,0.3);">佣金笔数</div>
+        <div class="col" ng-click="incomeSort()">
+          <i class="icon ion-arrow-up-c" ng-show="my.incomeUp"></i>
+          <i class="icon ion-arrow-down-c" ng-show="!my.incomeUp"></i>
+          收入金额
+        </div>
+      </div>
+
+      <div style="max-height: 33rem; overflow-y: scroll">
+        <div class="row" ng-repeat="d in list">
+          <div class="col">2016-1-1</div>
+          <div class="col">10笔</div>
+          <div class="col" ng-bind="d.money"></div>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,142 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountWithdrawController', function($scope, $ionicHistory, $ionicPopup, $location, $ionicScrollDelegate) {
+
+    $scope.my = { tradePwd: null, selectModalTitle: '', //关闭Modal的时候读取该数据，获取用户的选择
+      bank: '请选择银行', province:'请选择省份', city:'请选择城市',
+    }
+    $scope.list = [];
+    var myPopup;//输入交易密码 弹出框
+
+    //输入交易密码弹出框
+    $scope.inputTradePwd = function() {
+
+      myPopup = $ionicPopup.show({
+        templateUrl: 'inputTradePwdTemplate', //定义在html里面
+
+        title: '输入交易密码',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+            onTap: function (e) {
+              if (!$scope.my.tradePwd) {
+                e.preventDefault();//没有输入密码不允许关闭
+
+              } else {
+
+                var _result;//反馈
+
+                if( $scope.my.tradePwd == _tradePwd ){
+                  _result = '<div style="color: #ffffff; padding: 0% 15%;">' +
+                    '<p>温馨提示</p>亲，提现少于100元将扣除2元手续费哦！</div>'
+                }else{
+                  _result = '<p style="color: #ff0000">交易密码输入有误</p>';
+                }
+
+                $scope.my.tradePwd = null;
+                feedBackPopUp( _result );//反馈弹框
+              }
+            }
+          }
+        ]
+      });
+
+    }
+
+    //忘记交易密码
+    $scope.forgetPwd = function(){
+      myPopup.close();
+      $location.path('/tab/account-withdraw-forgetPwd1');
+    }
+
+    // 反馈弹框（成功 / 失败）
+    function feedBackPopUp( _result ){
+      var myPopup = $ionicPopup.show({
+        template: '<div style="text-align: center; margin-bottom: 13%; font-size: 1.6rem">' +
+        _result + '</div>',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-popUpShow',
+            onTap: function (e) {
+            }
+          }
+        ]
+      });
+    }
+
+    //选择银行、城市、省份：
+
+    // 打开 弹出窗口
+    $scope.open = function( index ){
+      switch(index){
+        case 0: $scope.list = _bank; $scope.my.selectModalTitle = '选择银行'; break;
+        case 1: $scope.list = _province; $scope.my.selectModalTitle = '选择省份'; break;
+        case 2: $scope.list = _city; $scope.my.selectModalTitle = '选择城市'; break;
+      }
+      $scope.openModal();//设置弹出窗口内容
+    }
+
+    // 关闭 弹出窗口
+    $scope.close = function( value){
+      switch( $scope.my.selectModalTitle ){
+        case '选择银行': $scope.my.bank = value; break;
+        case '选择省份': $scope.my.province = value; PCAS.SetC(citySelect._province.indexOf(value),citySelect);break;
+        case '选择城市': $scope.my.city = value; break;
+      }
+     ;
+     //省份索引
+      $scope.closeModal();
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化************/
+
+    //后台获取交易密码
+    var _tradePwd = '123456';
+
+    //后台获取
+    //var _bank = ['中国银行', '中国工商银行', '中国农业银行', '中国建设银行'];
+    //var _province = ['北京','上海','广东','深圳','天津','浙江','云南','湖南','河南', 'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn'];
+    //var _city = ['广州','佛山','深圳','珠海','江门','茂名','云浮','东莞','肇庆','惠州',  'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn' ];
+    //----------------------------citySelect-------------------------------
+    var _city=[];
+    var _province=[];
+    function PCAS() {
+      this._province=_province;//省份名数组
+      this._city=_city//城市名数组
+      PCAS.SetP(this)
+    }
+    //
+    PCAS.SetP = function (PCA) {
+      for (i = 0; i < PCAP.length; i++) {
+        PCAPT = PCAPV = PCAP[i];
+        if (PCAPT !== SPT) {
+          PCA._province.push(PCAPT);//省份名载入
+        }
+
+      }
+    };
+    PCAS.SetC = function (PI,obj) {
+      console.log(PI);
+      obj._city.length = 0;
+      console.log(PCAC);
+      console.log(PCAC[PI+1]);
+      for (i = 1; i < PCAC[PI+1].length; i++) {
+        PCACT = PCACV = PCAC[PI+1][i];
+        if (PCACT !== SCT){
+          obj._city.push(PCACV);
+        }
+      }
+    };
+    var citySelect=new PCAS("Province","City");
+
+  })

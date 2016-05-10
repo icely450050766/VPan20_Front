@@ -1,0 +1,9 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('informationPastControllers', ['$scope', '$ionicHistory', 'testService',function($scope, $ionicHistory, testService) {
+  $scope.goBack = function(){
+    $ionicHistory.goBack();
+  }
+}])

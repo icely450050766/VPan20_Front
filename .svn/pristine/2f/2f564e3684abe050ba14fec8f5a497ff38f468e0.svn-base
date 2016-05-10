@@ -1,0 +1,78 @@
+<ion-view view-title="提现" class="light account-withdraw-view">
+
+  <ion-nav-bar class="app-index-header accountIndex-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="list">
+      <a class="item">
+        <span class="col">可提取金额</span>
+        <span class="second-col" style="font-size: 2rem; padding-left: 5%; color: #ffffff">
+          2400</span>
+      </a>
+      <a class="item">
+        <span class="col">提取金额</span>
+        <span class="second-col">
+          <input type="text" placeholder="输入提取金额">
+        </span>
+      </a>
+      <a class="item" ng-click="open(0)">
+        <span class="col">选择银行</span>
+        <span class="second-col">
+          <span ng-bind="my.bank"></span>
+          <i class="icon ion-chevron-down pull-right"></i>
+        </span>
+      </a>
+      <a class="item"  ng-click="open(1)">
+        <span class="col">省份</span>
+        <span class="second-col">
+          <span ng-bind="my.province"></span>
+          <i class="icon ion-chevron-down pull-right"></i>
+        </span>
+      </a>
+      <a class="item"  ng-click="open(2)">
+        <span class="col">选择城市</span>
+        <span class="second-col">
+          <span ng-bind="my.city"></span>
+          <i class="icon ion-chevron-down pull-right"></i>
+        </span>
+      </a>
+      <a class="item">
+        <span class="col">银行支行</span>
+        <span class="second-col">
+          <input type="text" placeholder="请输入银行支行名称">
+        </span>
+      </a>
+      <a class="item">
+        <span class="col">卡号</span>
+        <span class="second-col">
+          <input type="text" placeholder="请输入借记卡卡号">
+        </span>
+      </a>
+      <a class="item">
+        <span class="col">姓名</span>
+        <span class="second-col">
+          <input type="text" placeholder="请输入持卡人姓名">
+        </span>
+      </a>
+    </div>
+
+    <div class="center" style="margin-top: 7%">
+      <button class="button tradePwdBtn" ng-click="inputTradePwd()">请输入交易密码</button>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<select-modal modal-id="app-popup-code">
+  {{my.selectModalTitle}}
+</select-modal>
+
+

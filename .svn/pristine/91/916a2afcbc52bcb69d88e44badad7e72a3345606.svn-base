@@ -1,0 +1,313 @@
+angular.module('VPan20_Front.sdk_factory.service', [])
+  .factory('sdk_factory',['$rootScope',function($rootScope){
+    var _factory={};
+    /**
+     * Created by island on 2015/8/17.
+     */
+    var WxUtil = function(){
+
+      var _config = {
+        appId:'wxf26bbc40f782e215',
+        timestamp: (new Date()).getTime(),
+        nonceStr: '7176fb1bf44c0676c387c63bbfcee6c2',
+        h5serverUrl:'http://dev.vpan20.zfu188.com/kimeng-server'
+      }
+      //微信授权认证地址
+      _config.authLoginUrl = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=' + _config.appId + '&redirect_uri='
+        +_config.h5serverUrl+'/wxauth/login&response_type=code&scope=snsapi_userinfo&state=gh&connect_redirect=1#wechat_redirect';
+
+      //当前通过授权的微信用户信息
+      //{"sex":null,"province":null,"city":null,"country":null,"privilege":null,"openid":null,"nickname":null,"headimgurl":null,"unionid":null}
+      var _currentUser = null;
+
+      var _isShare = false;
+      var _shareID = null;
+
+      /**
+       * 获取url参数值
+       *
+       * @param name
+       * @returns
+       */
+      function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null){
+          return unescape(r[2]);
+        }
+        return null;
+      }
+
+      /**
+       * 初始化微信配置
+       */
+      this.initWx = function() {
+
+        var _openId = this.getOpenID(),
+          me = this;
+
+
+
+        wx.config({
+          debug: false,
+          appId: _config.appId,
+          timestamp: _config.timestamp,
+          nonceStr: _config.nonceStr,
+          signature: this.getWXSignature(),
+          jsApiList:["showAllNonBaseMenuItem",
+                    "onMenuShareTimeline",
+                    "onMenuShareAppMessage"
+                    ]
+        });
+        wx.checkJsApi({
+          jsApiList: ['onMenuShareAppMessage'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+          success: function(res) {
+            alert('支持');
+          },
+          complete:function(){
+
+          }
+        });
+        wx.ready(function(){
+          wx.error(function(res){
+
+            alert(res);
+
+          });
+          wx.onMenuShareAppMessage({
+            title: '玩金手指抢IPAD，我只挖了 金币，快来帮我挖！', // 分享标题
+            desc:'dddd',//分享描述
+            link: _config.h5serverUrl + '/index.html?fromBackend=true#/tab/trade-ticket',// 分享链接
+            imgUrl: _config.h5serverUrl + '/img/praiseTime.jpg', // 分享图标
+            success: function () {
+              alert('分享成果');
+              alert(_config.h5serverUrl+'/img/praiseTime.jpg');
+            },
+            cancel: function () {
+              // 用户取消分享后执行的回调函数
+              alert('失败');
+            }
+          });
+        });
+
+
+      }
+
+      /**
+       * 定向到微信的登陆页面
+       */
+      this.wxAhenthication = function(){
+        window.location.href = _config.authLoginUrl;
+      }
+      /**
+       * 返回微信的JS API的数字签名
+       */
+      function obj2string(o){
+        var r=[];
+        if(typeof o=="string"){
+          return "\""+o.replace(/([\'\"\\])/g,"\\$1").replace(/(\n)/g,"\\n").replace(/(\r)/g,"\\r").replace(/(\t)/g,"\\t")+"\"";
+        }
+        if(typeof o=="object"){
+          if(!o.sort){
+            for(var i in o){
+              r.push(i+":"+obj2string(o[i]));
+            }
+            if(!!document.all&&!/^\n?function\s*toString\(\)\s*\{\n?\s*\[native code\]\n?\s*\}\n?\s*$/.test(o.toString)){
+              r.push("toString:"+o.toString.toString());
+            }
+            r="{"+r.join()+"}";
+          }else{
+            for(var i=0;i<o.length;i++){
+              r.push(obj2string(o[i]))
+            }
+            r="["+r.join()+"]";
+          }
+          return r;
+        }
+        return o.toString();
+      }
+      this.getWXSignature = function(){
+
+        var noncestr = _config.nonceStr;
+        var timestamp = _config.timestamp
+        var url = location.href;
+        if (url.indexOf('#') != -1) {
+          url = url.substring(0, url.indexOf('#'));
+        }
+
+        var signature;
+        $.ajax({
+          url : _config.h5serverUrl + "/wxapi/jsapisignature?url=" + (Math.random()*100),
+          async : false,
+          data : {
+            "jsNoncert" : noncestr,
+            "timestamp" : timestamp,
+            "url" : url
+          },
+          type : "GET",
+          dataType : 'json',
+          success : function(data) {
+
+            if (data.signature) {
+              signature = data.signature;
+
+
+            }
+          },
+          error : function(data) {
+            document.write(obj2string(data));
+            signature = null;
+          }
+        });
+
+        return signature;
+      }
+
+      /**
+       * 返回当前游戏的分享者的openID，如果当前游戏不是分享出来的，即shareId为空
+       * @returns {*}
+       */
+      this.getSharedID = function(){
+        return  window.localStorage.getItem('shareId');
+      }
+
+      /**
+       * 判断当前游戏是否是由其他人分享出来的
+       * @returns {boolean}
+       */
+      this.isShared = function(){
+        var _sId =  window.localStorage.getItem('shareId');
+        if(_sId == null || _sId == ''){
+          return false;
+        }
+        else{
+          return true;
+        }
+      }
+
+      this.initIfShare = function(){
+        var sId = getQueryString("shareID");
+        if(sId != null && sId != ''){
+          window.localStorage.removeItem('shareId');
+          window.localStorage.setItem('shareId', sId);
+        }
+      }
+
+      /**
+       * 当分享成功进入游戏之后，更新统计数据
+       */
+      this.updateSpreadStatistics = function(type){
+        var _openId = this.getCurrentWxUser().openid,
+          _target = location.href,
+          _code = '201508_QF',
+          _orginalShareOpenId = '';
+        var _url = '';
+        if(type == 'share'){
+          _url = _config.h5serverUrl + '/h5api/shareTarget';
+        }
+        else{
+          _url = _config.h5serverUrl + '/h5api/clickTarget';
+        }
+
+        if(this.isShared()){
+          _orginalShareOpenId = this.getSharedID();
+        }
+        $.ajax({
+          url : _url,
+          async : true,
+          data : {
+            openId:_openId,
+            orginalShareOpenId:_orginalShareOpenId,
+            target:_target,
+            activityCode:_code
+          },
+          type : "POST",
+          dataType : 'json',
+          success : function(data) {
+            if (data.success != 'true') {
+              //donothing
+            }
+          },
+          error : function(data) {
+            //donothing
+          }
+        });
+      }
+
+
+      /**
+       * 检查微信的登陆状态。
+       * false, 未登陆
+       * true, 已登录
+       */
+      this.checkWxAuthLoginStatus = function(){
+
+        var _status = false;
+        var me = this;
+        $.ajax({
+          url : _config.h5serverUrl + '/wxapi/cwxusrinfo?r=' + (Math.random()*100),
+          async : false,
+          data : {},
+          type : "GET",
+          dataType : 'json',
+          success : function(data) {
+            var _user = data;
+            if (_user.openid != null) {
+              _currentUser = _user;
+              _status = true;
+
+            }
+          },
+          error : function(data) {
+            _status = false;
+          }
+        });
+        return _status;
+      };
+
+
+
+      /**
+       * 返回当前已经授权的用户
+       * @returns {*}
+       */
+      this.getCurrentWxUser = function(){
+
+        return _currentUser;
+      }
+
+
+      /**
+       * 获取当前登陆后的微信用户openId
+       * @returns {*}
+       */
+      this.getOpenID = function() {
+        var openID = null;
+        $.ajax({
+          url : _config.h5serverUrl + "/wxapi/cwxusrinfo?r=" + (Math.random()*100),
+          async : false,
+          type : "GET",
+          dataType : 'json',
+          success : function(data) {
+            if (data.openid) {
+              openID = data.openid;
+            }
+          },
+          error : function(data) {
+            openID = null;
+          }
+        });
+        return openID;
+      }
+    };
+
+    /**
+     * 执行函数入口方法
+     *
+     */
+    _factory.carry=function(){
+
+      return WxUtil;
+    }
+    return _factory;
+  }])

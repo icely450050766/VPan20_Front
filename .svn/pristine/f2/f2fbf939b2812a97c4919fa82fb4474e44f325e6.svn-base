@@ -1,0 +1,37 @@
+/*上升*/
+@-webkit-keyframes "rise" {
+  0%{
+    left:0px; top: 700px;
+  }
+  100%{
+    left:0px; top: 340px;/*只是动画效果。div最终会停在设置的css位置上*/
+  }
+}
+
+.an-rise{
+  -webkit-animation-name:'rise';
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-direction: alternate;
+}
+
+
+/*下降*/
+@-webkit-keyframes "drop" {
+  0%{
+    left:0px; top: 340px;
+  }
+  100%{
+    left:0px; top: 700px;
+  }
+}
+
+.an-drop{
+  -webkit-animation-name:'drop';
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-timing-function: ease-in-out;
+  -webkit-animation-delay: 0s;
+  -webkit-animation-direction: alternate;
+}
+

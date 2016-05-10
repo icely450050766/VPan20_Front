@@ -1,0 +1,65 @@
+<ion-view view-title="本单详情" class="light position-details-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="list">
+
+      <div class="item row">
+        <div class="col col-25">品种</div>
+        <div class="col col-75" ng-bind="detailData.productName"></div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">手数</div>
+        <div class="col col-75">10</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">花费</div>
+        <div class="col col-75">{{detailData.punitprice}}元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">方向</div>
+        <div class="col col-75">买跌</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">手续费</div>
+        <div class="col col-75">0.60元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">盈亏</div>
+        <div class="col col-75" ng-bind="detailData.profitOrLoss"></div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">购买方式</div>
+        <div class="col col-75">现金</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">建仓价</div>
+        <div class="col col-75">3.375元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">建仓时间</div>
+        <div class="col col-75">2016-03-18 15:29:13</div>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-view>
+

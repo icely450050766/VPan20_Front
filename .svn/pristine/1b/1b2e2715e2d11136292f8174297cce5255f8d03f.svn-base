@@ -1,0 +1,41 @@
+<ion-view view-title="" class="accountIndex-view" >
+    <ion-content class="">
+        <ion-nav-bar class="app-info-header">
+
+            <ion-nav-buttons side="left">
+                <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+            </ion-nav-buttons>
+
+        </ion-nav-bar>
+
+
+                <div style="height: 100%;width: auto;">
+                    <img style="height: 130px;width:100%;" src="img/temp/adam.jpg">
+                </div>
+
+
+        <div style="height: 100%;padding: 20px;">
+            <span style="color: #ffffff;font-size: 9px;">2016-3-2&nbsp;&nbsp;&nbsp;郎咸平</span>
+            <div style="padding-top: 10px;padding-bottom: 10px;">
+                    <span style="color: #ffffff;font-size: 9px;line-height:22px;">
+                        “超级周末”暖风频吹，市场高开高走，沪指收涨1.75%，深指收涨3.22%，创业板收涨4.56%，盘面板块普遍飘红，题材股表现强势，仅银行、酿酒小幅回调。市场成交5039亿，较前一日大幅放大。
+    资金来看，特大资金和大资金携手归来分别净流入217亿和102亿，中量资金和小资金净分别净流出82亿和237亿。细分板块来看，创业板和中小板更受机构关注，今日大资金分别流入110亿和83亿。
+    行业方面，计算机、传媒、电子和化工资金净流入居前，仅银行和采掘行业有小额资金净流出。短期来看，注册制延后，题材股存在一定滞涨空间，未来短期或有一定表现。
+    个股方面，市场资金将目标主要放奥飞动漫、浪潮软件、东方财富、天齐锂业、赣锋锂业等互联网和充电桩板块，而抛售目标则是北京银行、兴业银行、工商银行、中国平安等近期护盘主力。
+    综合来看，“超级周末”的暖风令市场放下担忧，部分主力开始入场。短期来看，市场有望惯性上行，炒作的目标主要放在前期持续横盘的创业板个股中。不过目前市场依然处于震荡区间，沪指2930点才是新一轮上涨的起点。此外，两会接近尾声，未来行情还需进一步观察。
+                    </span>
+            </div>
+            <span style="color: #ffffff;font-size: 9px;">阅读&nbsp;&nbsp;&nbsp;12345</span>
+            <div style="width:60px;margin: 0 auto;text-align:center;color: #ffffff;padding-bottom: 40px;">
+                    <span>
+                        <img ng-src="img/temp/adam.jpg" style="width: 60px;height: 60px;border-radius: 30px;">
+                    </span>
+                <span>赞赏</span>
+            </div>
+            <div style="width: 100%;height: 30px;">
+                <input style="height:30px;width:120px;border-radius:5px;font-size:16px;border:3px solid #cc9411;background-color:#cc9411;color:#ffffff;float: left;" type="button" onclick="goSubmit()" value="去交易" />
+                <input style="height:30px;width:120px;border-radius:5px;font-size:16px;border:3px solid #177325;background-color:#177325;color:#ffffff;float: right;" type="button" onclick="goSubmit()" value="分享微信" />
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

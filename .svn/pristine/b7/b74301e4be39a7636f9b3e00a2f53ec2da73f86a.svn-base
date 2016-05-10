@@ -1,0 +1,37 @@
+<ion-view view-title="忘记密码" class="light account-withdraw-forgetPwd-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <!--输入信息-->
+    <div class="list">
+
+      <div class="item item-icon-left" style="z-index: 200">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input id="phoneNumId" type="password" placeholder="输入新密码" ng-model="my.newPwd">
+      </div>
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input class="input" type="password" placeholder="确认新密码" ng-model="my.reNewPwd">
+      </div>
+
+    </div>
+
+    <div class="tip" style="top: 15rem;">
+      <div id="errorTipId2" style="color: #d94d4e; display: none" ng-bind="my.errorTip"></div>
+    </div>
+
+    <div class="center" style="margin-top: 25%">
+      <button class="button nextBtn" ng-click="submit()">提交</button>
+    </div>
+
+  </ion-content>
+</ion-view>

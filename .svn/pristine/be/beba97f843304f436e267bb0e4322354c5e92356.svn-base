@@ -1,0 +1,35 @@
+<ion-view view-title="往日资讯" class="light information-past-view" >
+
+  <ion-nav-bar class="app-index-header">
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()" ></a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
+
+  <ion-content >
+
+    <ul ng-repeat="Bygone in Bygone" >
+      <li>
+        <div class="row" ng-click="goTodayInformationDetails(4,Bygone.id)">
+
+          <div class="col col-33">
+            <img ng-src="{{Bygone.coverImg}}">
+          </div>
+          <div class="col col-67">
+            <div>{{Bygone.title}}</div>
+
+            <div style="position: absolute; right: 10px; bottom: 0px; color: rgba(255,255,255,0.6); font-size: 13px" >
+              {{publishtime(Bygone.publishDate)}}
+            </div>
+          </div>
+
+        </div>
+
+      </li>
+    </ul>
+
+    <ion-infinite-scroll ng-if="!moredata" icon="ion-loading-c" on-infinite="loadMore()" distance="5%" >
+    </ion-infinite-scroll>
+
+  </ion-content>
+</ion-view>

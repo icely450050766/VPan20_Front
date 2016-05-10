@@ -1,0 +1,17 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('informationIndexControllers',['$scope',function($scope) {
+    $scope.items = [1,2,3];
+    $scope.doRefresh = function() {
+      $http.get('/new-items')
+        .success(function(newItems) {
+          $scope.items = newItems;
+        })
+        .finally(function() {
+          // 停止广播ion-refresher
+          $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+  }])

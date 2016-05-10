@@ -1,0 +1,104 @@
+<ion-view view-title="本单详情" class="light position-details-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="list">
+
+      <div class="item row">
+        <div class="col col-25">品种</div>
+        <div class="col col-75" ng-bind="detailData.productName"></div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">手数</div>
+        <div class="col col-75">10</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">花费</div>
+        <div class="col col-75">{{detailData.punitprice}}元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">方向</div>
+        <div class="col col-75">买跌</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">手续费</div>
+        <div class="col col-75">0.60元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">盈亏</div>
+        <div class="col col-75" ng-bind="detailData.profitOrLoss"></div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">购买方式</div>
+        <div class="col col-75">现金</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">建仓价</div>
+        <div class="col col-75">3.375元</div>
+      </div>
+
+      <div class="item row">
+        <div class="col col-25">建仓时间</div>
+        <div class="col col-75">2016-03-18 15:29:13</div>
+      </div>
+
+      <!--止盈、止损-->
+      <div class="profitAndLossDiv">
+
+        <div class="row">
+          <div class="col col-15 text">止损</div>
+          <div class="col col-90">
+            <div class="row">
+              <div class="col col-15 profitAndLossBox" ng-click="decrease('loss')">-</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.loss == 0">无</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.loss > 0">{{my.loss}}%</div>
+              <div class="col col-15 profitAndLossBox" ng-click="add('loss')">+</div>
+              <div class="col col-33 tip">（范围0~50%）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip" style="margin-left: 18%">投资有风险，交易需谨慎。做好止损，降低风险。</div>
+
+        <div class="row">
+          <div class="col col-15 text">止盈</div>
+          <div class="col col-90">
+            <div class="row">
+              <div class="col col-15 profitAndLossBox" ng-click="decrease('profit')">-</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.profit == 0">无</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.profit > 0">{{my.profit}}%</div>
+              <div class="col col-15 profitAndLossBox" ng-click="add('profit')">+</div>
+              <div class="col col-33 tip">（范围0~50%）</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--确定按钮-->
+      <div style="text-align: center">
+        <button ng-click="" style="color: #ffffff; background-color: #42424c; padding: 2% 25%; font-size: 1.8rem; border: none">
+          确定</button>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-view>
+

@@ -1,0 +1,25 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountBrokerCloseController', ['$scope', '$ionicHistory', 'testService',function($scope, $ionicHistory, testService) {
+
+    $scope.list = [];
+
+    //获取后台对应数据
+    function getAccountBrokerCloseList(){
+      var _q = testService.getAccountBrokerCloseList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+    getAccountBrokerCloseList();
+
+  }])

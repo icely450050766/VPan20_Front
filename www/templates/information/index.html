@@ -1,0 +1,91 @@
+<ion-view view-title="" class="informationIndex-view" >
+  <ion-content >
+    <ion-refresher
+      pulling-text="下拉刷新..."
+      on-refresh="doRefresh()">
+    </ion-refresher>
+
+    <ion-nav-bar class="app-info-header" >
+
+      <ion-nav-buttons side="left">
+        <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+      </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+    <ion-slide-box auto-play="true" slide-interval="2000" does-continue="true" show-pager="false" style="height: 18rem">
+      <ion-slide>
+        <div style="height: 100%; width: auto;" ng-click="goTodayInformationDetails(1,columnList[0].id)">
+          <img style="height: 100%;width:100%;" ng-src="{{columnList[0].coverImg}}" >
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div style="height: 100%;width: auto;" ng-click="goTodayInformationDetails(1,columnList[1].id)">
+          <img style="height: 100%;width:100%;" ng-src="{{columnList[1].coverImg}}" >
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div style="height: 100%;width: auto;" ng-click="goTodayInformationDetails(1,columnList[2].id)">
+          <img style="height: 100%;width:100%;" ng-src="{{columnList[2].coverImg}}" >
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+
+    <!--今日资讯、往日资讯 标题-->
+    <div style="padding-top: 2%; padding-bottom: 1%">
+      <span class="titleBox padding-left">今日资讯</span>
+      <a ng-href="#/tab/information-past" style="text-decoration: none; color: #ffffff">
+        <span class="titleBox pull-right" ng-click="goBygoneInformationList()">往日资讯</span>
+      </a>
+      <div style="clear: both"></div>
+    </div>
+
+
+    <!--今日资讯、往日资讯 内容部分-->
+    <ul>
+
+      <li>
+        <div class="row">
+          <div class="col" ng-click="goTodayInformationDetails(2,informationList[0].id)" style="border-right: 1px solid rgba(255,255,255,0.3);">
+            <span>{{informationList[0].title}}</span>
+          </div>
+          <!--</a>-->
+          <div class="col" ng-click="goTodayInformationDetails(2,informationList[1].id)">
+            <span>{{informationList[1].title}}</span>
+          </div>
+        </div>
+      </li>
+
+      <li>
+        <div class="row" style="  border-bottom: 1px solid rgba(255,255,255,0.3);">
+          <div class="col" ng-click="goTodayInformationDetails(2,informationList[2].id)" style="border-right: 1px solid rgba(255,255,255,0.3);">
+            <span>{{informationList[2].title}}</span>
+          </div>
+          <!--</a>-->
+          <div class="col" ng-click="goTodayInformationDetails(2,informationList[3].id)">
+            <span>{{informationList[3].title}}</span>
+          </div>
+        </div>
+      </li>
+
+    </ul>
+
+    <!--操作建议 标题-->
+    <div style="padding-top: 2%; padding-bottom: 1%">
+      <span class="titleBox">操作建议</span>
+    </div>
+
+    <!--操作建议 内容部分-->
+    <ul ng-repeat="operationList in operationList">
+      <li>
+        <div class="row" ng-click="goTodayInformationDetails(3,operationList.id)">
+          <div class="col col-60">{{operationList.title}}</div>
+          <div class="col col-40">
+            <img ng-src="{{operationList.coverImg}}">
+          </div>
+        </div>
+      </li>
+
+    </ul>
+  </ion-content>
+</ion-view>

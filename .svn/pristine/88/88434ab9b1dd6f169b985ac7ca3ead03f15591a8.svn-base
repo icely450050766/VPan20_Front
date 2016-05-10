@@ -1,0 +1,15 @@
+{
+  "list":[
+    { "id":"1", "type":"建仓", "remain":"240", "time":"2015-12-06", "incomeOrExpenses":"+240"}
+  ,
+    { "id":"2", "type":"平仓", "remain":"40", "time":"2015-12-16", "incomeOrExpenses":"-0.00"}
+  ,
+    { "id":"3", "type":"建仓", "remain":"240", "time":"2015-12-06", "incomeOrExpenses":"+240"}
+  ,
+    { "id":"4", "type":"平仓", "remain":"10", "time":"2015-12-16", "incomeOrExpenses":"-0.10"}
+  ,
+    { "id":"5", "type":"建仓", "remain":"240", "time":"2015-12-06", "incomeOrExpenses":"+240"}
+  ,
+    { "id":"6", "type":"平仓", "remain":"401", "time":"2015-12-16", "incomeOrExpenses":"-0.00"}
+  ]
+}

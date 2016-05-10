@@ -1,0 +1,75 @@
+<ion-view class="trade-ticket-view">
+
+  <ion-content class="" id="tradeTicketContent" overflow-scroll="true">
+
+    <!--遮罩层-->
+    <div class="maskDiv" ng-show="my.isShowMaskDiv"></div>
+
+    <!--指引-->
+    <div class="instructionDiv" ng-show="my.isShowInstructions">
+      <img ng-src="img/tradeTicketInstruction.png">
+      <div>请点击右上角将它发送给指定朋友或分享到朋友圈</div>
+    </div>
+
+    <!--内容部分-->
+    <div class="bgImg">
+
+      <div class="trade-ticket-logo">
+        <img ng-src="img/trade-ticket-logo.png">
+      </div>
+
+      <div class="trade-ticket-picture">
+        <img ng-src="img/trade-ticket-picture.png">
+      </div>
+
+      <div class="text">
+        注明：分享此券给好友,( 权限新用户 )您和好友将各得10元赢家券1张！N个好友成功领取，
+        您就可以获得N张10元赢家券哦！
+      </div>
+
+      <div class="moreSupriceDiv">
+        <span>更多惊喜</span>
+        <img ng-src="img/trade-ticket-moreSuprice.png">
+      </div>
+
+      <div class="trade-ticket-button" ng-click="showInstructions()">
+        <img ng-src="img/trade-ticket-button.png">
+      </div>
+
+      <div ng-click="showRule()" style="color: #f8e65c; text-align: center; font-size: 16px; margin-top: 4%; font-weight: 600">
+        赢家券使用规则
+      </div>
+
+      <br/><br/>
+
+    </div>
+
+  </ion-content>
+
+  <!--赢家券使用规则-->
+  <div class="ruleBox" id="ruleBox" ng-class="{ 'an-rise': my.isShowRule, 'an-drop': !my.isShowRule }">
+
+    <!--关闭按钮-->
+    <div ng-click="closeRule()" style="width: 95%; position: relative;text-align: right; margin-bottom: 5px; ">
+      <i class="icon ion-ios-close-outline" style="font-size: 40px; font-weight: bold; color:#ffffff"></i>
+    </div>
+
+    <!--显示内容部分-->
+    <div class="ruleBoxText">
+      <p style="font-size: 16px">使用说明：</p>
+      <p>1、赢家券必须在有效时间内使用。</p>
+      <p>2、赢家券只能在建仓交易时使用。</p>
+      <p>3、使用赢家券建单时，无需支付手续费。</p>
+      <p>4、使用赢家券建单时，订单手数必须和使用赢家券的数量一致。</p>
+      <p>5、已使用赢家券的订单平仓时，盈利，则盈利部分归客户。亏损，则用户无任何损失。</p>
+      <p>6、购买单价200元的产品只能用200元面值的赢家券。</p>
+
+      <br/><br/><br/><br/><br/><br/><br/><br/>
+
+    </div>
+
+  </div>
+
+</ion-view>
+
+

@@ -1,0 +1,56 @@
+<ion-view view-title="" class="information-detail-view" >
+
+  <ion-content class="">
+
+    <ion-nav-bar class="app-info-header">
+      <ion-nav-buttons side="left">
+        <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <!--头部图片-->
+    <img style="width:100%; max-height: 200px" ng-src="{{details.coverImg}}">
+
+    <div style="padding: 3% 5%">
+
+      <!--作者信息-->
+      <p>
+        <span style="margin-right: 3%">{{publishtime}}</span>
+        <span>{{details.comeFrom}}</span>
+      </p>
+
+      <!--正文部分-->
+      <div ng-bind-html="details.body"></div>
+
+      <!--阅读量-->
+      <p style="color: rgba(255,255,255,0.6)"><!--{{details.readTime}}-->
+        阅读
+        <span style="margin-left: 1%">123456</span>
+      </p>
+
+      <!--点赞-->
+      <div style="width:100%; text-align:center; margin-bottom: 15%;">
+        <div ng-click="updatePraiseTime(details.id)" >
+          <span>
+            <img src="img/appreciation.png" style="width: 60px;height: 60px;border-radius: 60px;"  class="click_pic">
+            <div style="margin-top: -9%;font-size: 12px;">3</div><!--{{details.praiseTime}}-->
+          </span>
+        </div>
+        <div style="margin-top: 5%;">赞赏</div>
+      </div>
+
+      <!--去交易、分享微信 按钮-->
+      <div class="row">
+        <div class="col">
+          <input style="background-color:#cc9411" type="button" onclick="goSubmit()" value="去交易" />
+        </div>
+        <div class="col">
+          <input style="background-color:#177325" type="button" onclick="goSubmit()" value="分享微信" />
+        </div>
+      </div>
+    </div>
+
+    <br/><br/>
+
+  </ion-content>
+</ion-view>

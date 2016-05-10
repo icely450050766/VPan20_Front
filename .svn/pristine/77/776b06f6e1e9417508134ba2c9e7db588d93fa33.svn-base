@@ -1,0 +1,173 @@
+<ion-view view-title="建仓" class="light trade-build-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <!--遮罩层-->
+  <div class="maskDiv" ng-show="my.buildSuccess">
+    <div style="width: 30%; text-align: center; background-color: #21275b; margin: 25rem auto;
+     padding: 2%; border-radius: 5px">
+      建仓成功</div>
+  </div>
+
+  <ion-content class="">
+
+    <!--粤银、粤油、粤铜-->
+    <div class="tabs-title">
+      <div class="row" id="tabsId" data-step="1" data-intro="第一步，选择交易品种">
+        <div class="col" ng-click="selectTab(1,1,'XAG1')">粤银</div>
+        <div class="col" ng-click="selectTab(2,3,'OIL')">粤油</div>
+        <div class="col" ng-click="selectTab(3,5,'CU')">粤铜</div>
+      </div>
+    </div>
+
+    <div class="padding">
+
+      <!--基本信息-->
+      <div style="margin: 3% 0%; padding-bottom: 1%; border-bottom: 1px solid rgba(255,255,255,0.2)">
+
+        <div class="row">
+          <div class="col col-60">
+            <p class="typeBox" id="typeId" data-step="2" data-intro="第二步，选择品种规格">
+              规格：<span ng-click="selectType(1,'{{my.productIds[0]}}')" style="border-top-left-radius: 0.6rem; border-bottom-left-radius: 0.6rem">{{my.productNames[0]}}</span><span ng-click="selectType(2,'{{my.productIds[1]}}')" style="border-top-right-radius: 0.6rem; border-bottom-right-radius: 0.6rem">{{my.productNames[1]}}</span>
+            </p>
+          </div>
+          <div class="col col-40">
+            <p class="directionBox" id="directionId" data-step="3" data-intro="第三步，根据对行情的判断，选择方向，即选择买涨买跌">
+              方向：<span ng-click="selectDirection(1)" style="border-top-left-radius: 0.6rem; border-bottom-left-radius: 0.6rem">涨</span><span ng-click="selectDirection(2)" style="border-top-right-radius: 0.6rem; border-bottom-right-radius: 0.6rem">跌</span>
+            </p>
+          </div>
+        </div>
+
+        <p>价格：{{my.currentProductPrice}}</p>
+        <p>持仓数量：已购买{{my.buyAmount}}手 &nbsp; 剩余{{my.canBuyAmount}}手</p>
+      </div>
+
+      <!--表格-->
+      <div>
+        <!--手数范围-->
+        <div class="table-tabs" id="tableTabsId">
+          <span ng-click="selectTableTab(1)">1-10</span>
+          <span ng-click="selectTableTab(2)">10-20</span>
+          <span ng-click="selectTableTab(3)">20-30</span>
+        </div>
+
+        <!--选择手数-->
+        <div class="table" id="tableId" data-step="4" data-intro="第四步，选择持仓数量">
+          <div class="row">
+            <button class="col" id="tableCol0" ng-bind="my.tableData[0]" ng-click="selectCount(0)"></button>
+            <button class="col" id="tableCol1" ng-bind="my.tableData[1]" ng-click="selectCount(1)"></button>
+            <button class="col" id="tableCol2" ng-bind="my.tableData[2]" ng-click="selectCount(2)"></button>
+            <button class="col" id="tableCol3" ng-bind="my.tableData[3]" ng-click="selectCount(3)"></button>
+            <button class="col" id="tableCol4" ng-bind="my.tableData[4]" ng-click="selectCount(4)" style="border-right: 1px solid rgba(255,255,255,0.3);"></button>
+          </div>
+          <div class="row second-row">
+            <button class="col" id="tableCol5" ng-bind="my.tableData[5]" ng-click="selectCount(5)"></button>
+            <button class="col" id="tableCol6" ng-bind="my.tableData[6]" ng-click="selectCount(6)"></button>
+            <button class="col" id="tableCol7" ng-bind="my.tableData[7]" ng-click="selectCount(7)"></button>
+            <button class="col" id="tableCol8" ng-bind="my.tableData[8]" ng-click="selectCount(8)"></button>
+            <button class="col" id="tableCol9" ng-bind="my.tableData[9]" ng-click="selectCount(9)" style="border-right: 1px solid rgba(255,255,255,0.3);"></button>
+          </div>
+        </div>
+
+        <div style="margin: 2% 0%; color: rgba(255,255,255,0.8)">
+          <div class="pull-left"> {{ my.unitprice * my.count }}元</div>
+          <div class="pull-right">手续费：{{ my.unitfee * my.count }}</div>
+          <div style="clear: both"></div>
+        </div>
+
+        <!--是否使用赢家券-->
+        <div class="item item-checkbox checkbox-lable" >
+          <label class="checkbox checkbox-transparent" data-step="5" data-intro="第五步，选择使用家券，注意一次只能使用一张也只能买一手哦">
+            <input type="checkbox" >
+          </label>
+          <span style="margin-left: -8%">使用赢家券（剩余2张）</span>
+        </div>
+
+      </div>
+
+      <!--止盈、止损-->
+      <div class="profitAndLossDiv">
+
+        <div class="row">
+          <div class="col col-15 text">止损</div>
+          <div class="col col-90">
+            <div class="row">
+              <div class="col col-15 profitAndLossBox" ng-click="decrease('loss')">-</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.loss == 0">无</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.loss > 0">{{my.loss}}%</div>
+              <div class="col col-15 profitAndLossBox" ng-click="add('loss')">+</div>
+              <div class="col col-33 tip">（范围0~50%）</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tip" style="margin-left: 15%">投资有风险，交易需谨慎。做好止损，降低风险</div>
+
+        <div class="row">
+          <div class="col col-15 text">止盈</div>
+          <div class="col col-90">
+            <div class="row">
+              <div class="col col-15 profitAndLossBox" ng-click="decrease('profit')">-</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.profit == 0">无</div>
+              <div class="col col-33 profitAndLossBox" ng-show="my.profit > 0">{{my.profit}}%</div>
+              <div class="col col-15 profitAndLossBox" ng-click="add('profit')">+</div>
+              <div class="col col-33 tip">（范围0~50%）</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!--确认建仓-->
+      <div style="text-align: center;" >
+        <p style="margin: 5% 0%; font-size: 3rem">{{ my.unitprice * my.count +  my.unitfee * my.count }}元</p>
+        <button ng-click="build()" style="color: #ffffff; background-color: #f2af0e; padding: 1% 10%; font-size: 2rem; border: none" data-step="6" data-intro="最后，看准建仓价格点击确认建仓就完成下单啦" data-position='top'>
+          确认建仓</button>
+        <p style="font-size: 1.3rem; margin-top: 2%">若凌晨4:00前无操作，该订单将会被强行平仓</p>
+        <my-attr></my-attr>
+      </div>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<pop-modal modal-id="build-popup-view">
+
+  <div style=" padding: 10% 8%; background-color: #1b204b; color: #ffffff">
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding-bottom: 3%">
+      <p>订单号：165265522</p>
+      <p>建仓时间：2015年12月5日</p>
+    </div>
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding: 5% 0%">
+      <p>产品：十公斤铜棒</p>
+      <p>方向：空</p>
+      <p>入仓价：30025.9</p>
+    </div>
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding: 5% 0%">
+      <p>入仓支付金额：10</p>
+      <p>入仓手续费：0.9</p>
+    </div>
+
+    <div style=" padding-top: 5%">
+      <p>止盈：不设</p>
+      <p>止损：20%</p>
+    </div>
+
+  </div>
+
+  <div ng-click="closeModal()" style="width: 100%; position: relative; margin-top: 3rem; text-align: center">
+    <i class="icon ion-ios-close-outline" style="font-size: 5rem; font-weight: bold; color:#ffffff"></i>
+  </div>
+
+</pop-modal>

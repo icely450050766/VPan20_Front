@@ -1,0 +1,63 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountRechargeController', ['$scope', '$ionicHistory',function($scope, $ionicHistory) {
+
+    $scope.my = { toggle: true, price: null, SmallAmmountPrice: '100元 以下', //小额充值
+    }
+
+    //小额充值 下拉列表
+    $scope.toggle = function(){
+      $('#list-con').toggle(100);// 显示/隐藏交互事件。参数是下拉速度
+      $scope.my.toggle = !$scope.my.toggle;
+    }
+
+    //选择“常用金额”
+    $scope.selectBox = function( index ){
+
+      //修改样式
+      $('#priceBox').find(".box").filter('.active').removeClass('active');
+      $('#priceBox').find('.icon').removeClass('ion-checkmark');
+
+      $('#priceBox .box:nth-child(' + index + ')').addClass('active');
+      $('#priceBox .box:nth-child(' + index + ') .icon').addClass('ion-checkmark');
+
+      //修改“小额充值”显示的数据
+      $scope.my.SmallAmmountPrice =  '100元 以下';
+
+      switch( index ){
+        case 1: $scope.my.price = 300; break;
+        case 2: $scope.my.price = 500; break;
+        case 4: $scope.my.price = 1000; break;
+        case 5: $scope.my.price = 2000; break;
+        case 6: $scope.my.price = 5000; break;
+      }
+    }
+
+    //选择“小额充值”
+    $scope.selectSmallAmmount = function( price ){
+
+      $scope.my.SmallAmmountPrice = price;
+      $scope.my.price = price;
+
+      //移除“常用金额”box 的样式
+      $('#priceBox').find(".box").filter('.active').removeClass('active');
+      $('#priceBox').find('.icon').removeClass('ion-checkmark');
+
+      $scope.toggle();// 关闭 下拉列表
+    }
+
+    //充值
+    $scope.recharge = function(){
+      if( $scope.my.price == null ) return;
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化************/
+    $scope.selectBox(1);
+
+  }])

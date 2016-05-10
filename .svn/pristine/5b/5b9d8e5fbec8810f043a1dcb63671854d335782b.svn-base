@@ -1,0 +1,16 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountWinTicketDetailController',[ '$scope', '$ionicHistory', '$stateParams',function($scope, $ionicHistory, $stateParams) {
+
+    $scope.my = { imgSrc: '' };
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化***********/
+    $scope.my.imgSrc = 'img/' + $stateParams.type + '.png';
+
+  }])

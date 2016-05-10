@@ -1,0 +1,62 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountPersonalInfoChangePwdController', ['$scope', '$ionicHistory', '$ionicPopup',function($scope, $ionicHistory, $ionicPopup) {
+
+    $scope.my = { oldPwd: null, newPwd: null, reNewPwd: null };
+
+    var _oldPwd = '123456';
+
+    // 反馈弹框（成功 / 失败）
+    function feedBackPopUp( _result ){
+      var myPopup = $ionicPopup.show({
+        template: '<div style="text-align: center; margin-bottom: 13%; font-size: 1.6rem">' +
+        _result + '</div>',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-popUpShow',
+            onTap: function (e) {
+              //成功修改密码后返回
+              if( _result == '<p style="color: #ffffff">修改成功</p>' ){
+                $scope.goBack();
+              }
+            }
+          }
+        ]
+      });
+    }
+
+    //点击 确定 按钮
+    $scope.changePwd = function(){
+
+      //没有输入新密码
+      if( $scope.my.newPwd == '' || $scope.my.newPwd == null ) return;
+
+      var _result;//反馈
+
+      if( $scope.my.oldPwd != _oldPwd ) {
+        _result = '<p style="color: #ff0000">原密码输入错误</p>';
+
+      }else{
+        if( $scope.my.newPwd != $scope.my.reNewPwd ) {
+          _result = '<p style="color: #ff0000">新密码两次输入不一致</p>';
+
+        }else if( $scope.my.newPwd == $scope.my.reNewPwd ){
+          _result = '<p style="color: #ffffff">修改成功</p>';
+        }
+      }
+
+      //反馈弹框
+      feedBackPopUp(_result);
+
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+  }])
+

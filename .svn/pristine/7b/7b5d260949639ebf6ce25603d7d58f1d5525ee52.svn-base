@@ -1,0 +1,87 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountBrokerCloseController', function($scope, $ionicHistory, testService) {
+
+    $scope.my = { month: null, toggle: false,
+      commissionUp: true };//佣金升序
+
+    $scope.list = [];
+    $scope.timeList = [];
+
+    //获取后台对应数据
+    function getAccountBrokerCloseList(){
+      var _q = testService.getAccountBrokerCloseList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    //选择本周、上周
+    $scope.selectTimeTab = function( index ){
+      //修改样式
+      $("#timeTabs").children().filter(".active").removeClass("active");
+      $("#timeTabs a:nth-child(" + index + ")").addClass("active");
+    }
+
+    //获取 选择月份 的下拉选项
+    function getSelectMonthData(){
+      $scope.timeList = [{ id:1, value:'2016-4' },{ id:2, value:'2016-5' },
+        { id:3, value:'2016-6' },{ id:4, value:'2016-7' }];
+    }
+
+    //设置 选择月份 的样式
+    function setSelectMonthStyle(){
+      var _top = $("#select").position().top;
+      var _left = $("#select").position().left;
+      var _width = $("#select").width();
+      $("#selectOption").css( 'top', _top );
+      $("#selectOption").css( 'left', _left );
+      $("#selectOption").css( 'width', _width );
+    }
+
+    //选择月份 显示或隐藏 下拉菜单
+    $scope.toggle = function(){
+      $('#selectOption').toggle(100);// 显示/隐藏交互事件。参数是下拉速度
+      $scope.my.toggle = !$scope.my.toggle;
+    }
+
+    //选择月份 下拉某一项
+    $scope.selectMonth = function( t, flag ){
+      //console.log(t.id);
+
+      var _temp = t.value;
+      var _str = _temp.split("-");
+      $scope.my.month = _str[0] + '年' + _str[1] + '月';
+
+      if( flag ){
+        $scope.toggle();//关闭下拉列表
+      }
+    }
+
+    //佣金排序
+    $scope.commissionSort= function(){
+      $scope.my.commissionUp = !$scope.my.commissionUp;//取反
+      if( $scope.my.commissionUp ){//升序
+        console.log("佣金升序");
+      }else{//降序
+        console.log("佣金降序");
+      }
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*************初始化**************/
+    getAccountBrokerCloseList();
+
+    getSelectMonthData();//获取 选择月份 的下拉选项
+    setSelectMonthStyle();//设置 选择月份 的样式
+
+    $scope.selectMonth( $scope.timeList[0], false );//选择月份 默认选中值 下拉某一项
+
+    $scope.selectTimeTab(1);//选择本周、上周tabs
+  })

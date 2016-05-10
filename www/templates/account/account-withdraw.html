@@ -1,0 +1,109 @@
+<ion-view view-title="提现" class="light account-withdraw-view">
+
+  <ion-nav-bar class="app-index-header accountIndex-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <form id="withDraw" class="i-form" method="post" action="#" onsubmit="return false;"  >
+      <div class="form-box b-1">
+        <a class="item">
+          <span class="col">可提取金额</span>
+          <span class="second-col" style="font-size: 2rem; padding-left: 5%; color: #ffffff">
+            2400
+          </span>
+        </a>
+        <a class="item">
+          <span class="col">提取金额</span>
+        <span class="second-col">
+          <input type="text" placeholder="输入提取金额">
+        </span>
+        </a>
+      </div>
+      <div class="form-box b-2">
+        <div class="form-box b-1">
+          <a class="item">
+            <span class="col">选择银行</span>
+            <span class="second-col">
+              <select id="Bank" class="f-select" name="bankName">
+                <option value=0>请选择银行</option>
+              </select>
+            </span>
+          </a>
+        </div>
+        <div class="form-box b-1">
+          <a class="item">
+            <span class="col">省份</span>
+            <span class="second-col">
+              <select  class="f-select"  ng-change="provinceChange(index_prov)" ng-model="index_prov" ng-options="arr.id as arr.province_Name for arr in province_Arr">
+
+                <option value="" required>请选择省份</option>
+              </select>
+            </span>
+          </a>
+        </div>
+        <div class="form-box b-1">
+          <a class="item">
+            <span class="col">城市</span>
+            <span class="second-col">
+              <select id="selCity" class="f-select" name="city"  ng-model="index_city" ng-options="city.id as city.city_Name for city in city_Name" >
+                <option value="" required>请选择城市</option>
+              </select>
+            </span>
+          </a>
+        </div>
+        <div  class="form-box b-1">
+          <a class="item">
+            <span class="col">银行支行</span>
+            <span class="second-col">
+              <input type="text" placeholder="请输入银行支行名称">
+            </span>
+          </a>
+        </div>
+        <div class="form-box b-1">
+          <a class="item">
+            <span class="col">卡号</span>
+            <span class="second-col">
+              <input type="text" placeholder="请输入借记卡卡号">
+            </span>
+          </a>
+        </div>
+        <div class="form-box b-1">
+          <a class="item">
+            <span class="col">姓名</span>
+            <span class="second-col">
+              <input type="text" placeholder="请输入持卡人姓名">
+            </span>
+          </a>
+        </div>
+      </div>
+
+    </form>
+ <!-- form end-->
+    <div class="center" style="margin-top: 7%">
+      <button class="button tradePwdBtn" ng-click="inputTradePwd()">提交</button>
+    </div>
+
+    <!--输入交易密码弹出框-->
+    <script id="inputTradePwdTemplate" type="text/ng-template">
+      <input type="password" ng-model="my.tradePwd" style="padding: 0% 3%;">
+      <p style="text-align: center; font-size: 1.2rem; margin-top: -3%">
+        <a ng-click="forgetPwd()" style="text-decoration: none; color: rgba(255,255,255,0.3);">忘记交易密码</a>
+      </p>
+      <div style="height: 1.5rem"></div>
+    </script>
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<select-modal modal-id="app-popup-code">
+  {{my.selectModalTitle}}
+</select-modal>
+
+

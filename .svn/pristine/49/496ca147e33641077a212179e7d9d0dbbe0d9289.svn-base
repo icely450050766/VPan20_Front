@@ -1,0 +1,85 @@
+/**
+ * Created by icley on 2016/4/7.
+ */
+angular.module('VPan20_Front.toolServices', [])
+
+  .service('toolServices', function( $http, $q, $timeout, $ionicPopup, $location) {
+
+    //返回 选择月份 的下拉选项
+    this.getSelectMonthData = function(){
+
+      var _year = new Date().getFullYear();//获取当前年份
+
+      var _list = [_year + '-1', _year + '-2', _year + '-3', _year + '-4', _year + '-5',
+        _year + '-6', _year + '-7', _year + '-8', _year + '-9', _year + '-10', _year + '-11', _year + '-12'];
+
+      return _list;
+    }
+
+    //显示 输入交易密码的弹框 【参数：$scope，正确的交易密码，是否显示温馨提示（提现时显示）】
+    this.showInputTradePwdPopUp = function( $scope, _tradePwd, isShowWarmTip ){
+
+      // 反馈弹框（成功 / 失败）
+      function feedBackPopUp( _result ){
+        var myPopup = $ionicPopup.show({
+          template: '<div style="text-align: center; margin-bottom: 13%; font-size: 1.6rem">' +
+          _result + '</div>',
+          scope: $scope,
+          buttons: [
+            {
+              text: '<b>确认</b>',
+              type: 'button-popUpShow',
+              onTap: function (e) {
+              }
+            }
+          ]
+        });
+      }
+
+      //返回 弹框
+      return $ionicPopup.show({
+        templateUrl: 'inputTradePwdTemplate', //定义在html里面
+
+        title: '输入交易密码',
+        scope: $scope,
+        buttons: [
+          {
+            text: '<b>确认</b>',
+            type: 'button-energized',
+            onTap: function (e) {
+
+              var _result;//反馈
+
+              if( $scope.my.tradePwd == _tradePwd ){
+
+                //显示温馨提示 （提现）
+                if( isShowWarmTip ){
+                  _result = '<div style="color: #ffffff; padding: 0% 15%;">' +
+                    '<p>温馨提示</p>亲，提现少于100元将扣除2元手续费哦！</div>'
+                  feedBackPopUp( _result );//反馈弹框
+                }
+
+                //向父控制器传播事件
+                $scope.$emit( 'tradePwdSuccess', null );
+
+              }else{
+                _result = '<p style="color: #ff0000">交易密码输入有误</p>';
+                feedBackPopUp( _result );//反馈弹框
+
+              }
+              $scope.my.tradePwd = null;
+            }
+
+          }
+        ]
+      });
+
+    }
+
+    //关闭 输入交易密码弹框，并跳转到忘记密码页面
+    this.closeInputTradePwd_toForgetPwd = function( myPopup ){
+      myPopup.close();
+      $location.path('/forgetPwd/forgetPwd1');
+    }
+
+  })

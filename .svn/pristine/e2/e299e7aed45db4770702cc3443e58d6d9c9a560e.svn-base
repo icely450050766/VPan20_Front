@@ -1,0 +1,250 @@
+/**
+ * Created by huochai on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+
+  .controller('tradeBuildController', function($scope, $ionicHistory, $stateParams, $timeout, testService, $ionicPopup, $q) {
+
+    $scope.my = { product: '',
+      type: '',
+      direction:'',
+      count:'',//手数
+      productid:'',
+      productName:'',
+      unitprice:10,//单手单价
+      unitfee:0.9,//手续费
+      currentbuyamount:1,//当前购买的数量
+      productNames:['150g(10)','3000g(200)'],
+      productIds:['1','2'],
+      canBuyAmount:0,
+      buyAmount:0,//已购买
+      currentProductPrice:'0',
+      typeData:[], //规格
+      tableData:[], //手数选择数组
+      //止盈止损
+      profit: 0,
+      loss: 0,
+      buildSuccess: false//建仓成功 提示
+    }
+
+    //手数表格数据
+    var _arr1 = [1,2,3,4,5,6,7,8,9,10];
+    var _arr2 = [11,12,13,14,15,16,17,18,19,20];
+    var _arr3 = [21,22,23,24,25,26,27,28,29,30];
+
+    //选择tabs（粤银、粤油、粤铜）
+    $scope.selectTab = function (index,productid1,productid2) {
+      //修改样式
+
+      $('#tabsId').children().filter('.active').removeClass('active');
+      $('#tabsId div:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      switch(index){
+        case 1: $scope.my.product = 'XAG1'; break;
+        case 2: $scope.my.product = 'OIL'; break;
+        case 3: $scope.my.product = 'CU'; break;
+      }
+     //点击切换刷新数据
+      $scope.initBaseData();
+      if($scope.my.direction=='up'){
+        $scope.selectDirection(1);
+
+      }
+      if($scope.my.direction=='down'){
+        $scope.selectDirection(2);
+
+      }
+
+
+    }
+
+    //选择规格
+    $scope.selectType = function(index,proid ){
+
+      //修改样式
+      $('#typeId').children('span').filter('.active').removeClass('active');
+      $('#typeId span:nth-child(' + index + ')').addClass('active');
+
+      //当从200元的规格换成10元的规格时，重新设置选择手数范围
+      if( index == 1 ){ //10元/手
+        $scope.selectTableTab(1);//选择手数范围：1-10
+      }
+
+      $scope.my.productid=proid;
+      $scope.getCanBuyAmount()
+      //修改程序数据
+      $scope.my.type = index == 1 ? '10' : '200';
+      //console.log($scope.my.type );
+    }
+
+    //选择方向（买涨、买跌）
+    $scope.selectDirection = function( index ){
+      //修改样式
+      $('#directionId').children('span').filter('.active').removeClass('active');
+      $('#directionId span:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      $scope.my.direction = index == 1 ? 'up' : 'down';
+      //console.log($scope.my.direction );
+    }
+
+    //选择手数范围
+    $scope.selectTableTab = function( index ){
+
+      //修改样式
+      $('#tableTabsId').children('span').filter('.active').removeClass('active');
+      $('#tableTabsId span:nth-child(' + index + ')').addClass('active');
+
+      //显示的数据
+      eval('$scope.my.tableData = _arr' + index);
+
+      //默认选择 手数表格第一个
+      $scope.selectCount(0);
+
+    }
+
+    //选择手数（表格）
+    $scope.selectCount = function( index ){
+
+      //修改样式
+      $('#tableId').find('.col').filter('.active').removeClass('active');
+      $('#tableCol' + index ).addClass('active');
+
+      $scope.my.count = $scope.my.tableData[index];
+      //console.log($scope.my.count);
+    }
+
+    //确认建仓
+    $scope.build = function(){
+      //console.log($scope.my.product);//产品
+      //console.log($scope.my.type);//规格
+      //console.log($scope.my.direction);//方向
+      //console.log($scope.my.count);//手数
+
+      var d=1;
+      switch ($scope.my.direction) {
+        case "down":
+          d=2;
+          break;
+        default:
+          d=1;
+          break;
+      }
+      //console.log($scope.my.profit/100);
+      //console.log($scope.my.loss/100);
+
+      var _q = testService.buildPosition($scope.my.productid,d,$scope.my.count,$scope.my.profit/100,$scope.my.loss/100);
+      _q.then(function(data){
+        if(data.state=="200"){
+
+          //建仓成功
+          $scope.my.buildSuccess = true;
+          $timeout(function() {
+            $scope.my.buildSuccess = false;
+            $scope.openModal();//详细建仓信息
+          }, 2000);
+
+        }
+      })
+    }
+
+    $scope.initBaseData = function(){
+      var _q = testService.getProductsByNo($scope.my.product);
+      _q.then(function(data){
+        if(data.state=="200"){
+          $scope.my.currentProductPrice=data.data.currentPrice;
+          var list = data.data.list;
+          for(var i=0;i<list.length;i++){
+            $scope.my.productNames[i]=list[i].desc;
+            $scope.my.productIds[i]=list[i].id;
+           // console.log($scope.my.productIds[i]);
+          }
+          $scope.selectType(1,$scope.my.productIds[0]);
+        }
+      })
+    }
+
+    $scope.getCanBuyAmount = function(){
+      var _q = testService.getDetailBeforBuildPosition($scope.my.productid,$scope.my.product);
+      _q.then(function(data){
+        if(data.state=="200"){
+          $scope.my.buyAmount=data.data.buyAmount;
+          $scope.my.canBuyAmount=data.data.canBuyAmount;
+          $scope.my.unitfee=data.data.tradefee;
+          $scope.my.unitprice = data.data.unitprice;
+        }
+      });
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    //设置止盈、止损
+    $scope.decrease = function( type ){
+      if( type == 'profit' ){
+        if( $scope.my.profit > 0 ){ $scope.my.profit -= 10; }
+      }else if( type == 'loss' ){
+        if( $scope.my.loss > 0 ){ $scope.my.loss -= 10; }
+      }
+    }
+
+    $scope.add = function( type ){
+      if( type == 'profit' ){
+        if( $scope.my.profit < 50 ){ $scope.my.profit += 10; }
+      }else if( type == 'loss' ){
+        if( $scope.my.loss < 50 ){ $scope.my.loss += 10; }
+      }
+    }
+
+    /*************初始化**************/
+
+    $scope.my.product = $stateParams.product;
+    $scope.my.type = $stateParams.type;
+    $scope.my.direction = $stateParams.direction;
+    $scope.my.productid=$stateParams.productid;
+
+//  $('#tabsId').children().filter('.active').removeClass('active');
+// $('#tabsId div:nth-child(' + index + ')').addClass('active');
+    //同步修改tabs
+    switch( $scope.my.product ){
+      case 'XAG1': $scope.selectTab(1); break;
+      case 'OIL': $scope.selectTab(2); break;
+      case 'CU': $scope.selectTab(3); break;
+    }
+
+    //同步修改方向
+    switch( $scope.my.direction ){
+      case 'up': $scope.selectDirection(1); break;
+      case 'down': $scope.selectDirection(2); break;
+    }
+
+    //同步规格
+    switch( $scope.my.type ){
+      case '10': $scope.selectType(1); break;
+      case '200': $scope.selectType(2); break;
+    }
+
+    //选择手数范围
+    $scope.selectTableTab(1);
+    //初始化数据
+    $scope.initBaseData();
+    $scope.getCanBuyAmount();
+
+  })
+
+  .directive('myAttr', function ($timeout) {
+    return {
+      restrict: 'E',
+      link: function(scope, element, attr) {
+
+        $timeout(function(){
+          introJs().start();
+        },0);
+
+
+
+      }
+    };
+  })

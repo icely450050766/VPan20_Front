@@ -1,0 +1,40 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountWinTicketDetailController',[ '$scope', '$ionicHistory', '$stateParams','testService',function($scope, $ionicHistory, $stateParams,testService) {
+    $scope.my = { imgSrc: '' };
+        $scope.Securities=[];
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化***********/
+    $scope.my.imgSrc = 'img/' + $stateParams.type + '.png';
+
+        function init(){
+            alert($stateParams.id);
+            var _p=testService.getSecuritiesDetails($stateParams.id);
+            console.log(_p);
+            _p.then(function(data){
+                $scope.Securities=data.securities;
+                if($scope.Securities[0].fromWhere==2){
+                    $scope.Securities[0].fromWhere="活动途径";
+                }else if($scope.Securities[0].fromWhere==1){
+                    $scope.Securities[0].fromWhere="用户分享";
+                }else if($scope.Securities[0].fromWhere==3){
+                    $scope.Securities[0].fromWhere="系统派送";
+                }
+            },function(){
+
+            });
+        }
+
+        $scope.publishtime=function convertDate(Time){
+            return new Date(Time).toLocaleDateString();
+        }
+
+
+
+        init();
+  }])

@@ -1,0 +1,1466 @@
+/* Empty. Add your own CSS if you like */
+
+/*icely add*/
+@media (min-width: 380px){
+  html{font-size: 63.3%;}}
+@media (min-width: 370px) and (max-width: 380px) {
+  html{font-size: 61.6%;}}
+@media (min-width: 360px) and (max-width: 370px) {
+  html{font-size: 60%;}}
+@media (min-width: 350px) and (max-width: 360px) {
+  html{font-size: 58.3%;}}
+@media (min-width: 340px) and (max-width: 350px) {
+  html{font-size: 56.6%;}}
+@media (min-width: 330px) and (max-width: 340px) {
+  html{font-size: 55%;}}
+@media (min-width: 320px) and (max-width: 330px) {
+  html{font-size: 53.3%;}}
+@media (max-width: 320px) {
+  html{font-size: 51.6%;}}
+
+/*iphone6*/
+@media (width: 375px) {
+  html{font-size: 62.5%; /*10 ÷ 16 × 100% = 62.5%*/  }}
+
+/*iphone5、iphone4*/
+@media (width: 320px) {
+  html{font-size: 53.3%;  /*320 ÷ 375 × 62.5% = 53.333%*/  }}
+
+/******************************************************************************/
+
+.point-class{
+  width: 7.1rem;
+  height: 6.5rem;
+  position: absolute;
+  visibility: visible;
+  display: block;
+  top: -2rem;
+}
+.app-index-header{
+  background:-webkit-gradient(linear, 0 0, 100% 0, from(#f2af0d), to(#fba331));
+}
+.pull-left{
+  float: left;
+}
+.pull-right{
+  float: right;
+}
+.center{
+  text-align: center;
+}
+.red{
+  color: #ff0000;
+}
+.green{
+  color: #00ff00;
+}
+
+.phoneNumError-tip{
+  position: absolute;
+  z-index: 200;
+  width: 40%;
+  left: 10%;
+  margin-top: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: #21275b;
+  color: #ff0000;
+  text-align: center;
+  padding: 2%;
+}
+.phoneNumError-tip .triangle-up {
+  width: 0;
+  height: 0;
+  border-left: 1rem solid transparent;
+  border-right: 1rem solid transparent;
+  border-bottom: 1rem solid #21275b;
+  position: absolute;
+  top: -0.5rem;
+  left: 0.8rem;
+}
+
+.pop-model-body{
+  padding: 0% 12%;
+}
+
+
+
+/*遮罩层*/
+.maskDiv{
+  width: 100%;
+  height: 200%;
+  background-color: rgba(0,0,0,0.6);
+  position: absolute;
+  z-index: 100;
+}
+
+/*********马上交易**********/
+.tradeIndex-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.tradeIndex-view .tradeIndex-head{
+  background-color: #eea727;
+  color: #ffffff;
+  text-align: center;
+}
+.tradeIndex-view .tradeIndex-head > div img{
+  width: 7rem;
+  height: 7rem;
+  margin-top: 5%;
+  margin-bottom: 0.5%;
+  border-radius: 70rem;
+}
+.tradeIndex-view .tradeIndex-head > div.row .number{
+  font-size: 2rem;
+  line-height: 0.5rem;
+}
+.tradeIndex-view .tradeIndex-head .tradeIndex-head-btn{
+  font-size: 1.6rem;
+  margin-top: 2%;
+  text-decoration: none;
+  color:#ffffff
+}
+.tradeIndex-view .tradeIndex-head .tradeIndex-head-btn span{
+  margin-left: 4%;
+}
+.tradeIndex-view .tradeIndex-tabs{
+  margin: 3% 0%;
+  padding: 0%;
+  color: #ffffff;
+  text-align: center;
+}
+.tradeIndex-view .tradeIndex-tabs .row{
+  margin: 0.5% 0%;
+  padding: 0%;
+}
+.tradeIndex-view .tradeIndex-tabs .tabs-title .col{
+  margin: 0% 0.5%;
+  padding: 2.5% 0%;
+  font-size: 2rem;
+  background-color: #29335c;
+  border-radius: 0.3rem;
+}
+.tradeIndex-view .tradeIndex-tabs .tabs-title .active{
+  background-color: #d1720b;
+}
+.tradeIndex-view .tradeIndex-tabs .tabs-bottomBorder .col{
+  margin: 0% 0.5%;
+}
+.tradeIndex-view .tradeIndex-tabs .tabs-bottomBorder .active{
+  border-bottom: 1px solid #d1720b;
+}
+.tradeIndex-view .tradeIndex-currentPrice{
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.4rem;
+  line-height: 1.5rem;
+}
+.tradeIndex-view .tradeIndex-currentPrice .latestPrice{
+  font-size: 2.5rem;
+  padding: 0%;
+  margin: 0%
+}
+.tradeIndex-view .tradeIndex-buy .productBox{
+  text-align: center;
+  color: #ffffff;
+  margin:3%;
+  margin-bottom: 0%;
+}
+.tradeIndex-view .tradeIndex-buy .productBox .buyUp{
+  font-size: 1.6rem;
+  background-color: #f5583d;
+  padding: 5% 0%;
+  border-top-left-radius: 0.4rem;
+  border-top-right-radius: 0.4rem;
+}
+.tradeIndex-view .tradeIndex-buy .productBox .buyDown{
+  font-size: 1.6rem;
+  background-color: #29be25;
+  padding: 5% 0%;
+  border-bottom-left-radius: 0.4rem;
+  border-bottom-right-radius: 0.4rem;
+}
+/*买涨、买跌点击效果*/
+.tradeIndex-view .tradeIndex-buy .productBox .buyUp:active{
+  background-color: #c2c2c2;
+}
+.tradeIndex-view .tradeIndex-buy .productBox .buyDown:active{
+  background-color: #c2c2c2;
+}
+
+.tradeIndex-view .tradeIndex-buy .productBox .productInfo{
+  margin: 0%;
+  padding-top: 8%;
+  background-color: #15192b;
+  border: 1px solid  rgba(255,255,255,0.3);
+  border-top: 1px solid #15192b;
+  border-bottom: 1px solid #15192b;
+}
+/*系统公告（用js修改top属性，所以单位用px）*/
+.tradeIndex-view .tradeIndex-notice{
+  color: #ffffff;
+  padding: 3% 2%;
+  font-size: 13px;
+  line-height: 20px;
+  background-color: #121423;
+}
+.tradeIndex-view .tradeIndex-notice > div{
+  position: relative; /*css的top属性指的是距最近的一个position属性为relative或者absolute的父级元素的上边的距离*/
+  text-align: center;
+  height: 20px;
+  overflow-y: hidden;
+}
+.tradeIndex-view .tradeIndex-notice > div > div#noticeDivId{
+  position: relative;
+}
+.tradeIndex-view .ECharts-tabs{
+  color: #ffffff;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  padding: 0%;
+  margin: 0%;
+}
+.tradeIndex-view .ECharts-tabs .col{
+  margin: 0%;
+  padding: 1% 0%;
+  text-align: center;
+  /*边框设为背景色。避免切换tabs时数据跳动*/
+  border-left:  1px solid #101322;
+  border-right:  1px solid #101322;
+}
+.tradeIndex-view .ECharts-tabs .active{
+  background-color: #1f243b;
+  border-left:  1px solid rgba(255,255,255,0.3);
+  border-right:  1px solid rgba(255,255,255,0.3);
+}
+
+/************个人中心***********/
+.accountIndex-view{
+  background-color: #04091e;
+  font-size: 1.5rem;
+}
+.accountIndex-view .accountIndex-header .imgDiv{
+  width: 5rem;
+}
+.accountIndex-view .accountIndex-header .imgDiv img{
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  margin-left: 1.5rem;
+}
+.accountIndex-view .accountIndex-header span{
+  margin-top: 4%;
+}
+.accountIndex-view .accountIndex-head{
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.5rem;
+  background:-webkit-gradient(linear, 0 0, 100% 0, from(#f3af0e), to(#fca235));
+}
+.accountIndex-view .accountIndex-head > div.row .number{
+  font-size: 1.9rem;
+  line-height: 0.5rem;
+}
+.accountIndex-view .accountIndex-head .rechargeAndWithdraw{
+  margin: 0%;
+  padding: 0%;
+}
+.accountIndex-view .accountIndex-head .rechargeAndWithdraw a{
+  font-size: 1.7rem;
+  padding: 2.5%;
+  border-top: 1px solid #fbdeb5;
+  text-decoration: none;
+  color: #ffffff
+}
+.accountIndex-view .accountIndex-head .rechargeAndWithdraw a > span{
+  margin-left: 5%;
+}
+.accountIndex-view .accountIndex-body .list{
+  margin-top: 3.5%;
+}
+.accountIndex-view .accountIndex-body .list .item{
+  color: #ffffff;
+  font-size: 1.5rem;
+  background-color: #04091e;
+  padding: 3%;
+  border: 1px solid rgba( 255,255,255,0.2);
+}
+.accountIndex-view .accountIndex-body .list .item .icon{
+  margin: 0% 4%;
+  font-size: 2rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/*交易历史*/
+.account-history-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-history-view .dataList{
+  padding: 0%;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.account-history-view .dataList .row{
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding: 2.5% 3%;
+}
+.account-history-view .row .col{
+  color: #ffffff;
+  text-align: center;
+}
+.account-history-view .list .item{
+  background-color: #101322;
+}
+
+/*个人信息*/
+.account-personalInfo-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-personalInfo-view .list .item{
+  padding: 4% 10%;
+  background-color: #101322;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+.account-personalInfo-view .list .item img{
+  width: 6rem;
+  height: 6rem;
+  border-radius: 6rem;
+}
+.account-incomeAndExpenses-view{
+  background-color: #101322;
+}
+.account-incomeAndExpenses-view .item{
+  background-color: #101322;
+  border: 0rem solid rgba(255,255,255,0.3);
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  margin: 1% 0%;
+  padding: 1% 4%;
+  color: #ffffff;
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+}
+.account-incomeAndExpenses-view .item .row .col .icon{
+  font-size: 2.5rem;
+  line-height: 4.5rem;
+  color: rgba(255,255,255,0.7);
+}
+
+/*充值*/
+.account-recharge-view{
+  background-color: #101322;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+.account-recharge-view .priceBox{
+  width: 124%;
+  margin: 1% -4%;
+}
+.account-recharge-view .priceBox .box{
+  width: 25%;
+  text-align: center;
+  padding: 6% 0%;
+  margin: 2%;
+  border: 1px solid rgba(255,255,255,0.2);
+  float: left;
+}
+.account-recharge-view .priceBox .active{
+  border: 1px solid #fcd230;
+  position: relative;
+}
+.account-recharge-view .priceBox .active .triangle{
+  width: 0;
+  height: 0;
+  border-top: 3rem solid #fcd230;
+  border-left: 3rem solid transparent;
+  position: absolute;
+  right: 0rem;
+  top: 0rem;
+}
+.account-recharge-view .priceBox .active > .triangle > .icon{
+  color: #000000;
+  font-size: 1.7rem;
+  position: absolute;
+  right: 0.1rem;
+  top: -3.2rem;
+}
+.account-recharge-view .smallAmmount{
+  background-color: #101322;
+  border: 1px solid rgba(255,255,255,0.5);
+  text-align: center;
+  margin-bottom: 0%;
+}
+.account-recharge-view .smallAmmount .row .col a{
+  color: #ffffff;
+}
+.account-recharge-view .smallAmmount-option{
+  background-color: #1b204b;
+  margin-top: 0%;
+}
+.account-recharge-view .smallAmmount-option .list-con{
+  display: none;
+  overflow: auto;
+}
+.account-recharge-view .smallAmmount-option .list-con .list .item{
+  text-align: center;
+  background-color: #1b204b;
+  color: #ffffff;
+  padding: 2%;
+  margin-bottom: 0.1rem;
+  border: none;
+}
+.account-recharge-view .smallAmmount-option .list-con .list .item-border-bottom{
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.account-recharge-view .rechargeBtn{
+  width: 95%;
+  margin: 0% 2.5%;
+  font-size: 2rem;
+  background-color: #fcd230;
+  border-radius: 0rem;
+  color: #ffffff;
+}
+
+/*提现*/
+.account-withdraw-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-withdraw-view .list .item{
+  background-color: #101322;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 3% 8%;
+  padding-right: 5%;
+}
+.account-withdraw-view .list .item .col{
+  width: 60%;
+  float: left;
+}
+.account-withdraw-view .list .item .second-col{
+  width: 40%;
+  float: left;
+  font-size: 1.3rem;
+  color: rgba(255,255,255,0.5);
+  text-align: left;
+}
+.account-withdraw-view .list .item .second-col input{
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  text-align: left;
+  font-size: 1.3rem;
+  margin: -5%;
+  padding: 0% 5%;
+}
+.account-withdraw-view .list .item .second-col input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+}
+.account-withdraw-view .list .item .second-col .icon{
+  margin-right: 10%;
+}
+.account-withdraw-view .tradePwdBtn{
+  border-radius: 0rem;
+  background-color: #101322;
+  border: 1px solid rgba(255,255,255,0.3);
+  color: #ffffff;
+  padding: 0% 15%;
+}
+/*弹出窗口*/
+.account-withdraw-popModal-container{
+  background-color: #1b204b;
+  max-height: 40rem;
+  overflow-y: scroll;
+  font-size: 1.5rem;
+}
+.account-withdraw-popModal-container .item {
+  background-color: #1b204b;
+  text-align: center;
+  color: #ffffff;
+  font-size: 1.4rem;
+  padding: 0.8rem;
+  margin: 0rem;
+}
+.account-withdraw-popModal-container .list{
+  padding: 0rem;
+  margin: 0rem;
+}
+.account-withdraw-popModal-container .list .item{
+  border-top: 1px solid rgba(255,255,255,0.2);
+}
+.account-withdraw-popModal-container .list .item:active{
+  background-color: #242c72;
+}
+
+/*修改密码*/
+.account-personalInfo-changePwd-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-personalInfo-changePwd-view .list{
+  background-color: #101322;
+  margin: 5% 0%;
+}
+.account-personalInfo-changePwd-view .list .item{
+  background-color: #101322;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255, 0.4);
+  margin: 0.2rem;
+  padding-bottom: 2%;
+  color: #ffffff;
+}
+.account-personalInfo-changePwd-view .list .item .icon{
+  font-size: 2.5rem;
+  padding-left: 2%;
+}
+.account-personalInfo-changePwd-view .list .item input{
+  width: 100%;
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  padding-left: 2%;
+}
+.account-personalInfo-changePwd-view .changePwdBtn{
+  background-color: #41434b;
+  border: none;
+  border-radius: 0rem;
+  color: #ffffff;
+  padding: 0% 23%;
+}
+.account-personalInfo-changePwd-view .changePwdBtn:active{
+  background-color: yellow;
+}
+
+/*我的赢家券*/
+.account-winTicket-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-winTicket-view .winTicketTabs{
+  padding: 3% 0%;
+}
+.account-winTicket-view .winTicketTabs .col{
+  text-align: center;
+  font-size: 1.8rem;
+  padding-bottom: 3.5%;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.account-winTicket-view .winTicketTabs > div.active{
+  border-bottom: 1px solid #fcd230;
+  color: #fcd230;
+}
+.account-winTicket-view .ion-slide-box a{
+  text-decoration: none;
+}
+.account-winTicket-view .ion-slide-box a .dateDiv{
+  position: absolute;
+  left: 30%;
+  top: 48%;
+  z-index: 3;
+}
+.account-winTicket-view .ion-slide-box a .dateDiv p{
+  color: rgba(255,255,255,0.4);
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+  letter-spacing: 0.2rem;
+  padding: 0%;
+  margin: 0%;
+}
+.account-winTicket-view .ion-slide-box a img{
+  width: 84%;
+  margin: 2.5% 8%;
+}
+
+/*赢家券详情*/
+.account-winTicket-detail-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-winTicket-detail-view img{
+  width: 84%;
+  margin: 5% 8%;
+  margin-top: 10%;
+}
+.account-winTicket-detail-view .text{
+  margin: 0% 8%;
+}
+.account-winTicket-detail-view .text p{
+  margin: 4% 0%;
+}
+.account-winTicket-detail-view .dateDiv{
+  position: absolute;
+  left: 30%;
+  top: 21%;
+  z-index: 3;
+}
+.account-winTicket-detail-view .dateDiv p{
+  color: rgba(255,255,255,0.4);
+  font-size: 1.5rem;
+  line-height: 1.6rem;
+  letter-spacing: 0.2rem;
+  padding: 0%;
+  margin: 0%;
+}
+
+/*经纪人*/
+.account-broker-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-broker-view .list .item{
+  background-color: #101322;
+  margin-bottom: 0.2rem;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+  color:#ffffff;
+  padding: 4% 8%;
+}
+.account-broker-view .list .item .icon{
+  font-size: 2.5rem;
+  margin-right: 3%;
+}
+.account-broker-view .account-broker-head{
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.5rem;
+  background:-webkit-gradient(linear, 0 0, 100% 0, from(#f3af0e), to(#fca235));
+}
+.account-broker-view .account-broker-head a{
+  text-decoration: none;
+  color: #ffffff;
+}
+.account-broker-view .account-broker-head .row .col{
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.5);
+  padding: 3% 0%;
+}
+
+/*经纪人收入*/
+.account-broker-income-view{
+  background-color: #101322;
+  font-size: 1.6rem;
+}
+.account-broker-income-view button{
+  background-color: #41434b;
+  color: rgba(255,255,255,0.5);
+  padding: 1% 4%;
+  border-radius: 0rem;
+  border: none;
+  font-size: 1.6rem;
+}
+.account-broker-income-view .row{
+  margin: 0%;
+  padding: 0%;
+}
+.account-broker-income-view .data-title .col{
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.account-broker-income-view .row .col{
+  text-align: center;
+  padding:  2% 0%;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.account-broker-income-view .rangeDiv{
+  width: 35%;
+}
+.account-broker-income-view .rangeDiv a{
+  padding: 3% 8%;
+  margin-left: 4%;
+  background-color: #41434b;
+  color: #ffffff;
+}
+.account-broker-income-view .rangeDiv .active{
+  background-color: #394291;
+}
+.account-broker-income-view .selectMonthOption{
+  background-color: #21275b;
+  width: 10rem;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
+.account-broker-income-view .selectMonthOption .item{
+  background-color: #21275b;
+  margin-bottom: 0.1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 3% 0%;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.2rem;
+}
+
+/*直属客户*/
+.account-broker-client-view{
+  background-color: #101322;
+  font-size: 1.6rem;
+}
+.account-broker-client-view input{
+  background-color: #101322;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  width: 100%;
+  font-size: 1.6rem;
+  color: #ffffff;
+  padding-left: 5%;
+  padding-right: 20%;
+}
+.account-broker-client-view .input-search-icon{
+  position: absolute;
+  top: 0.3rem;
+  right: 1rem;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.7);
+}
+.account-broker-client-view input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.account-broker-client-view .row{
+  margin: 0%;
+  padding: 0%;
+}
+.account-broker-client-view .data-title .col{
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.account-broker-client-view .row .col{
+  text-align: center;
+  padding:  2% 0%;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+
+
+/*直属平仓*/
+.account-broker-close-view{
+  background-color: #101322;
+  font-size: 1.6rem;
+}
+.account-broker-close-view input{
+  background-color: #101322;
+  border-radius: 0.8rem;
+  border: 1px solid rgba(255,255,255,0.3);
+  width: 100%;
+  font-size: 1.6rem;
+  color: #ffffff;
+  padding-left: 5%;
+  padding-right: 20%;
+}
+.account-broker-close-view .input-search-icon{
+  position: absolute;
+  top: 0.3rem;
+  right: 1rem;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.7);
+}
+.account-broker-close-view input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.account-broker-close-view .row{
+  margin: 0%;
+  padding: 0%;
+}
+.account-broker-close-view .data-title .col{
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.account-broker-close-view .row .col{
+  text-align: center;
+  padding:  2% 0%;
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.account-broker-close-view .rangeDiv{
+  width: 35%;
+}
+.account-broker-close-view .rangeDiv a{
+  padding: 3% 8%;
+  margin-left: 4%;
+  background-color: #41434b;
+  color: #ffffff;
+}
+.account-broker-close-view .rangeDiv .active{
+  background-color: #394291;
+}
+.account-broker-close-view .selectMonthOption{
+  background-color: #21275b;
+  width: 10rem;
+  overflow: hidden;
+  position: absolute;
+  display: none;
+}
+.account-broker-close-view .selectMonthOption .item{
+  background-color: #21275b;
+  margin-bottom: 0.1rem;
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding: 3% 0%;
+  color: #ffffff;
+  text-align: center;
+  letter-spacing: 0.2rem;
+}
+
+/*建仓*/
+.trade-build-view{
+  background-color: #101322;
+  width: 100%;
+  font-size: 1.5rem;
+}
+.trade-build-view .padding{
+  margin: 0% 2%;
+}
+.trade-build-view .tabs-title{
+  margin-top: 0%;
+  padding: 1% 16%;
+  width: 100%;
+  color: #ffffff;
+  text-align: center;
+  background:-webkit-gradient(linear, 0 0, 100% 0, from(#f2af0d), to(#ff9e41));
+}
+.trade-build-view .tabs-title .row{
+  padding: 0%;
+  border-radius: 0.6rem;
+  border: 1px solid #ffffff;
+  overflow: hidden;
+}
+.trade-build-view  .tabs-title .row .col{
+  margin: 0%;
+  padding: 1.7% 0%;
+  font-size: 1.4rem;
+  color: #ffffff;
+  background-color: transparent;
+}
+.trade-build-view  .tabs-title .row .active{
+  background-color: #ffffff;
+  color: #f2af0d;
+}
+.trade-build-view .row{
+  padding: 0%;
+  margin: 0%;
+}
+.trade-build-view .row .col{
+  padding: 0%;
+  margin: 0%;
+}
+.trade-build-view .typeBox{
+  margin: 7% 0%;
+}
+.trade-build-view .typeBox span{
+  padding: 1.5% 3%;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 1.2rem;
+  text-align: center;
+}
+.trade-build-view .typeBox .active{
+  background-color: #1b204b;
+}
+.trade-build-view .directionBox{
+  margin: 7% 0%;
+  margin-top: 10%;
+}
+.trade-build-view .directionBox span{
+  padding: 1.5% 10%;
+  border: 1px solid rgba(255,255,255,0.3);
+  font-size: 1.4rem;
+  text-align: center;
+}
+.trade-build-view .directionBox .active{
+  background-color: #ab1010;
+}
+.trade-build-view .table-tabs{
+  margin-top: 5%;
+  margin-bottom: 4%;
+}
+.trade-build-view .table-tabs span{
+  padding: 0.3% 4%;
+  margin-right: 6%;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.trade-build-view .table-tabs .active{
+  background-color: #d1720b;
+  border: 1px solid #d1720b;
+}
+.trade-build-view .table .row{
+  margin: 0%;
+  padding: 0%;
+  border-top: 1px solid rgba(255,255,255,0.3);
+}
+.trade-build-view .table .second-row{
+  border-bottom: 1px solid rgba(255,255,255,0.3);
+}
+.trade-build-view .table .row button{
+  background-color: #101322;
+  color: #ffffff;
+  border: none;
+}
+.trade-build-view .table .row .col{
+  text-align: center;
+  font-size: 1.6rem;
+  margin: 0%;
+  padding: 2% 0%;
+  border-left: 1px solid rgba(255,255,255,0.3);
+}
+.trade-build-view .table .row .active{
+  background-color: #1b204b;
+}
+.trade-build-view .checkbox-lable{
+  background-color: transparent;
+  border: none;
+  font-size: inherit;
+  color: #ffffff;
+  margin-top: -2%;
+}
+.trade-build-view .profitAndLossDiv{
+  margin-top: -2%;
+  margin-bottom: 2%;
+}
+.trade-build-view .profitAndLossDiv > .row{
+  margin: 2% 0%;
+  margin-top: 4%;
+}
+.trade-build-view .profitAndLossDiv .profitAndLossBox{
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 1.5% 0%;
+  text-align: center;
+}
+.trade-build-view .profitAndLossDiv .text{
+  line-height: 3rem;
+}
+.trade-build-view .profitAndLossDiv .tip{
+  color: rgba(255,255,255,0.5);
+  font-size: 1.3rem;
+}
+
+/*我的持仓*/
+.positionIndex-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.positionIndex-view .myPositionDiv{
+  width: 100%;
+  border: none;
+  font-size: 1.5rem;
+}
+.positionIndex-view .myPositionDiv .item{
+  position: relative;
+  color: #ffffff;
+  background-color: #101322;
+  border: none;
+}
+.positionIndex-view .myPositionDiv .item span{
+  line-height: 3.7rem;
+}
+.positionIndex-view .myPositionDiv .item button{
+  font-size: 1.7rem;
+  background-color: #1b204a;
+  border: none;
+  color: #ffffff;
+  padding: 3% 6%;
+}
+.positionIndex-view .myPositionDiv .row{
+  padding-right: 3%;
+  border: none;
+}
+.positionIndex-view .myPositionDiv .row .col{
+  text-align: center;
+  border-top: 1px solid rgba(255,255,255,0.2);
+  padding: 3% 0%;
+  line-height: 3rem;
+  overflow-x: hidden;
+}
+.positionIndex-view .myPositionDiv .row a{
+  text-decoration: none;
+  color: #ffffff;
+}
+.positionIndex-view .myPositionDiv .row button{
+  width: 100%;
+}
+.positionIndex-view .myPositionDiv .closeBtnDiv{
+  color: #ffffff;
+  background-color: transparent;
+  position: absolute;
+  right: 0%;
+  top: -6rem;
+  width: 100%;
+}
+.positionIndex-view .myPositionDiv .closeBtnDiv .icon{
+  font-size: 4rem;
+  font-weight: bold;
+  color:#ffffff;
+}
+.positionIndex-view .profitAndLossBox{
+  border: 1px solid rgba(255,255,255,0.5);
+}
+
+/*我的持仓详情*/
+.position-details-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.position-details-view .list .item{
+  background-color: #101322;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-left: none;
+  border-right: none;
+  color: #ffffff;
+  padding: 2% 6%;
+  font-size: 1.4rem;
+}
+.position-details-view .profitAndLossDiv{
+  margin-top: 2%;
+  margin-bottom: 6%;
+}
+.position-details-view .profitAndLossDiv > .row{
+  margin-top: 1%;
+  padding-bottom: 0%;
+}
+.position-details-view .profitAndLossDiv .profitAndLossBox{
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 1.5% 0%;
+  text-align: center;
+}
+.position-details-view .profitAndLossDiv .text{
+  line-height: 3rem;
+  text-align: right;
+}
+.position-details-view .profitAndLossDiv .tip{
+  color: rgba(255,255,255,0.5);
+  font-size: 1.3rem;
+}
+
+/*无门槛券*/
+.trade-ticket-view .bgImg {
+  background: url('../img/trade-ticket-bg.png') no-repeat;
+  background-size: 100% 100%;
+  font-size: 1.5rem;
+}
+.trade-ticket-view .trade-ticket-logo{
+  padding: 6% 8%;
+  position: relative;
+}
+.trade-ticket-view .trade-ticket-logo img{
+  width: 40%;
+}
+.trade-ticket-view .trade-ticket-picture{
+  width: 92%;
+  margin-left: 6%;
+}
+.trade-ticket-view .trade-ticket-picture img{
+  width: 100%;
+}
+.trade-ticket-view .text{
+  padding: 3% 8%;
+  color: #f8e65c;
+  font-size: 1.5rem;
+  line-height: 2.7rem;
+}
+.trade-ticket-view .moreSupriceDiv{
+  margin-top: 5%;
+  text-align: center;
+  position: relative;
+}
+.trade-ticket-view .moreSupriceDiv span{
+  font-size: 2.8rem;
+  color: #f8e65c;
+  padding: 1% 2%;
+  border-bottom: 1px solid #f8e65c;
+}
+.trade-ticket-view .moreSupriceDiv img{
+  margin: 5% 0%;
+  width: 90%;
+}
+.trade-ticket-view .trade-ticket-button{
+  width: 80%;
+  margin: 0% auto;
+}
+.trade-ticket-view .trade-ticket-button img{
+  width: 100%;
+}
+.trade-ticket-view .ruleBox{
+  width: 100%;
+  color: #ffffff;
+  position: absolute;
+  top: 70rem;
+  display: none;
+}
+.trade-ticket-view .ruleBox .ruleBoxText{
+  background-color: #1b204b;
+  padding: 6%;
+}
+.instructionDiv{
+  width: 100%;
+  position: absolute;
+  z-index: 101;
+}
+.instructionDiv img{
+  position: absolute;
+  width: 30%;
+  right: 1rem;
+  top: 1rem;
+}
+.instructionDiv > div{
+  color: #ffffff;
+  letter-spacing: 0.3rem;
+  position: absolute;
+  top: 12rem;
+  right: 5rem;
+  width: 50%;
+  font-size: 2rem;
+  line-height: 3rem;
+}
+
+/*资讯行情*/
+.informationIndex-view{
+  background-color: #04091e;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+.app-info-header{
+  background: rgba(255, 255, 255,.0);
+}
+.informationIndex-view .titleBox{
+  border-left: 1px solid #5f5f5f;
+  margin: 0% 5%;
+  padding-left: 2%;
+  font-size: 1.5rem;
+}
+.informationIndex-view .row{
+  margin: 0%;
+  padding: 0%;
+  border-top: 1px solid rgba(255,255,255,0.3);
+  font-size: 1.4rem;
+}
+.informationIndex-view .row .col{
+  padding: 5%;
+}
+.informationIndex-view .row .col img{
+  width: 100%;
+  height: 7rem;
+}
+/*往日资讯*/
+.information-past-view{
+  background-color: #04091e;
+  font-size: 1.5rem;
+}
+.information-past-view .row{
+  margin: 0%;
+  padding: 2%;
+  background-color: #04091e;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.information-past-view .row .col{
+  font-size: 1.4rem;
+  position: relative;
+}
+.information-past-view .row .col img{
+  width: 100%;
+  height: 6rem;
+}
+/*资讯详情*/
+.information-detail-view{
+  background-color: #04091e;
+  color: #ffffff;
+  font-size: 1.5rem;
+}
+.information-detail-view .row{
+  margin: 3% 0%;
+}
+.information-detail-view .row  .col{
+  text-align: center;
+}
+.information-detail-view .row  .col input{
+  height:3rem;
+  width:12rem;
+  border-radius:0.5rem;
+  font-size:1.6rem;
+  border: none;
+  color:#ffffff;
+}
+.information-detail-view .appreciationBtn{
+  background-color: #2c3475;
+  padding: 4%;
+  margin: 0% auto;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 6rem;
+  position: relative;
+  border: none
+}
+.information-detail-view .appreciationBtn img{
+  margin-top: -15%;
+}
+.information-detail-view .appreciationBtn span{
+  font-size: 1.2rem;
+  position: absolute;
+  top: 65%;
+  left: 45%;
+  color:#ffffff;
+}
+.information-detail-view .disabled{
+  background-color: grey;
+}
+
+
+/*修改手机号*/
+.account-personalInfo-changePhoneNum-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-personalInfo-changePhoneNum-view .list{
+  background-color: #101322;
+  margin: 5% 0%;
+}
+.account-personalInfo-changePhoneNum-view .list .item{
+  background-color: #101322;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255, 0.4);
+  margin: 0.2rem;
+  padding-bottom: 2%;
+  color: #ffffff;
+}
+.account-personalInfo-changePhoneNum-view .list .item .icon{
+  font-size: 2.5rem;
+  padding-left: 2%;
+}
+.account-personalInfo-changePhoneNum-view .list .item input{
+  width: 100%;
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  padding-left: 2%;
+}
+.account-personalInfo-changePhoneNum-view .row{
+  padding: 3% 8%;
+}
+.account-personalInfo-changePhoneNum-view .row .col{
+  text-align: center;
+  padding: 2% 4%;
+}
+.account-personalInfo-changePhoneNum-view .row .col input{
+  background-color: #101322;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+  width: 100%;
+  padding: 15% 0%;
+}
+.account-personalInfo-changePhoneNum-view .row .col input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.account-personalInfo-changePhoneNum-view .row .col button{
+  width: 100%;
+  background-color: #41434b;
+  border: none;
+  padding: 8.5%;
+  color: #ffffff;
+}
+.account-personalInfo-changePhoneNum-view .changePhoneNumBtn{
+  background-color: #41434b;
+  border: none;
+  border-radius: 0rem;
+  color: #ffffff;
+  padding: 0% 28%;
+}
+.account-personalInfo-changePhoneNum-view .changePhoneNumBtn:active{
+  background-color: yellow;
+}
+
+/*手机注册*/
+.trade-register-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.trade-register-view .list{
+  background-color: #101322;
+  margin: 5% 0%;
+}
+.trade-register-view .list .item{
+  background-color: #101322;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255, 0.4);
+  margin: 0.2rem;
+  padding-bottom: 2%;
+  color: #ffffff;
+}
+.trade-register-view .list .item .icon{
+  font-size: 2.5rem;
+  padding-left: 2%;
+}
+.trade-register-view .list .item input{
+  width: 100%;
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  padding-left: 2%;
+}
+.trade-register-view .row{
+  padding: 3% 8%;
+  padding-bottom: 0%;
+}
+.trade-register-view .row .col{
+  text-align: center;
+  padding: 2% 4%;
+}
+.trade-register-view .row .col input{
+  background-color: #101322;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+  width: 100%;
+  padding: 15% 0%;
+}
+.trade-register-view .row .col input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.trade-register-view .row .col button{
+  width: 100%;
+  background-color: #41434b;
+  border: none;
+  padding: 8.5%;
+  color: #ffffff;
+}
+.trade-register-view .registerBtn{
+  background-color: #41434b;
+  border: none;
+  border-radius: 0rem;
+  color: #ffffff;
+  padding: 0% 28%;
+}
+.trade-register-view .registerBtn:active{
+  background-color: #ffc334;
+}
+.trade-register-view .checkbox-lable{
+  background-color: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.3rem;
+}
+
+/*修改挂靠*/
+.account-broker-changeLink-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-broker-changeLink-view .list{
+  background-color: #101322;
+  margin: 5%;
+}
+.account-broker-changeLink-view .list .item{
+  background-color: #101322;
+  border: none;
+  padding-top: 1%;
+}
+.account-broker-changeLink-view .list .item .row{
+  padding: 0%;
+  padding-left: 3%;
+  margin: 0%;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.account-broker-changeLink-view .list .item .row .col{
+  padding: 0%;
+  margin: 0%;
+}
+.account-broker-changeLink-view .list .item .row .col .icon{
+  font-size: 2.5rem;
+  color: rgba(255,255,255,0.6);
+}
+.account-broker-changeLink-view .list .item .row .col span{
+  line-height: 2.5rem;
+}
+.account-broker-changeLink-view .list .item .row .col-66{
+  text-align: center;
+}
+.account-broker-changeLink-view .list .item .row .col input{
+  width: 100%;
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  padding: 0% 10%;
+  text-align: center;
+}
+.account-broker-changeLink-view .changeLinkBtn{
+  background-color: #f2af0e;
+  border: none;
+  border-radius: 0rem;
+  color: #ffffff;
+  margin-top: 20%;
+  padding: 0% 20%;
+}
+.account-broker-changeLink-view .changeLinkBtn:active{
+  background-color: yellow;
+}
+
+/*经纪人注册*/
+.account-broker-register-view{
+  background-color: #101322;
+  font-size: 1.5rem;
+}
+.account-broker-register-view .list{
+  background-color: #101322;
+  margin: 5%;
+}
+.account-broker-register-view .list > div span{
+  margin-left: 15%;
+  color: rgba(255,255,255,0.3);
+  font-size: 1.3rem;
+}
+.account-broker-register-view .list .item{
+  background-color: #101322;
+  border: none;
+  border-bottom: 1px solid rgba(255,255,255, 0.2);
+  margin: 0.2rem;
+  padding-bottom: 0%;
+  color: #ffffff;
+}
+.account-broker-register-view .list .item .icon{
+  font-size: 2.5rem;
+  margin-top: 0.5rem;
+}
+.account-broker-register-view .list .item input{
+  width: 100%;
+  background-color: #101322;
+  border: none;
+  color: #ffffff;
+  padding-left: 2%;
+}
+.account-broker-register-view .row{
+  padding: 0% 8%;
+}
+.account-broker-register-view .row .col{
+  text-align: center;
+  padding: 2% 4%;
+}
+.account-broker-register-view .row .col input{
+  background-color: #101322;
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.2);
+  width: 100%;
+  padding: 15% 0%;
+}
+.account-broker-register-view .row .col input::-webkit-input-placeholder {
+  color: rgba(255,255,255,0.5);
+  text-align: center;
+}
+.account-broker-register-view .row .col button{
+  width: 100%;
+  background-color: #41434b;
+  border: none;
+  padding: 8.5%;
+  color: #ffffff;
+}
+.account-broker-register-view .registerBtn{
+  background-color: #f2af0e;
+  border: none;
+  border-radius: 0rem;
+  color: #ffffff;
+  padding: 0% 25%;
+}
+.account-broker-register-view .registerBtn:active{
+  background-color: #ffc334;
+}
+.account-broker-register-view .checkbox-lable{
+  background-color: transparent;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  font-size: 1.3rem;
+}
+
+
+
+

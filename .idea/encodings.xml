@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/www/js/account/accountBrokerChangeLinkController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/account/accountBrokerRegisterController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/account/accountIndexController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/account/accountPersonalInfoChangePhoneNumController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/account/accountPersonalInfoChangePwdController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/forgetPwd/forgetPwdController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/position/positionDetailController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/position/positionIndexController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/register/registerController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/route.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/toolServices.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/js/trade/tradeTicketController.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_button.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_checkbox.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_grid.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/lib/ionic/scss/_popup.scss" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/account/account-broker-changeLink.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/account/account-broker-register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/account/account-personalInfo-changePhoneNum1.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/account/account-personalInfo-changePhoneNum2.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/forgetPwd/forgetPwd1.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/forgetPwd/forgetPwd2.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/forgetPwd/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/position/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/position/position-details.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/receiveWinTicket.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/register/index.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/register/register.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/templates/trade/trade-ticket.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/www/testData/tradeIndex-myPosition-list.json" charset="UTF-8" />
+  </component>
+</project>

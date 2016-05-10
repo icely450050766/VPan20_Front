@@ -1,0 +1,53 @@
+<ion-view view-title="平仓单" class="light account-broker-close-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <!--选择月份-->
+    <div style="margin: 7% 5%">
+      月份：
+      <span style="padding: 1% 3%; border: 1px solid rgba(255,255,255,0.3)">
+        2016年4月
+        <i class="icon ion-arrow-down-b" style="margin-left: 10%"></i>
+      </span>
+    </div>
+
+    <!--品种-->
+    <div style="margin: 5% auto; width: 70%; position: relative">
+      <input type="text" placeholder="品种">
+      <i class="icon ion-ios-search input-search-icon"></i>
+    </div>
+
+    <!--总手数-->
+    <div style="margin: 4%;">
+      <div style="font-size: 20px; line-height: 35px">总手数：2</div>
+    </div>
+
+    <!--数据-->
+    <div>
+      <div class="row data-title">
+        <div class="col col-20" style="border-right: 1px solid rgba(255,255,255,0.3);">客户昵称</div>
+        <div class="col col-30" style="border-right: 1px solid rgba(255,255,255,0.3);">品种</div>
+        <div class="col col-25" style="border-right: 1px solid rgba(255,255,255,0.3);">佣金</div>
+        <div class="col col-25">时间</div>
+      </div>
+
+      <div style="max-height: 350px; overflow-y: scroll">
+        <div class="row" ng-repeat="d in list">
+          <div class="col col-20" ng-bind="d.name"></div>
+          <div class="col col-30" ng-bind="d.type"></div>
+          <div class="col col-25" ng-bind="d.money"></div>
+          <div class="col col-25" ng-bind="d.time"></div>
+        </div>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

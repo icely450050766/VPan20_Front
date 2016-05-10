@@ -1,0 +1,43 @@
+<ion-view class="trade-ticket-view">
+
+  <!--<ion-nav-bar class="app-index-header">-->
+
+  <!--<ion-nav-buttons side="left">-->
+  <!--<a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>-->
+  <!--</ion-nav-buttons>-->
+
+  <!--</ion-nav-bar>-->
+
+  <ion-content class="">
+
+    <div class="scroll-bg">
+
+      <div class="trade-ticket-logo">
+        <img ng-src="img/trade-ticket-logo.png">
+      </div>
+
+      <div class="trade-ticket-picture">
+        <img ng-src="img/trade-ticket-picture.png">
+      </div>
+
+      <div class="text">
+        注明：分享此券给好友,( 权限新用户 )您和好友将各得10元赢家券1张！N个好友成功领取，
+        您就可以获得N张10元赢家券哦！
+      </div>
+
+      <div class="moreSupriceDiv">
+        <span>更多惊喜</span>
+        <img ng-src="img/trade-ticket-moreSuprice.png">
+      </div>
+
+      <div class="trade-ticket-button">
+        <img ng-src="img/trade-ticket-button.png">
+      </div>
+
+      <br/><br/>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+

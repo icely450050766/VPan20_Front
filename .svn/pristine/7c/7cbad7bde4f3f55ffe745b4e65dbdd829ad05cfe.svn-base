@@ -1,0 +1,36 @@
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js
+//var batch_server="http://127.0.0.1:8083/";
+var batch_server="http://58.63.244.200:18808/batch-server/";
+var vpan_server="http://127.0.0.1:8080/";
+var VPan20_Front = angular.module('VPan20_Front', ['ionic', 'VPan20_Front.controllers', 'VPan20_Front.services'])
+.run(function($ionicPlatform, $rootScope) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
+
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
+      if ( toState.name == 'tab.trade' || toState.name == 'tab.account' || toState.name == 'tab.position' || toState.name == 'tab.information' ) {
+        $rootScope.hideTabs = false;//不隐藏
+      } else {
+        $rootScope.hideTabs = true;
+      }
+    });
+  });
+})
+
+

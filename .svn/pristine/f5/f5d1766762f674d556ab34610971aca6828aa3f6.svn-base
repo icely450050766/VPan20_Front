@@ -1,0 +1,177 @@
+/**
+ *  公共 Modal
+ */
+VPan20_Front
+
+  .directive('popModal', function($ionicModal){
+    return {
+      restrict:'E',
+      transclude:true,
+      replace:false,
+
+      link:function(scope, el, attrs){
+      },
+      controller:function($scope, $element, $attrs, $transclude){
+        $scope.modalId = $attrs.modalId;
+        var _content = ''
+        var _eA = $transclude();
+        for(var i=0;i<_eA.length;i++) {
+          if (_eA[i] &&  _eA[i].outerHTML) {
+            _content += _eA[i].outerHTML;
+          }
+        }
+        //console.log(_eA)
+
+        $($element).remove();
+
+        var _temp = '<ion-modal-view  style="background:rgba(0, 0, 0, 0.5); height: 100%;top:0px;">' +
+          '<ion-content  class="pop-model-body" has-bouncing="true" >' +
+          '<div class="" id="' + $scope.modalId + '"></div>' +
+          '<div class="" id="' + $scope.modalId + '-content" >' +
+          _content +
+          '</div>' +
+          '</ion-content>' +
+          '</ion-modal-view>'
+
+        $scope.modal = $ionicModal.fromTemplate(_temp,
+          {
+            scope: $scope,
+            animation: 'qshow'
+          });
+
+        $scope.openModal = function() {
+          $scope.modal.show();
+          var _h = $('#' + $scope.modalId).parent().parent().height();
+          var _h2 = $('#' + $scope.modalId + '-content').height();
+
+          var _anum = ( _h - _h2 ) / 2 ;
+          console.log(_anum);
+
+          $('#' + $scope.modalId).height( _anum );
+
+          $('#' + $scope.modalId).css('zIndex', _anum + 100);
+          $('#' + $scope.modalId + '-content').css('zIndex', _anum + 100) ;
+
+          $('#' + $scope.modalId).animate({ zIndex: 100 }, {
+            step:function(now, fx){
+              $(this).css('transform', 'translateY(-' + (_anum - (now)) + 'px)');
+            },
+            duration:300
+          }, 'ease-in-out');
+
+          $('#' + $scope.modalId + '-content').animate({ zIndex: 100 }, {
+            step:function(now, fx){
+              $(this).css('transform', 'translateY(-' + (_anum - (now)) + 'px)');
+            },
+            duration:300
+          }, 'ease-in-out');
+
+        };
+        /**
+         * 支持关闭之后调用其他的方法
+         * @param fn
+         */
+        $scope.closeModal = function(fn) {
+          $scope.modal.hide();
+          if(fn && typeof fn == 'function'){
+            fn.call($scope);
+          }
+        };
+
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
+      }
+    }
+  })
+
+  //account-withdraw 的弹出窗口
+  .directive('selectModal', function($ionicModal){
+    return {
+      restrict:'E',
+      transclude:true,
+      replace:false,
+
+      link:function(scope, el, attrs){
+
+      },
+      controller:function($scope, $element, $attrs, $transclude){
+        $scope.modalId = $attrs.modalId;
+
+        //弹出框头部 标题
+        var _title = '';
+        var _eA = $transclude();
+        for(var i=0;i<_eA.length;i++) {
+          if (_eA[i] &&  _eA[i].outerHTML) {
+            _title += _eA[i].outerHTML;
+          }
+        }
+
+        //弹出框内 所有内容
+        var _content = '  <div class="account-withdraw-popModal-container" id="popModalContent"> ' +
+          '<a class="item item-borderless">' + _title + '</a> ' +
+          '<div class="list list-borderless" ng-repeat="d in list"> ' +
+          '<a class="item" ng-click="close(d)">{{d}}</a> ' + '</div> ' +
+          '</div>'
+
+        $($element).remove();
+
+        var _temp = '<ion-modal-view  style="background:rgba(0, 0, 0, 0.5); height: 100%;top:0px;">' +
+          '<ion-content  class="pop-model-body" has-bouncing="true" >' +
+          '<div class="" id="' + $scope.modalId + '"></div>' +
+          '<div class="" id="' + $scope.modalId + '-content" >' +
+          _content +
+          '</div>' +
+          '</ion-content>' +
+          '</ion-modal-view>'
+
+        $scope.modal = $ionicModal.fromTemplate(_temp,
+          {
+            scope: $scope,
+            animation: 'qshow'
+          });
+
+        $scope.openModal = function() {
+          $scope.modal.show();
+          var _h = $('#' + $scope.modalId).parent().parent().height();
+          var _h2 = $('#' + $scope.modalId + '-content').height();
+
+          var _anum = ( _h - _h2 ) / 2 ;
+          $('#' + $scope.modalId).height( _anum );
+
+          $('#' + $scope.modalId).css('zIndex', _anum + 100);
+          $('#' + $scope.modalId + '-content').css('zIndex', _anum + 100) ;
+
+          $('#' + $scope.modalId).animate({ zIndex: 100 }, {
+            step:function(now, fx){
+              $(this).css('transform', 'translateY(-' + (_anum - (now)) + 'px)');
+            },
+            duration:300
+          }, 'ease-in-out');
+
+          $('#' + $scope.modalId + '-content').animate({ zIndex: 100 }, {
+            step:function(now, fx){
+              $(this).css('transform', 'translateY(-' + (_anum - (now)) + 'px)');
+            },
+            duration:300
+          }, 'ease-in-out');
+
+          $("#popModalContent").scrollTop(0);//让内容上滚到最上方
+        };
+        /**
+         * 支持关闭之后调用其他的方法
+         * @param fn
+         */
+        $scope.closeModal = function(fn) {
+          $scope.modal.hide();
+          if(fn && typeof fn == 'function'){
+            fn.call($scope);
+          }
+        };
+
+        $scope.$on('$destroy', function() {
+          $scope.modal.remove();
+        });
+      }
+    }
+  })

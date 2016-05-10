@@ -1,0 +1,43 @@
+
+<ion-view view-title="" class="accountIndex-view" >
+
+    <div style="background-color:#f2af0d;height: 45px;">
+        <div style="padding-top: 12px;text-align:center;">
+            <span style="font-size: 25px;color: #ffffff;">往日资讯</span>
+        </div>
+    </div>
+
+    <ion-nav-bar class="app-info-header">
+
+        <ion-nav-buttons side="left">
+            <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()" ></a>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+    <ion-content >
+
+    <ul ng-repeat="Bygone in Bygone" >
+        <li>
+
+                <div style="color: #ffffff;border: 1px #5f5f5f solid;height: 100px;width:100%;border-right:none;border-left: none;border-top: none" ng-click="goTodayInformationDetails(4,Bygone.id)">
+                    <div style="width:35%;position:fixed;left: 0px;height: 100px;">
+                        <img style="height: 90%;width:100%;padding-top: 10px;padding-left: 10px;" ng-src="{{Bygone.coverImg}}">
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 80px;">
+                        <div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;">
+                            <span style="font-size: 8px;">{{Bygone.title}}</span>
+                        </div>
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 20px;">
+                        <div style="position:fixed;right: 10px;padding-top: 80px;">
+                            <span style="font-size: 8px;">{{publishtime(Bygone.publishDate)}}</span>
+                        </div>
+                    </div>
+                </div>
+
+        </li>
+    </ul>
+   <ion-infinite-scroll ng-if="!moredata" icon="ion-loading-c" on-infinite="loadMore()" distance="5%" >
+   </ion-infinite-scroll>
+   </ion-content>
+</ion-view>

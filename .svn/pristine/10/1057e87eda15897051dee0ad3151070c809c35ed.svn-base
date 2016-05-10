@@ -1,0 +1,32 @@
+<ion-view view-title="赢家券详情" class="light account-winTicket-detail-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <img ng-src="{{my.imgSrc}}">
+
+    <div class="text">
+      <p style="font-size: 16px; line-height: 25px" ng-repeat="Securities in  Securities">获得途径：{{Securities.fromWhere}}</p>
+      <p style="font-size: 16px; line-height: 25px" ng-repeat="Securities in  Securities">获得时间：{{publishtime(Securities.addDate)}}</p>
+
+      <p style="font-size: 16px; line-height: 25px">使用说明：</p>
+
+      <p>1、赢家券必须在有效期时间内使用</p>
+      <p>2、赢家券只能在建仓交易时使用</p>
+      <p>3、使用赢家券建单时，无需支付手续费</p>
+      <p>4、使用赢家券建单时，订单手数必须和使用赢家券的数量一致</p>
+      <p>5、已使用赢家券的订单平仓时，盈利，则盈利部分归客户；亏损，则用户无任何损失</p>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

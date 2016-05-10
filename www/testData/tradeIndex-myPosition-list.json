@@ -1,0 +1,28 @@
+{
+  "list":
+  [
+    {"id": "1", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "2", "productName":"粤铜150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "3", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "4", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "5", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "6", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "7", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "8", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "9", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "10", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "11", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ,
+    {"id": "12", "productName":"粤银150g", "punitprice":"10", "type":"空", "profitOrLoss":"+3.33"}
+  ]
+}

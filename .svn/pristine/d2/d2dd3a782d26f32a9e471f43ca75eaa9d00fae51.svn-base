@@ -1,0 +1,94 @@
+<ion-view view-title="" class="accountIndex-view account-recharge-view">
+
+  <ion-nav-bar class="app-index-header accountIndex-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="padding: 8%">
+
+    <div style="font-size: 20px">账户余额：1333.1</div>
+
+    <!--常用金额 -->
+    <div style="margin-top: 10%">
+
+      <div>常用金额：</div>
+
+      <!--box-->
+      <div id="priceBox" class="priceBox">
+
+        <div class="col box" ng-click="selectBox(1)">
+          <div>300元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(2)">
+          <div>500元</div>
+          <div class="triangle">
+            <i class="icon"></i>  <!-- ion-checkmark -->
+          </div>
+        </div>
+
+        <!--占位-->
+        <div class="col box" style="opacity: 0">1</div>
+
+        <div class="col box" ng-click="selectBox(4)">
+          <div>1000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(5)">
+          <div>2000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div class="col box" ng-click="selectBox(6)">
+          <div>5000元</div>
+          <div class="triangle"><i class="icon"></i></div>
+        </div>
+
+        <div style="clear: both"></div>
+
+      </div>
+
+    </div>
+
+    <!--小额充值-->
+    <div style="margin-top: 5%; position: relative">
+      <div>小额充值：</div>
+    </div>
+
+    <!--金额-->
+    <div class="card smallAmmount">
+      <div class="row" ng-click="toggle()">
+
+        <div class="col col-30"></div>
+
+        <div class="col col-30" ng-bind="my.SmallAmmountPrice"></div>
+
+        <div class="col col-30">
+          <a class="icon" ng-class="{'ion-arrow-down-b':my.toggle,'ion-arrow-up-b':!my.toggle}"></a>
+        </div>
+
+      </div>
+    </div>
+
+    <!--金额下拉-->
+    <div class="card smallAmmount-option">
+
+      <div class="list-con" id="list-con">
+        <div class="list">
+          <div class="item item-border-bottom" ng-click="selectSmallAmmount(50)">50</div>
+          <div class="item item-border-bottom" ng-click="selectSmallAmmount(30)">30</div>
+          <div class="item" ng-click="selectSmallAmmount(11)">11</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="button rechargeBtn" ng-click="recharge()">立即充值</button>
+  </ion-content>
+</ion-view>
+

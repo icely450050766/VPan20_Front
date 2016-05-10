@@ -1,0 +1,42 @@
+<ion-view view-title="个人信息" class="light account-personalInfo-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="list">
+
+      <a class="item" href="#">
+        <div class="pull-left" style="margin-top: 20px">头像</div>
+        <img class="pull-right" ng-src="img/temp/adam.jpg">
+      </a>
+      <a class="item" href="#">
+        <span>用户名</span>
+        <span class="pull-right">Icely</span>
+      </a>
+      <a class="item" href="#">
+        <span>性别</span>
+        <span class="pull-right">男</span>
+      </a>
+      <a class="item" href="#">
+        <span>手机</span>
+        <span class="pull-right">156xxxx2002</span>
+      </a>
+      <a class="item" href="#/tab/account-personalInfo-changePwd">
+        <span>修改密码</span>
+        <i class="icon ion-ios-arrow-right pull-right"></i>
+      </a>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

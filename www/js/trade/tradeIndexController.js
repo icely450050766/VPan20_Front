@@ -1,0 +1,507 @@
+/**
+ * Created by huochai on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('tradeIndexController', function($scope, $interval, $location, $rootScope, $ionicPopup, $ionicScrollDelegate, testService, toolServices,TipService,sdk_factory){
+
+    //查找用户信息
+    //(function(){
+    //
+    //  testService.getUserinfo().then(function(data){
+    //
+    //    if(data.state==200){
+    //      $scope.userinfo_name=data.data.firstName;
+    //      $scope.userPhoto=data.data.userPhoto;
+    //      console.log($scope.userPhoto)
+    //    }
+    //  });
+    //  //余额
+    //  testService.getUserblance().then(function(data){
+    //    if(data.state==200){
+    //      $scope.Userblance=data.data;
+    //
+    //    }
+    //  });
+    //})()
+
+    $scope.my ={ product:'粤银',  // 产品 的Tabs
+      EChartsTab: 2,// ECharts 的Tabs；【 1:分时线，2:5分钟，3:15分钟，4:30分钟，5:1小时】
+      productid1:'',
+      productid2:'',
+      totalCurrentProfitOrLoss:0,//时时盈亏
+      currentPrice:{}, // 当前价格 后台数据
+      isRed: true, // 当前价格 是否是红色（当 pre.data < latest.data 时 为true）
+
+      tradePwd: null,
+      jumpUrlData:{},//如果交易密码输入成功（正确），跳转到建仓页面（保存跳转url的参数）
+      isTradePwdSuccess: false //交易密码是否输入成功（正确）
+    };
+
+    var myPopup;//输入交易密码 弹出框
+    $scope.list = [];//系统公告
+
+    //获取 当前价格 后台数据list，对应产品product 的下标
+    function findIndex(list, product){
+      for( var i=0; i < list.length; i++ ){
+        if(list[i].productContract == product ){
+          return i;
+        }
+      }
+    }
+
+    //当前价格
+    function getCurrentPriceData(){
+
+      var _index;
+
+      //获取后台对应数据
+      var _q = testService.getCurrentPriceData();
+      _q.then(function(data){
+
+        //根据程序数据（用户选择的tabs），获取data对应元素下标
+        switch( $scope.my.product ){
+          case '粤银': _index = findIndex( data, 'XAG1' ); break;
+          case '粤油': _index = findIndex( data, 'OIL' ); break;
+          case '粤铜': _index = findIndex( data, 'CU' );break;
+        }
+
+        $scope.my.currentPrice = data[_index];
+
+        //本轮获取数据时，检测到数据更新了
+        if( data[_index].latestPrice != latestData ){
+
+          //更新程序数据
+          preData = latestData;
+          latestData = data[_index].latestPrice;
+
+          //设置“当前价格”的颜色
+          if( preData < latestData ){
+            $scope.my.isRed = true;
+          }else{
+            $scope.my.isRed = false;
+          }
+        }
+      },function(){
+      });
+    }
+
+    //选择tabs
+    $scope.selectTab = function (index,productid1,productid2) {
+
+      //修改样式
+      $('#tabs-title').children().filter('.active').removeClass('active');
+      $('#tabs-title div:nth-child(' + index + ')').addClass('active');
+
+      $('#tabs-bottomBorder').children().filter('.active').removeClass('active');
+      $('#tabs-bottomBorder div:nth-child(' + index + ')').addClass('active');
+      //修改对应种类的商品的对应id
+      $scope.my.productid1=productid1;
+      $scope.my.productid2=productid2;
+      //修改程序数据
+      switch(index ){
+        case 1: $scope.my.product = '粤银'; break;
+        case 2: $scope.my.product = '粤油'; break;
+        case 3: $scope.my.product = '粤铜'; break;
+      }
+
+      //清空数据
+      preData = 0;
+      latestData = 0;
+
+      //获取 当前价格 的后台数据
+      getCurrentPriceData();
+
+      //获取 ECharts 的后台数据
+      getEChartsData();
+
+    }
+
+    function getCurrentProfitOrLoss(type){
+      var _q = testService.getCurrentProfitOrLoss(type);
+      _q.then(function(data){
+        $scope.my.totalCurrentProfitOrLoss= data.data.totalProfitLoss;
+      })
+    }
+
+    //获取 ECharts 的后台数据
+    function getEChartsData(){
+
+      var _index = $scope.my.EChartsTab;
+      var _product;
+      switch( $scope.my.product ){
+        case '粤银': _product = 'XAG1';break;
+        case '粤油': _product = 'OIL';break;
+        case '粤铜': _product = 'CU';break;
+      }
+
+      var _q = testService.getEChartsData( _product, _index );//产品、ECharts 的Tabs
+
+      _q.then(function(data){
+        _data = data.data;
+        _time = data.time;
+
+        //K线图
+        if( _index > 1 ) {
+
+          // 使用
+          require(
+            [
+              'echarts',
+              'echarts/chart/k' // 使用k线图就加载k模块，按需加载
+            ],
+            function (ec) {
+              // 基于准备好的dom，初始化echarts图表
+              myChart = ec.init(document.getElementById('main'));
+
+              var option = {
+                tooltip: {
+                  trigger: 'axis',
+                  formatter: function (params) {
+                    var res = params[0].seriesName + ' ' + params[0].name;
+                    res += '<br/>  开盘：' + params[0].value[0] + '&nbsp;&nbsp;最高：' + params[0].value[3];
+                    res += '<br/>  收盘：' + params[0].value[1] + '&nbsp;&nbsp;最低：' + params[0].value[2];
+                    return res;
+                    //return null;
+                  }
+                },
+                //设置ECharts位置
+                grid: {
+                  x: 50,
+                  y: 10,
+                  x2: 15,
+                  y2:30,
+                },
+                //x坐标轴
+                xAxis: [
+                  {
+                    type: 'category',
+                    boundaryGap: true,
+                    axisTick: {onGap: false},
+                    splitLine: {show: false},
+                    axisLabel: {
+                      /*x轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    },
+                    data: _time
+                  }
+                ],
+                //y坐标轴
+                yAxis: [
+                  {
+                    type: 'value',
+                    scale: true,
+                    boundaryGap: [0.01, 0.01],
+                    splitNumber:9,//分割段数
+                    axisLabel: {
+                      /*y轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    }
+                  }
+                ],
+                //样式、数据
+                series: [
+                  {
+                    name: '上证指数',
+                    type: 'k',
+                    barMaxWidth: 20,
+                    itemStyle: {
+                      normal: {
+                        color: 'red',           // 阳线填充颜色
+                        color0: 'green',   // 阴线填充颜色
+                        lineStyle: {
+                          width: 2,
+                          color: 'red',    // 阳线边框颜色
+                          color0: 'green'     // 阴线边框颜色
+                        }
+                      },
+                      emphasis: {
+                        color: 'black',         // 阳线填充颜色
+                        color0: 'white'         // 阴线填充颜色
+                      }
+                    },
+                    data: _data //开盘，收盘，最低，最高
+                  }
+                ]
+              };
+
+              // 为echarts对象加载数据
+              myChart.setOption(option);
+              //console.log(myChart.getOption())
+            }
+          );
+
+        }else if( _index == 1 ){//分时线
+
+          /*
+           实现折线图纵轴不从0开始：
+           echarts的纵轴显示的内容是真实的值格式化而来的，在配数据时把所有的数都减掉最小值,放入曲线显示，就可以凸显变化曲线了。
+           在纵轴显示的数据上通过函数格式化显示真实的数据，每个点上显示的值重新计算就可以显示真实的值了。
+           */
+
+          //找最小值
+          var _min = Math.min.apply(null, _data);
+
+          //把所有的数都减掉最小值放入曲线显示，凸显变化曲线
+          for( var i = 0; i < _data.length; i++ ){
+            _data[i] -= _min;
+          }
+
+          // 使用
+          require(
+            [
+              'echarts',
+              'echarts/chart/line' // 使用折线图就加载line模块，按需加载
+            ],
+            function (ec) {
+              // 基于准备好的dom，初始化echarts图表
+              myChart = ec.init(document.getElementById('main'));
+
+              var option = {
+                //设置 绘制的曲线的颜色
+                color:['orange'],
+                //定位显示详细信息
+                tooltip : {
+                  trigger: 'axis',
+                  //设置 定位显示详细内容 的内容部分
+                  formatter : function (value) {
+                    //console.log(value[0])；
+                    return( value[0][1] + '<br/>' + value[0][0] + '：' + (value[0][2] + _min) );
+                  }
+
+                },
+                //设置ECharts位置
+                grid: {
+                  x: 50,
+                  y: 10,
+                  x2: 15,
+                  y2:30,
+                },
+                xAxis : [
+                  {
+                    type : 'category',
+                    boundaryGap : false,
+                    axisLabel: {
+                      /*x轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      }
+                    },
+                    data : _time
+                  }
+                ],
+                yAxis : [
+                  {
+                    type : 'value',
+                    splitNumber:9,//分割段数
+                    axisLabel : {
+                      /*y轴刻度的颜色*/
+                      show: true,
+                      textStyle: {
+                        color: '#ffffff'
+                      },
+                      //纵轴重新计算就显示真实的值
+                      formatter: function(value){
+
+                        if(parseInt(value)==value){//整数
+                          return ( parseFloat(value) + _min );
+                        }else{
+                          return ( ( parseFloat(value) + _min ).toFixed(2) );//保留两位小数
+                        }
+                      }
+                    }
+                  }
+                ],
+                series : [
+                  {
+                    name:'最新价格',
+                    type:'line',
+                    data: _data
+                  }
+                ]
+              };
+
+              // 为echarts对象加载数据
+              myChart.setOption(option);
+            }
+          );
+
+        }
+
+      }, function(data){});
+
+    }
+
+    //选择 ECharts tabs
+    $scope.range = function( index ){
+
+      //修改样式
+      $('#ECharts-tabs').children().filter('.active').removeClass('active');
+      $('#ECharts-tabs div:nth-child(' + index + ')').addClass('active');
+
+      //修改程序数据
+      $scope.my.EChartsTab = index;
+
+      //获取对应数据
+      getEChartsData();
+    }
+
+    //获取 系统公告 后台数据
+    function getTradeIndexNoticeList(){
+      var _q = testService.getTradeIndexNoticeList();
+      _q.then(function(data){
+        $scope.list = data.list;
+      },function(){
+      });
+    }
+
+    //某条 系统公告上滚 过程 （传入承载所有系统公告的div的id）
+    function scrollUp( id ){ // 20ms 上滚一个 px
+
+      var _count = 0;//控制每轮上滚20px就停下
+
+      //var _interval = $interval( function(){
+      //  var _top = document.getElementById( id ).offsetTop;
+      //  _count ++;
+      //  _top --;
+      //  $( '#' + id ).css( "top", _top + "px" );
+      //
+      //  if( _count == 20 ){//只上升20px
+      //    $interval.cancel(_interval); //停止
+      //
+      //    if( _top <= ( -$scope.list.length ) * 20 ){ //此时显示的公告已经是最后一条
+      //
+      //      _top += ( $scope.list.length + 1 ) * 20;//显示第0条公告（不存在，目的是 让第一条公告有上滚的动画）
+      //      $( '#' + id ).css( "top", _top + "px" );
+      //
+      //      scrollUp(id);//上滚 (递归调用)
+      //    }
+      //
+      //  }
+      //}, 20);
+    }
+
+    //买涨、买跌
+    $scope.buy = function( direction,productid,type){ //方向、商品ID
+
+      //！！！判断是否已注册！！
+      var WxUtil=sdk_factory.carry();
+      var wxUtil=new WxUtil();
+      var openid=wxUtil.getOpenID();
+      testService.check_login(openid).then(function(data){
+        if(data.state==500) {//未注册
+          leaveRun();//离开页面前执行，清除$interval
+          $location.path('/register/register');//页面跳转
+
+        }else{//已注册
+
+          var _product;
+          switch($scope.my.product ){
+            case '粤银': _product = 'XAG1'; break;
+            case '粤油': _product = 'OIL'; break;
+            case '粤铜': _product = 'CU'; break;
+          }
+          //！！！判断是否已登录！！！
+          if( 1 ){ //未登录
+            _tradePwd = '123456';//后台读取 交易密码
+            myPopup = toolServices.showInputTradePwdPopUp($scope, _tradePwd, false );
+            //保存即将跳转到建仓页面 的url参数，当输入交易密码成功时要用到
+            $scope.my.jumpUrlData.product = _product;
+            $scope.my.jumpUrlData.productid = productid;
+            $scope.my.jumpUrlData.direction = direction;
+            $scope.my.jumpUrlData.type = type;
+
+          }else{//已登录
+            $location.path('/tab/trade-build/' + _product +'/'+ productid +'/'+ direction + '/' + type );
+          }
+        }
+      });
+
+
+    }
+
+    //忘记交易密码
+    $scope.forgetPwd = function(){
+      leaveRun();//离开页面前执行，清除$interval
+      toolServices.closeInputTradePwd_toForgetPwd( myPopup );//关闭 输入交易密码弹框，并跳转到忘记密码页面
+    }
+
+    //监听 交易密码是否输入正确
+    $scope.$on('tradePwdSuccess', function(){
+      $scope.my.isTradePwdSuccess = true;// 后台监控 交易密码的有效期，这个变量可以删去
+      $location.path('/tab/trade-build/' + $scope.my.jumpUrlData.product +'/'
+        + $scope.my.jumpUrlData.productid +'/'+ $scope.my.jumpUrlData.direction +'/'+ $scope.my.jumpUrlData.type );
+    })
+
+    /************初始化*************/
+
+    var preData, latestData; //当前价格数据：上一次数据、最新数据
+
+    var myChart;
+    var _data = []; //开盘，收盘，最低，最高
+    var _time = [];
+
+    var reFreshCurrentPriceData, reFreshEChartsData; //实时获取后台数据、更新数据 $interval
+    var showNotice; //定时上滚，显示系统公告 $interval
+
+    // ECharts 路径配置
+    require.config({
+      paths: {
+        echarts: 'lib/echarts-2.2.7/build/dist'
+      }
+    });
+
+    $scope.selectTab(1,1,2); //默认选择tabs：粤银
+    $scope.range(2);// K线图 默认显示5分钟
+    getTradeIndexNoticeList();//系统公告
+
+    //进入页面执行
+    $scope.$on('$ionicView.enter', function(e) {
+
+      //$("#myPositionDiv").css("display", "none");//隐藏
+
+      //每隔 1秒 执行一次。实时更新数据
+      reFreshCurrentPriceData = $interval( function(){
+        getCurrentPriceData();//当前价格
+        //console.log('reFresh');
+      }, 1000);
+
+      //每隔 1分钟 执行一次。实时更新数据
+      reFreshEChartsData = $interval( function(){
+        getEChartsData();//获取 ECharts 的后台数据
+      }, 60000);
+
+      //每隔2.5秒，系统公告上滚，显示下一条系统公告
+      showNotice = $interval( function(){
+        scrollUp('noticeDivId');//公告上滚
+      }, 2500);
+
+      //每隔 1秒 执行一次。实时更新盈亏
+      reFreshCurrentProfitOrLoss = $interval( function(){
+       getCurrentProfitOrLoss('ss');//当前盈亏价格
+      }, 1000);
+    });
+
+    //离开本页面调用
+    function leaveRun(){
+      $interval.cancel(reFreshCurrentPriceData);
+      $interval.cancel(reFreshEChartsData);
+      $interval.cancel(showNotice);
+    }
+
+    //离开页面执行
+    $scope.$on('$ionicView.beforeLeave', function(e) {
+      leaveRun();
+      //console.log('leave');
+    });
+
+
+    $scope.my.tradePwd = '';
+
+  })

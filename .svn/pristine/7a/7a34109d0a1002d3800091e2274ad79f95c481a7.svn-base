@@ -1,0 +1,100 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('accountWithdrawController', function($scope, $ionicHistory, $ionicPopup, $location, $state, toolServices) {
+
+    $scope.my = { tradePwd: null, selectModalTitle: '', //关闭Modal的时候读取该数据，获取用户的选择
+      bank: '请选择银行', province:'请选择省份', city:'请选择城市',
+      tradePwd: null, isTradePwdSuccess: false //交易密码是否输入成功（正确）
+    }
+
+    $scope.list = [];
+    var myPopup;//输入交易密码 弹出框
+
+    //输入交易密码弹出框
+    $scope.inputTradePwd = function() {
+      _tradePwd = '123456';//后台读取 交易密码
+      myPopup = toolServices.showInputTradePwdPopUp( $scope, _tradePwd, true );
+    }
+
+    //忘记交易密码
+    $scope.forgetPwd = function(){
+      toolServices.closeInputTradePwd_toForgetPwd( myPopup );
+    }
+
+    //监听 交易密码是否输入正确
+    $scope.$on('tradePwdSuccess', function(){
+      $scope.my.isTradePwdSuccess = true;
+    })
+
+    //选择银行、城市、省份：
+
+    // 打开 弹出窗口
+    $scope.open = function( index ){
+      switch(index){
+        case 0: $scope.list = _bank; $scope.my.selectModalTitle = '选择银行'; break;
+        case 1: $scope.list = _province; $scope.my.selectModalTitle = '选择省份'; break;
+        case 2: $scope.list = _city; $scope.my.selectModalTitle = '选择城市'; break;
+      }
+      $scope.openModal();//设置弹出窗口内容
+    }
+
+    // 关闭 弹出窗口
+    $scope.close = function( value){
+      switch( $scope.my.selectModalTitle ){
+        case '选择银行': $scope.my.bank = value; break;
+        case '选择省份': $scope.my.province = value; PCAS.SetC(citySelect._province.indexOf(value),citySelect);break;
+        case '选择城市': $scope.my.city = value; break;
+      }
+     ;
+     //省份索引
+      $scope.closeModal();
+    }
+
+    $scope.goBack = function(){
+      //$ionicHistory.goBack();
+      $state.go('tab.account',{}, {reload: true});
+    }
+
+    /*********初始化************/
+
+    //后台获取
+    //var _bank = ['中国银行', '中国工商银行', '中国农业银行', '中国建设银行'];
+    //var _province = ['北京','上海','广东','深圳','天津','浙江','云南','湖南','河南', 'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn'];
+    //var _city = ['广州','佛山','深圳','珠海','江门','茂名','云浮','东莞','肇庆','惠州',  'aa', 'bb', 'cc','dd','ee','ff','gg','hh','ii','jj','kk','ll','mm','nn' ];
+    //----------------------------citySelect-------------------------------
+    var _city=[];
+    var _province=[];
+    function PCAS() {
+      this._province=_province;//省份名数组
+      this._city=_city//城市名数组
+      PCAS.SetP(this)
+    }
+    //
+    PCAS.SetP = function (PCA) {
+      for (i = 0; i < PCAP.length; i++) {
+        PCAPT = PCAPV = PCAP[i];
+        if (PCAPT !== SPT) {
+          PCA._province.push(PCAPT);//省份名载入
+        }
+
+      }
+    };
+    PCAS.SetC = function (PI,obj) {
+      console.log(PI);
+      obj._city.length = 0;
+      console.log(PCAC);
+      console.log(PCAC[PI+1]);
+      for (i = 1; i < PCAC[PI+1].length; i++) {
+        PCACT = PCACV = PCAC[PI+1][i];
+        if (PCACT !== SCT){
+          obj._city.push(PCACV);
+        }
+      }
+    };
+    var citySelect=new PCAS("Province","City");
+
+    $scope.my.tradePwd = '123456';
+
+  })

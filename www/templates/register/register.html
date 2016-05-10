@@ -1,0 +1,67 @@
+<ion-view view-title="手机绑定注册" class="light register-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="position: relative">
+
+    <!--输入信息-->
+    <div class="list">
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="text" placeholder="输入你的手机号码" ng-model="my.phoneNum">
+        <!--获取验证码-->
+        <button ng-bind="my.getCodeBtn" ng-click="getCode()"  ng-disabled="my.getCodeBtn != '获取验证码'" ng-show="my.phoneNum"></button>
+      </div>
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="text" placeholder="验证码" ng-model="my.code">
+      </div>
+
+    </div>
+    <alert-bar class="alert_bar" message="tipService.message" type="tipService.type"></alert-bar>
+    <div class="list">
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="password" placeholder="设置交易密码" ng-model="my.tradePwd">
+      </div>
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="password" placeholder="再次确认密码" ng-model="my.reTradePwd">
+      </div>
+
+    </div>
+
+    <!--checkbox-->
+    <div style="padding-left: 3%; margin-top: -1rem">
+      <div class="item item-checkbox checkbox-lable">
+        <label class="checkbox checkbox-transparent">
+          <input type="checkbox" ng-model="my.checkbox">
+        </label>
+        <span style="margin-left: -8%;">我已阅读风险提醒</span>
+      </div>
+    </div>
+
+    <!--错误信息-->
+    <div class="tip" style="top: 23rem;">
+      <div id="register_errorTipId" style="color: #d94d4e; display: none" ng-bind="my.errorTip"></div>
+    </div>
+    <!--错误信息显示-->
+    <div ng-show="desc" class="regis_error">{{desc}}</div>
+    <div class="center" style="margin-top: 13%">
+      <button class="button registerBtn" ng-click="registerBtn()"
+              ng-disabled="( my.phoneNum == '' ||  my.tradePwd == '' ||  my.reTradePwd == ''||  my.code == '' ||  !my.checkbox )">
+        完成注册</button>
+    </div>
+
+  </ion-content>
+</ion-view>

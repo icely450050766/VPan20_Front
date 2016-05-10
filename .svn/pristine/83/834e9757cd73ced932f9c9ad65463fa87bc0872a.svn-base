@@ -1,0 +1,45 @@
+<ion-view class="trade-ticket-view">
+
+  <ion-content class="" id="tradeTicketContent" overflow-scroll="true">
+
+    <!--遮罩层-->
+    <div class="maskDiv" ng-show="my.isShowMaskDiv"></div>
+
+    <!--指引-->
+    <div class="instructionDiv" ng-show="my.isShowMaskDiv">
+      <img ng-src="img/tradeTicketInstruction.png">
+      <div>请点击右上角将它发送给指定朋友或分享到朋友圈</div>
+    </div>
+
+    <!--内容部分-->
+    <div class="bgImg">
+
+      <div class="trade-ticket-logo">
+        <img ng-src="img/trade-ticket-logo.png">
+      </div>
+
+      <div class="trade-ticket-picture">
+        <img ng-src="img/trade-ticket-picture.png">
+      </div>
+
+      <div class="text">
+        注明：分享此券给好友,( 权限新用户 )您和好友将各得10元赢家券1张！N个好友成功领取，
+        您就可以获得N张10元赢家券哦！
+      </div>
+
+      <div class="moreSupriceDiv">
+        <span>更多惊喜</span>
+        <img ng-src="img/trade-ticket-moreSuprice.png">
+      </div>
+
+      <div class="trade-ticket-button" ng-click="showInstructions()">
+        <img ng-src="img/trade-ticket-button.png">
+      </div>
+
+      <br/><br/>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+

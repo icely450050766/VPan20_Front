@@ -1,0 +1,72 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('informationDetailsControllers', ['$scope', '$ionicHistory','$stateParams', 'testService',function($scope, $ionicHistory, $stateParams,testService) {
+
+
+
+    $scope.formType=$stateParams.formType;
+        $scope.publishtime;
+        var _pubId=$stateParams.pubId;
+        //进入页面判断是否点赞start
+        if($.cookie(_pubId)){
+          $('.click_pic').attr('src','img/praiseTime.jpg');
+        }else{
+          //不作处理
+        }
+    //进入页面判断是否点赞end
+        var _praiseStatus=0;
+        $scope.details=[];
+ /*       $scope.list[1]={"coverImg":"img/temp/adam.jpg"}*/
+
+        function init(){
+            var _p=testService.updatePublicationReadTime(_pubId);
+
+            _p.then(function(data){
+                $scope.details=data;
+                $scope.publishtime=new Date(data.publishDate).toLocaleDateString();
+            },function(){
+
+            });
+        }
+
+        $scope.updatePraiseTime = function(pubId){
+
+
+/*            if (_praiseStatus==0){
+                var _pp=testService.updatePraiseTime(pubId);
+                console.log(_pp);
+                _pp.then(function(data){
+                    $scope.details=data;
+                    $scope.publishtime=new Date(data.publishDate).toLocaleDateString();
+                },function(){*/
+
+
+          $scope.my.disabled = true;
+
+          
+
+
+          //如果没有记录文章id
+          var pubId=pubId+'';
+            alert(pubId);
+          if(!$.cookie(pubId)){
+
+            var _pp=testService.updatePraiseTime(pubId);
+            $.cookie(pubId,pubId);
+
+          }else{
+              //不作处理
+          }
+
+
+        }
+
+        $scope.goBack = function(){
+            $ionicHistory.goBack();
+        }
+
+        init();
+
+}])

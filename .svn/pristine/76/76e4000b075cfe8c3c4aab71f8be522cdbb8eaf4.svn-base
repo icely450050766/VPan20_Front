@@ -1,0 +1,63 @@
+<ion-view view-title="收支明细" class="light account-incomeAndExpenses-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div ng-repeat="d in list">
+      <div class="item" ng-click="showDetail(d)">
+        <div class="row">
+
+          <div class="col col-60">
+            <div ng-bind="d.typeStr"></div>
+            <div style="font-size: 13px; color: rgba(255,255,255,0.7)">余额：{{d.balanceAfter}}</div>
+          </div>
+
+          <div class="col col-30" style="text-align: center">
+            <div ng-bind="d.createTimeStr"></div>
+            <div ng-bind="d.incomeOrExpenses" style="font-size: 18px"
+                 ng-class="{ red: d.incomeOrExpenses > 0, green: d.incomeOrExpenses <= 0}"></div>
+          </div>
+
+          <div class="col col-10">
+            <i class="icon ion-ios-arrow-right pull-right" style="font-size: 25px; line-height: 45px"></i>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+  </ion-content>
+</ion-view>
+
+<!--弹出窗口-->
+<pop-modal modal-id="app-popup-code">
+
+  <div style=" padding: 7% 8%; background-color: #1b204b; color: #ffffff">
+
+    <div style="border-bottom: 1px solid rgba( 255,255,255,0.3); padding-bottom: 3%">
+     <!-- <p>流水号：165265522</p>-->
+      <p>类型：{{my.typeStr}}</p>
+      <p>时间：{{my.createTimeStr}}</p>
+    </div>
+
+    <div style="padding-top: 5%">
+      <p>收支：{{my.incomeOrExpenses}}</p>
+      <p>余额：{{my.balanceAfter}}</p>
+      <p>备注：{{my.remark}}</p>
+    </div>
+
+  </div>
+
+  <div ng-click="closeModal()" style="width: 100%; position: relative; margin-top: 30px; text-align: center">
+    <i class="icon ion-ios-close-outline" style="font-size: 50px; font-weight: bold; color:#ffffff"></i>
+  </div>
+
+</pop-modal>

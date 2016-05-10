@@ -1,0 +1,57 @@
+
+<ion-view view-title="" class="accountIndex-view" >
+    <div style="background-color:#f2af0d;height: 45px;">
+        <div style="padding-top: 12px;text-align:center;">
+            <span style="font-size: 25px;color: #ffffff;">往日资讯</span>
+        </div>
+    </div>
+
+    <ion-nav-bar class="app-info-header">
+
+        <ion-nav-buttons side="left">
+            <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()" ></a>
+        </ion-nav-buttons>
+
+    </ion-nav-bar>
+
+    <ul>
+        <li>
+            <a  ng-href="#/tab/information-details">
+                <div style="color: #ffffff;border: 1px #5f5f5f solid;height: 100px;width:100%;border-right:none;border-left: none;border-top: none" ng-click="goBygoneInformationDetails()">
+                    <div style="width:35%;position:fixed;left: 0px;height: 100px;">
+                        <img style="height: 90%;width:100%;padding-top: 10px;padding-left: 10px;" src="img/temp/adam.jpg">
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 80px;">
+                        <div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;">
+                            <span style="font-size: 8px;">证金贵金属美国数据不及预期风险情书坐过山车</span>
+                        </div>
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 20px;">
+                        <div style="position:fixed;right: 10px;padding-top: 80px;">
+                            <span style="font-size: 8px;">2016-2-26</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a  ng-href="#/tab/information-details">
+                <div style="color: #ffffff;border: 1px #5f5f5f solid;height: 100px;width:100%;border-right:none;border-left: none;border-top: none">
+                    <div style="width:35%;position:fixed;left: 0px;height: 100px;">
+                        <img style="height: 90%;width:100%;padding-top: 10px;padding-left: 10px;" src="img/temp/adam.jpg">
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 80px;">
+                        <div style="padding-top: 20px;padding-left: 20px;padding-right: 20px;">
+                            <span style="font-size: 8px;">证金贵金属美国数据不及预期风险情书坐过山车</span>
+                        </div>
+                    </div>
+                    <div style="width:65%;position:fixed;right: 0px;height: 20px;">
+                        <div style="position:fixed;right: 10px;padding-top: 80px;">
+                            <span style="font-size: 8px;">2016-2-26</span>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </li>
+    </ul>
+</ion-view>

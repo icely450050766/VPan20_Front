@@ -1,0 +1,71 @@
+<ion-view view-title="" class="information-detail-view" >
+
+  <ion-content class="">
+
+    <ion-nav-bar class="app-info-header">
+      <ion-nav-buttons side="left">
+        <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+      </ion-nav-buttons>
+    </ion-nav-bar>
+
+    <!--头部图片-->
+    <img style="width:100%; max-height: 20rem" ng-src="{{details.coverImg}}">
+
+    <div style="padding: 3% 5%">
+
+      <!--作者信息-->
+      <p>
+        <span style="margin-right: 3%">{{publishtime}}</span>
+        <span>{{details.comeFrom}}</span>
+      </p>
+
+      <!--正文部分-->
+      <div ng-bind-html="details.body"></div>
+
+      <!--阅读量-->
+      <p style="color: rgba(255,255,255,0.6)">
+        阅读
+        <span style="margin-left: 1%">{{details.readTime}}</span>
+      </p>
+
+      <!--点赞-->
+
+     <!-- <div style="width:100%; text-align:center; margin-bottom: 15%;">-->
+ <!--       <div ng-click="updatePraiseTime(details.id)">
+          <span>
+            <img ng-src="img/praiseTime.jpg" style="width: 60px;height: 60px;border-radius: 60px;">
+            <div style="margin-top: -9%;font-size: 12px;">{{details.praiseTime}}</div>
+          </span>
+        </div>-->
+
+
+      <div style="width:100%; text-align:center; margin-bottom: 10%;">
+        <button class="appreciationBtn" ng-click="updatePraiseTime(details.id)">
+          <img src="img/appreciation.png" style="width: 3rem;height: 3rem;">
+          <span>{{details.praiseTime}}</span>
+
+        </button>
+          <div style="color: #ffffff;margin-top: 5%;">赞赏</div>
+      </div>
+
+      <!--去交易、分享微信 按钮-->
+
+      <div style="padding-bottom: 20px;">
+        <input style="height:30px;width:120px;border-radius:5px;font-size:16px;border:3px solid #cc9411;background-color:#cc9411;color:#ffffff;float: left;" type="button" onclick="goSubmit()" value="去交易" />
+        <input style="height:30px;width:120px;border-radius:5px;font-size:16px;border:3px solid #177325;background-color:#177325;color:#ffffff;float: right;" type="button" onclick="goSubmit()" value="分享微信" />
+          <!--
+                <div class="row">
+                  <div class="col">
+                    <input style="background-color:#cc9411" type="button" onclick="goSubmit()" value="去交易" />
+                  </div>
+                  <div class="col">
+                    <input style="background-color:#177325" type="button" onclick="goSubmit()" value="分享" />
+                  </div>
+
+                </div>-->
+              </div>
+
+    <br/><br/>
+    </div>
+  </ion-content>
+</ion-view>

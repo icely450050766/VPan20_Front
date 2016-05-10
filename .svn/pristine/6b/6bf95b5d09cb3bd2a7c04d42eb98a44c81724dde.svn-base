@@ -1,0 +1,43 @@
+<ion-view view-title="手机绑定修改" class="light account-personalInfo-changePhoneNum-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="position: relative">
+
+    <!--输入信息-->
+    <div class="list">
+
+      <a class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="text" placeholder="输入原号码" ng-model="my.oldPhoneNum">
+      </a>
+
+      <a class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <input type="text" placeholder="输入交易密码" ng-model="my.tradePwd">
+      </a>
+
+    </div>
+
+    <!--错误信息-->
+    <div class="tip" style="top: 14rem;">
+      <div id="errorTipId1" style="color: #d94d4e; display: none" ng-bind="my.errorTip"></div>
+    </div>
+
+    <div class="center" style="margin-top: 20%">
+      <button class="button changePhoneNumBtn" ng-click="next()"
+              ng-disabled="( my.oldPhoneNum == '' ||  my.tradePwd == '' )">
+        下一步</button>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

@@ -1,0 +1,45 @@
+<ion-view view-title="" class="accountIndex-view">
+
+  <ion-nav-bar class="app-index-header accountIndex-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click=""></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="">
+
+    <div class="myPositionDiv">
+
+      <!--总盈亏-->
+      <div class="item" style="font-size: 18px">
+        <span class="pull-left">总盈亏：+35.22元</span>
+        <button class="pull-right" ng-click="closeAll()">一键平仓</button>
+      </div>
+
+      <!--持仓单 数据-->
+      <div style="position: relative;">
+        <div class="item row" ng-repeat="d in list">
+          <div class="col col-25" ng-bind="d.product"></div>
+          <div class="col col-25" ng-bind="d.price"></div>
+          <div class="col col-10" ng-bind="d.type"></div>
+          <div class="col col-20" ng-bind="d.float"></div>
+          <div class="col col-20" ng-click="closeOne(d)">
+            <button ng-click="showPopup()">平仓</button>
+          </div>
+        </div>
+      </div>
+
+      <!--关闭按钮-->
+      <div class="item item-borderless closeBtnDiv">
+        <i class="icon ion-ios-close-outline pull-right"  ng-click="hideMyPosition()"></i>
+      </div>
+
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

@@ -1,0 +1,48 @@
+/**
+ * Created by Administrator on 2016/3/17.
+ */
+angular.module('VPan20_Front')
+  .controller('informationDetailsControllers', ['$scope', '$ionicHistory','$stateParams', 'testService',function($scope, $ionicHistory, $stateParams,testService) {
+        $scope.formType=$stateParams.formType;
+        $scope.publishtime;
+        var _pubId=$stateParams.pubId;
+        var _praiseStatus=0;
+        $scope.details=[];
+ /*       $scope.list[1]={"coverImg":"img/temp/adam.jpg"}*/
+
+        function init(){
+            var _p=testService.getDetails(_pubId);
+            console.log(_p);
+            _p.then(function(data){
+                $scope.details=data;
+                $scope.publishtime=new Date(data.publishDate).toLocaleDateString();
+            },function(){
+
+            });
+        }
+
+        $scope.updatePraiseTime = function(pubId){
+            if (_praiseStatus==0){
+                var _pp=testService.updatePraiseTime(_pubId);
+                console.log(_pp);
+                _pp.then(function(data){
+                    $scope.details=data;
+                    $scope.publishtime=new Date(data.publishDate).toLocaleDateString();
+                },function(){
+
+                });
+                _praiseStatus=1;
+                alert("谢谢")
+            }else{
+                alert("赞美过了^.^!谢谢")
+            }
+
+        }
+
+        $scope.goBack = function(){
+            $ionicHistory.goBack();
+        }
+
+        init();
+
+}])

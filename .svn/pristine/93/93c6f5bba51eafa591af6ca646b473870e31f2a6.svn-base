@@ -1,0 +1,88 @@
+/**
+ * Created by icley on 2016/4/5.
+ */
+angular.module('VPan20_Front')
+  .controller('accountWithdrawForgetPwdController', function($scope, $ionicHistory, $interval, $timeout, $location) {
+
+    $scope.my = { phoneNum: null, code: null, getCodeBtn: '获取验证码',
+      newPwd: null, reNewPwd: null };
+
+    //获取验证码
+    $scope.getCode = function(){
+
+      //倒计时秒数
+      var _count = 60;
+      $scope.my.getCodeBtn = _count + ' 秒';
+      //开始倒计时
+      var _t = $interval( function(){
+        _count --;
+        $scope.my.getCodeBtn = _count + ' 秒';
+
+        if( _count < 0 ){
+          $interval.cancel(_t);
+          $scope.my.getCodeBtn = '获取验证码';
+        }
+      }, 1000);
+
+      //验证码已发送
+      $("#codeHadSendTipId").fadeIn(500);
+      $timeout( function(){
+        $("#codeHadSendTipId").fadeOut(500);
+      }, 2000);
+
+    }
+
+    //下一步
+    $scope.next = function(){
+
+      var _code = '123456';
+
+      if( $scope.my.code != _code ){
+
+        //验证码输入错误 提示
+        $("#codeErrorTipId").fadeIn(0);
+        $timeout( function(){
+          $("#codeErrorTipId").fadeOut(500);
+        }, 2000);
+
+      }else{
+        $location.path('/tab/account-withdraw-forgetPwd2');
+      }
+
+    }
+
+    //提交
+    $scope.submit = function(){
+
+      //新密码格式错误
+      if( $scope.my.newPwd.length != 6 ){
+        $("#newPwdErrorId").fadeIn(500);
+        $timeout( function(){
+          $("#newPwdErrorId").fadeOut(500);
+        }, 2000);
+
+        return;
+      }
+
+      //两次密码输入不一致
+      if( $scope.my.newPwd != $scope.my.reNewPwd ){
+        $("#notMatchTipId").fadeIn(500);
+        $timeout( function(){
+          $("#notMatchTipId").fadeOut(500);
+        }, 2000);
+
+        return;
+      }
+
+      //更新后台数据
+      $ionicHistory.goBack(-2);//后退
+
+    }
+
+    $scope.goBack = function(){
+      $ionicHistory.goBack();
+    }
+
+    /*********初始化************/
+
+  })

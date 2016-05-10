@@ -1,0 +1,87 @@
+<ion-view view-title="经纪人注册页面" class="light account-broker-register-view">
+
+  <ion-nav-bar class="app-index-header">
+
+    <ion-nav-buttons side="left">
+      <a class="button button-icon icon ion-ios-arrow-left light" ng-click="goBack()"></a>
+    </ion-nav-buttons>
+
+  </ion-nav-bar>
+
+  <ion-content class="" style="position: relative">
+
+    <!--输入信息-->
+    <div class="list">
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <div class="row">
+          <div class="col col-20">姓名</div>
+          <div class="col col-80">
+            <input type="text" placeholder="" ng-model="my.name">
+          </div>
+        </div>
+      </div>
+
+      <div class="item item-icon-left">
+        <i class="icon ion-ios-locked-outline"></i>
+        <div class="row">
+          <div class="col col-33">手机号码</div>
+          <div class="col col-66">
+            <input type="text" placeholder="" ng-model="my.phoneNum">
+          </div>
+        </div>
+      </div>
+
+      <div class="item item-icon-left item-icon-right">
+        <i class="icon ion-ios-locked-outline"></i>
+        <div class="row">
+          <div class="col col-33">机构代码</div>
+          <div class="col col-66">
+            <input type="text" placeholder="" ng-model="my.organizationCode">
+          </div>
+        </div>
+        <i class="icon ion-edit" style="font-size: 1.8rem;"></i>
+      </div>
+
+      <div style="margin-top: 2%">
+        <span>机构代码查询可致电4001881788</span>
+      </div>
+
+    </div>
+
+    <!--获取验证码-->
+    <div class="row">
+      <div class="col">
+        <input class="input" type="text" placeholder="手机验证码" ng-model="my.code">
+      </div>
+      <div class="col">
+        <button ng-bind="my.getCodeBtn" ng-click="getCode()"  ng-disabled="my.getCodeBtn != '获取验证码'"></button>
+      </div>
+    </div>
+
+    <!--checkbox-->
+    <div style="padding-left: 7%">
+      <div class="item item-checkbox checkbox-lable">
+        <label class="checkbox checkbox-transparent">
+          <input type="checkbox" ng-model="my.checkbox">
+        </label>
+        <span style="margin-left: -8%;">已阅读并同意协议</span>
+      </div>
+    </div>
+
+    <!--错误信息-->
+    <div class="tip" style="top: 28rem;">
+      <div id="broker_errorTipId" style="color: #d94d4e; display: none" ng-bind="my.errorTip"></div>
+    </div>
+
+    <div class="center" style="margin-top: 15%">
+      <button class="button registerBtn" ng-click="registerBtn()">
+        完成注册</button>
+    </div>
+
+  </ion-content>
+</ion-view>
+
+
+

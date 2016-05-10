@@ -1,0 +1,65 @@
+// Ionic Starter App
+
+// angular.module is a global place for creating, registering and retrieving Angular modules
+// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
+// the 2nd parameter is an array of 'requires'
+// 'starter.services' is found in services.js
+// 'starter.controllers' is found in controllers.js
+//var batch_server="http://127.0.0.1:8083/";
+var batch_server="http://58.63.244.200:18808/batch-server/";
+//var vpan_server="http://csvpan.100bei.com/api";
+
+var vpan_server="http://dev.vpan20.zfu188.com/api/";
+
+var VPan20_Front = angular.module('VPan20_Front', ['ionic', 'VPan20_Front', 'VPan20_Front.services','VPan20_Front.sdk_factory.service'])
+.run(function($ionicPlatform, $rootScope,sdk_factory) {
+  $ionicPlatform.ready(function() {
+    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // for form inputs)
+    if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
+      cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
+      cordova.plugins.Keyboard.disableScroll(true);
+
+    }
+    if (window.StatusBar) {
+      // org.apache.cordova.statusbar required
+      StatusBar.styleDefault();
+    }
+
+    //调用sdk 服务
+    $(function(){
+      var WxUtil=sdk_factory.carry();
+      var wxUtil=new WxUtil();
+      var _login = wxUtil.checkWxAuthLoginStatus();
+      if(_login){
+        wxUtil.initWx();
+      }
+      else{
+        wxUtil.wxAhenthication();
+      }
+
+    });
+
+
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, error) {
+      $rootScope.currentState = toState.name;
+      if ( toState.name == 'tab.trade' || toState.name == 'tab.account' || toState.name == 'tab.position' || toState.name == 'tab.information' ) {
+        $rootScope.hideTabs = false;//不隐藏
+      } else {
+        $rootScope.hideTabs = true;
+      }
+    });
+
+    //查看前一页面url
+    $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+      $rootScope.previousState = from;
+      $rootScope.previousParams = fromParams;
+    });
+
+
+
+  });
+})
+
+

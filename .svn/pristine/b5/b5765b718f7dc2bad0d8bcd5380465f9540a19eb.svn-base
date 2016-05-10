@@ -1,0 +1,20 @@
+{
+  "list":[
+    { "id": "1", "time": "10月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "2",  "time": "11月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "3",  "time": "12月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "4",  "time": "1月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "5",  "time": "2月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "6",  "time": "3月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "7",  "time": "4月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+  ,
+    { "id": "8",  "time": "5月20", "product": "铜", "price": "10元", "num": "1手", "type": "多", "float": "3.35" }
+
+  ]
+}
